@@ -1,5 +1,6 @@
 #include<stdio.h>
 
+// Вычисление num-го числа Фибоначчи
 int Fib(int num)
 {
     if (num <=2)
@@ -11,11 +12,12 @@ int Fib(int num)
 int main()
 {
     int num;
+    printf("Enter the serial number of the Fib-number you need:\n");
     if (scanf("%d",&num) != 1)
     {
         printf("Wrong input!");
         return 1;
     }
-    printf("The Fib-number %d: %d", num, Fib(num));
+    printf("The Fib-number <%d>: \n%d", num, Fib(num));
 
 }
