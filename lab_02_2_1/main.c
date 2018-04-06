@@ -1,23 +1,57 @@
 #include<stdio.h>
-
-// Вычисление num-го числа Фибоначчи
-int Fib(int num)
+void Swap(int *a, int *b)
 {
-    if (num <=2)
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+int Fib(int num, int *viv)
+{
+    int a = 1, b = 1;
+    *viv = 1;
+    if (num > 46)
+    {
         return 1;
+    }
+
+    if (num <= 2)
+        return 0;
     else
-        return Fib(num - 1) + Fib(num - 2);
+    {
+        for (int i = 2; i < num; i++)
+        {
+            a = a + b;
+            Swap(&a, &b);
+        }
+        *viv = b;
+    }
+
+    return 0;
 }
 
 int main()
 {
-    int num;
-    printf("Enter the serial number of the Fib-number you need:\n");
-    if (scanf("%d",&num) != 1)
+    short vspom;
+    int num, viv;
+
+    printf("Enter the serial of Fib-number you need(1 <= 'input' <= 46): ");
+    if (scanf("%d", &num) != 1 || num <= 0)
     {
-        printf("Wrong input!");
+        printf(("Wrong input!"));
         return 1;
     }
-    printf("The Fib-number <%d>: \n%d", num, Fib(num));
+
+    vspom = Fib(num, &viv);
+
+    switch (vspom)
+    {
+    case 0:
+        printf("The Fib number %d is %d", num, viv);
+        break;
+    case 1:
+        printf("Error! The serial number's too big, ");
+        printf("it msut be less than 47");
+
+    }
 
 }
