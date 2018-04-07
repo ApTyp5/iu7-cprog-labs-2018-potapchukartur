@@ -1,4 +1,7 @@
-#include<stdio.h>
+#include <stdio.h>
+#define INCORRECT 1
+#define CORRECT 0
+
 void Swap(int *a, int *b)
 {
     int t = *a;
@@ -11,11 +14,11 @@ int Fib(int num, int *viv)
     *viv = 1;
     if (num > 46)
     {
-        return 1;
+        return INCORRECT;
     }
 
     if (num <= 2)
-        return 0;
+        return CORRECT;
     else
     {
         for (int i = 2; i < num; i++)
@@ -26,7 +29,7 @@ int Fib(int num, int *viv)
         *viv = b;
     }
 
-    return 0;
+    return CORRECT;
 }
 
 int main()
@@ -45,10 +48,10 @@ int main()
 
     switch (vspom)
     {
-    case 0:
+    case CORRECT:
         printf("The Fib number %d is %d", num, viv);
         break;
-    case 1:
+    case INCORRECT:
         printf("Error! The serial number's too big, ");
         printf("it msut be less than 47");
 

@@ -1,5 +1,9 @@
-#include<stdio.h>
+﻿#include<stdio.h>
 #include<math.h>
+#define TRUE 0
+#define FALSE 1
+#define WRONG_INPUT 2
+
 
 // Вычисление (n+1)-го элем-та последовательности
 float n_plus_one_element(float term,float x, int n)
@@ -13,9 +17,9 @@ int prov(float x)
     if (abs(x) >= 1)
     {
         printf("Error! (|x| < 1) abs 'x' must be lower than one");
-        return 1;
+        return FALSE;
     }
-    return 0;
+    return TRUE;
 }
 
 int main()
@@ -31,18 +35,18 @@ int main()
     if (scanf("%f",&x) != 1)
     {
         printf("Wrong input!");
-        return 1;
+        return WRONG_INPUT;
     }
 
     printf("Input 'eps': ");
     if (scanf("%f",&eps) != 1)
     {
         printf("Wrong input!");
-        return 1;
+        return WRONG_INPUT;
     }
 
     if (prov(x))
-        return 2;
+        return WRONG_INPUT;
 
 
     term1 = x;

@@ -1,5 +1,12 @@
-﻿#include<stdio.h>
-#include<math.h>
+﻿#include <stdio.h>
+#include <math.h>
+#define NOT_LYING 1
+#define LYING 0
+#define WRONG_INPUT -1
+#define POINTS_ARE_ON_ONE_LINE -2
+#define TRUE 0
+#define FALSE 1
+
 
 // При помощи этой функции переносим все точки так, чтобы треугольник одним
 // концом оказался на (0:0)
@@ -20,9 +27,9 @@ int doubled_priv_square(int x1,int y1,int x2,int y2)
 int line_check(int x1,int y1,int x2,int y2,int x3,int y3)
 {
     if ((x1-x2)*(y3-y2) - (x3-x2)*(y1-y2) == 0)
-        return 1;
+        return TRUE;
     else
-        return 0;
+        return FALSE;
 }
 
 // Проверка принадлежности точки треугольнику методом площадей
@@ -39,16 +46,16 @@ int square_check(int x1,int y1,int x2,int y2,int x3,int y3)
 
     if (abs(s1 - s2 - s3 - s4) > 0.0001)
     {
-        return 2;
+        return FALSE;
     }
     else
     {
         if (line_check(x1,y1,x2,y2,x3,y3)||
             line_check(0,0,x1,y1,x3,y3)||
             line_check(0,0,x2,y2,x3,y3))
-            return 1;
+            return FALSE;
         else
-            return 0;
+            return TRUE;
     }
 
 
@@ -62,12 +69,12 @@ int main()
     if (scanf("%d%d%d%d%d%d",&x1,&y1,&x2,&y2,&x3,&y3) != 6)
     {
         printf("Wrong input!\nExample of right input: 63 8 13 7 -1 -78");
-        return 1;
+        return WRONG_INPUT;
     }
     else if (line_check(x1,y1,x2,y2,x3,y3))
     {
         printf("The points are lieing on one line");
-        return 2;
+        return POINTS_ARE_ON_ONE_LINE;
     }
     else
     {
@@ -75,7 +82,7 @@ int main()
         if (scanf("%d%d",&x4,&y4) != 2)
         {
             printf("Wrong input!\nExample of right input: 7 -18");
-            return 3;
+            return WRONG_INPUT;
         }
         else
         {
@@ -88,9 +95,9 @@ int main()
             x1 = priv(x1,x1);// x1 = 0
             y1 = priv(y1,y1);// y1 = 0
 
-            if ((x1 = square_check(x2,y2,x3,y3,x4,y4)) == 0)
+            if ((x1 = square_check(x2,y2,x3,y3,x4,y4)) == LYING)
                 printf("Point is in triangle");
-            else if (x1 == 1)
+            else if (x1 == NOT_LYING)
                 printf("Point is on triangle's side");
             else
                 printf("Point is not in the triangle");
