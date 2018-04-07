@@ -1,5 +1,5 @@
-﻿#include<stdio.h>
-#include<math.h>
+﻿#include <stdio.h>
+#include <math.h>
 #define TRUE 0
 #define FALSE 1
 #define WRONG_INPUT 2
