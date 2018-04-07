@@ -1,4 +1,4 @@
-/* Программа, считающая общее сопротивление
+﻿/* Программа, считающая общее сопротивление
 трёх паралельно соединеных резисторов*/
 
 // Потапчук Артур, ИУ7-23Б
@@ -8,8 +8,8 @@
 
 int main()
 {
-    float R1, R2, R3;
-    float chainr;
+    float R1, R2, R3; // "Resistance" (сопротивление резисторов)
+    float chainr;     // "Chain resistance" (Сопротивление всей цепи)
 
     printf("Input resistances as in example:\n");
     printf("<R1> <R2> <R3>\n");
