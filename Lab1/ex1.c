@@ -1,12 +1,16 @@
+// Вычисление периметра треугольника
+
+// Потапчук Артур, ИУ7-23Б
+
 #include<stdio.h>
 #include<math.h>
 
 int main()
 {
-    int x1, y1;
-    int x2, y2;
-    int x3, y3;
-    float p;
+    int x1, y1; // Координаты первой точки
+    int x2, y2; // Координаты второй точки
+    int x3, y3; // Координаты третьей точки
+    float p;    // Собственно периметр
 
     printf("Input coordinates of the points as in an example:\n");
     printf("<x1> <y1> <x2> <y2> <x3> <y3>\nYour input:");
