@@ -5,6 +5,8 @@
 #include<stdio.h>
 #include<math.h>
 
+#define CORRECT_END 0;
+
 int main()
 {
     int x1, y1; // Координаты первой точки
@@ -22,5 +24,5 @@ int main()
 
     printf("Perimetr: %.4f", p);
 
-    return 0;
+    return CORRECT_END;
 }

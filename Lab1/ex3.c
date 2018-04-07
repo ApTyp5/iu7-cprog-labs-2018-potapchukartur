@@ -5,6 +5,7 @@
 
 
 #include<stdio.h>
+#define CORRECT_ENT 0
 
 int main()
 {
@@ -26,5 +27,5 @@ int main()
 
     scanf("%f", &R1);
 
-    return 0;
+    return CORRECT_ENT;
 }
