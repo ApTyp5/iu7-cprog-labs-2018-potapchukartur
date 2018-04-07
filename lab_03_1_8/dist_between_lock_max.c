@@ -9,7 +9,12 @@
 #include<errno.h>
 #include<string.h>
 
+#define INPUT_ERROR -1
+#define NOT_CORRECT_SEQUENCE -2
 #define MAXINT 2147483647
+#define INCORRECT_CALL_OF_FUNCTION -3
+#define OUTPUT_FILE_OPEN_ERROR -4
+#define INPUT_FILE_OPEN_ERROR -5
 
 // Вывод шаблона команды
 void help()
@@ -81,19 +86,19 @@ int dist_beetween_lock_max(FILE *fb, FILE *fe)
             else
             {
                 printf("Input sequence must have two local maximums!");
-                return -2;
+                return NOT_CORRECT_SEQUENCE;
             }
         }
         else
         {
             printf("Input sequence must have two local maximums!");
-            return -2;
+            return NOT_CORRECT_SEQUENCE;
         }
     }
     else
     {
         printf(("Wrong input!"));
-        return -1;
+        return INPUT_ERROR;
     }
 
 }
@@ -107,7 +112,7 @@ int main(int args, char** argv)
 
     if (3 != args)
     {
-        rc = 1;
+        rc = INCORRECT_CALL_OF_FUNCTION;
         help();
     }
     else
@@ -126,7 +131,7 @@ int main(int args, char** argv)
             else
 
             {
-                rc = 2;
+                rc = OUTPUT_FILE_OPEN_ERROR;
                 fprintf(stderr,"Can't open file %s: %s",argv[2],
                         strerror(errno));
             }
@@ -135,7 +140,7 @@ int main(int args, char** argv)
         }
         else
         {
-            rc = 3;
+            rc = INPUT_FILE_OPEN_ERROR;
             fprintf(stderr, "Can't open file %s: %s",argv[1],
                     strerror(errno));
         }
