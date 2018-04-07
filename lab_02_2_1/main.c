@@ -50,6 +50,7 @@ int main()
     {
     case CORRECT:
         printf("The Fib number %d is %d", num, viv);
+	return viv;
         break;
     case INCORRECT:
         printf("Error! The serial number's too big, ");
