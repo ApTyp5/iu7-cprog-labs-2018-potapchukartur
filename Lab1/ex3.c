@@ -14,7 +14,7 @@ int main()
     printf("Input resistances as in example:\n");
     printf("<R1> <R2> <R3>\n");
 
-    scanf("%f %f %f", &R1, &R2, &R3);
+    scanf("%f%f%f", &R1, &R2, &R3);
 
     R1 = 1.0/R1;
     R2 = 1.0/R2;
