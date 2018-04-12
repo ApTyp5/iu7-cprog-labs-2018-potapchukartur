@@ -2,21 +2,32 @@
 #include <math.h>
 #define TRUE 0
 #define FALSE 1
-#define WRONG_INPUT 2
+#define WRONG_INPUT -1
+#define HAPPY_END 0
 
 
 // Вычисление (n+1)-го элем-та последовательности
-float n_plus_one_element(float term,float x, int n)
+float n_plus_one_element(float element,float x, int n)
 {
-    return term*x*x*(n-1)*(n-1)/n/(n+1);
+    return element*x*x*(n-1)*(n-1)/n/(n+1);
 }
 
 // Проверка правильности ввода 'x'
-int prov(float x)
+int prov_x(float x)
 {
     if (abs(x) >= 1)
     {
         printf("Error! (|x| < 1) abs 'x' must be lower than one");
+        return FALSE;
+    }
+    return TRUE;
+}
+
+int prov_eps(float eps)
+{
+    if ((eps >= 1 || eps <= 0))
+    {
+        printf("Error! (eps < 1) eps must lye in (0;1)");
         return FALSE;
     }
     return TRUE;
@@ -27,7 +38,7 @@ int main()
     float x;
     float eps;
     float sum;
-    float term1;
+    float element;
     int n;
 
 
@@ -45,18 +56,21 @@ int main()
         return WRONG_INPUT;
     }
 
-    if (prov(x))
+    if (prov_x(x))
+        return WRONG_INPUT;
+
+    if (prov_eps(eps))
         return WRONG_INPUT;
 
 
-    term1 = x;
-    sum = term1;
+    element = x;
+    sum = element;
     n = 2;
-    while (term1 > eps)
+    while (element > eps)
     {
-        term1 = n_plus_one_element(term1,x,n);
+        element = n_plus_one_element(element,x,n);
         n += 2;
-        sum += term1;
+        sum += element;
     }
 
     x = asin(x);
@@ -65,4 +79,5 @@ int main()
     sum = x - sum;
     printf("The absolute error: %-.7g\n",sum);
     printf("The comparative error: %-.7g\n",sum/x);
+    return HAPPY_END;
 }
