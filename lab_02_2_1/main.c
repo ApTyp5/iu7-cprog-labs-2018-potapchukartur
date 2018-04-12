@@ -1,61 +1,56 @@
 #include <stdio.h>
-#define INCORRECT 1
-#define CORRECT 0
+#include <math.h>
+#include <limits.h>
+#define GOLDEN_RATIO (1 + sqrt(5))/2
+#define WRONG_INPUT -1
+#define TOO_BIG_NUM -2
+#define HAPPY_END 0
+#define MAX_NUM UINT_MAX
 
-void Swap(int *a, int *b)
+
+int fib(unsigned int num)
 {
-    int t = *a;
-    *a = *b;
-    *b = t;
+    // viv - ВЫВод
+    unsigned int viv;
+    viv = (pow(GOLDEN_RATIO,num)/sqrt(5) + 0.5);
+    return viv;
 }
-int Fib(int num, int *viv)
+
+int max_serial_number()
 {
-    int a = 1, b = 1;
-    *viv = 1;
-    if (num > 46)
-    {
-        return INCORRECT;
-    }
-
-    if (num <= 2)
-        return CORRECT;
-    else
-    {
-        for (int i = 2; i < num; i++)
-        {
-            a = a + b;
-            Swap(&a, &b);
-        }
-        *viv = b;
-    }
-
-    return CORRECT;
+    // viv - ВЫВод
+    unsigned int viv = 0;
+    viv = log((MAX_NUM - 0.5)*sqrt(5))/log(GOLDEN_RATIO);
+    return viv;
 }
+
 
 int main()
 {
-    short vspom;
-    int num, viv;
-
-    printf("Enter the serial of Fib-number you need(1 <= 'input' <= 46): ");
-    if (scanf("%d", &num) != 1 || num <= 0)
+    // w - ВВод
+    unsigned int w;
+    // viv - ВЫВод
+    unsigned int viv;
+    // Максимальный допустимый номер числа Фибоначчи
+    unsigned int max_ser_num;
+    
+    printf("Input the serial of Fib-number: ");
+    if (scanf("%ud", &w) != 1)
     {
-        printf(("Wrong input!"));
-        return 1;
+        printf("Input must be a natural number.\n");
+        return WRONG_INPUT;
     }
 
-    vspom = Fib(num, &viv);
+    max_ser_num = max_serial_number();
 
-    switch (vspom)
+    if (w > max_ser_num)
     {
-    case CORRECT:
-        printf("The Fib number %d is %d", num, viv);
-	return viv;
-        break;
-    case INCORRECT:
-        printf("Error! The serial number's too big, ");
-        printf("it msut be less than 47");
-
+        printf("Too big number was inputed.\n");
+        return TOO_BIG_NUM;
     }
 
+    viv = fib(w);
+    printf("The Fib-number %u is: %u\n", w, viv);
+
+    return HAPPY_END;
 }
