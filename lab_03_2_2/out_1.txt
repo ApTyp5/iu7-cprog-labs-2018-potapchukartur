@@ -1,0 +1,2 @@
+Mathematic expectation: -12.1
+Dispersion: 10612.26
