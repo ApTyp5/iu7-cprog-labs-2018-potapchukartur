@@ -1,11 +1,13 @@
 ﻿#include <stdio.h>
 #include <math.h>
-#define NOT_LYING 1
-#define LYING 0
+#define NOT_LYING 0
+#define LYING_ON_SIDE 2
+#define LYING 1
 #define WRONG_INPUT -1
 #define POINTS_ARE_ON_ONE_LINE -2
-#define TRUE 0
-#define FALSE 1
+#define TRUE 1
+#define FALSE 0
+#define HAPPY_END 0
 
 
 // При помощи этой функции переносим все точки так, чтобы треугольник одним
@@ -46,16 +48,16 @@ int square_check(int x1,int y1,int x2,int y2,int x3,int y3)
 
     if (abs(s1 - s2 - s3 - s4) > 0.0001)
     {
-        return FALSE;
+        return NOT_LYING;
     }
     else
     {
         if (line_check(x1,y1,x2,y2,x3,y3)||
             line_check(0,0,x1,y1,x3,y3)||
             line_check(0,0,x2,y2,x3,y3))
-            return FALSE;
+            return LYING_ON_SIDE;
         else
-            return TRUE;
+            return LYING;
     }
 
 
@@ -73,7 +75,7 @@ int main()
     }
     else if (line_check(x1,y1,x2,y2,x3,y3))
     {
-        printf("The points are lieing on one line");
+        printf("The points are lying on one line");
         return POINTS_ARE_ON_ONE_LINE;
     }
     else
@@ -96,11 +98,20 @@ int main()
             y1 = priv(y1,y1);// y1 = 0
 
             if ((x1 = square_check(x2,y2,x3,y3,x4,y4)) == LYING)
+            {
                 printf("Point is in triangle");
-            else if (x1 == NOT_LYING)
+                return HAPPY_END;
+            }
+            else if (x1 == LYING_ON_SIDE)
+            {
                 printf("Point is on triangle's side");
+                return HAPPY_END;
+            }
             else
+            {
                 printf("Point is not in the triangle");
+                return HAPPY_END;
+            }
         }
     }
 }
