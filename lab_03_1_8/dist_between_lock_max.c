@@ -5,13 +5,13 @@
 // Потапчук Артур, ИУ7-23Б
 
 
-#include<stdio.h>
-#include<errno.h>
-#include<string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <limits.h>
 
 #define INPUT_ERROR -1
 #define NOT_CORRECT_SEQUENCE -2
-#define MAXINT 2147483647
 #define INCORRECT_CALL_OF_FUNCTION -3
 #define OUTPUT_FILE_OPEN_ERROR -4
 #define INPUT_FILE_OPEN_ERROR -5
@@ -30,7 +30,7 @@ void cycle(int *e1, int *e2, int *e3)
     *e2 = *e3;
 }
 
-// Минимальная дистанция между лакальными максимумами 
+// Минимальная дистанция между локальными максимумами
 int dist_beetween_lock_max(FILE *fb, FILE *fe)
 {
     // Соотвественно 1-ый, 2-ой, 3-ий элемент последовательности
@@ -40,7 +40,7 @@ int dist_beetween_lock_max(FILE *fb, FILE *fe)
     // Счётчик
     int schet = 2;
     // Наименьшее расстояние (дистанция)между локальными максимумами
-    int dist = MAXINT;
+    int dist = INT_MAX;
     // Вспомогательная переменная
     int vspom;
 
@@ -78,7 +78,7 @@ int dist_beetween_lock_max(FILE *fb, FILE *fe)
             }
             if ((e2 > e1) && ((vspom = schet - nmax) < dist))
                 dist = vspom;
-            if (dist != MAXINT)
+            if (dist != INT_MAX)
             {
                 fprintf(fe, "%d\n",dist);
                 return 0;
@@ -125,7 +125,7 @@ int main(int args, char** argv)
             if (fe)
 
             {
-            rc = dist_beetween_lock_max(fb, fe);
+                rc = dist_beetween_lock_max(fb, fe);
             }
 
             else
