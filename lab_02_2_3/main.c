@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 #define TRUE 0
 #define FALSE 1
 #define WRONG_INPUT -1
@@ -33,6 +34,13 @@ int prov_eps(float eps)
     return TRUE;
 }
 
+int prov_input(float *x)
+{
+    if (scanf("%f",x))
+        return HAPPY_END;
+    return WRONG_INPUT;
+}
+
 int main()
 {
     float x;
@@ -43,14 +51,14 @@ int main()
 
 
     printf("Input 'x': ");
-    if (scanf("%f",&x) != 1)
+    if (prov_input(&x))
     {
         printf("Wrong input!");
         return WRONG_INPUT;
     }
 
     printf("Input 'eps': ");
-    if (scanf("%f",&eps) != 1)
+    if (prov_input(&eps))
     {
         printf("Wrong input!");
         return WRONG_INPUT;

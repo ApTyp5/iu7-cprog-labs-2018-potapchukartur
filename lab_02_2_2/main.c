@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 #define NOT_LYING 0
 #define LYING_ON_SIDE 2
 #define LYING 1
@@ -63,12 +64,28 @@ int square_check(int x1,int y1,int x2,int y2,int x3,int y3)
 
 }
 
+int triangle_input_check(int *x1, int *y1, int *x2, int *y2, int *x3, int *y3)
+{
+    if (scanf("%d%d%d%d%d%d",x1,y1,x2,y2,x3,y3) == 6)
+        return HAPPY_END;
+    return WRONG_INPUT;
+}
+
+int point_input_check(int *x, int *y)
+{
+    if (scanf("%d%d",x,y) == 2)
+        return HAPPY_END;
+    return WRONG_INPUT;
+}
+
+
+
 int main()
 {
     int x1,x2,y1,y2,x3,y3,x4,y4;
 
     printf("Input the coordinates of the edges of the rectangle: ");
-    if (scanf("%d%d%d%d%d%d",&x1,&y1,&x2,&y2,&x3,&y3) != 6)
+    if (triangle_input_check(&x1,&y1,&x2,&y2,&x3,&y3))
     {
         printf("Wrong input!\nExample of right input: 63 8 13 7 -1 -78");
         return WRONG_INPUT;
@@ -81,7 +98,7 @@ int main()
     else
     {
         printf("Input the coordinates of the 4-th point: ");
-        if (scanf("%d%d",&x4,&y4) != 2)
+        if (point_input_check(&x4,&y4))
         {
             printf("Wrong input!\nExample of right input: 7 -18");
             return WRONG_INPUT;
