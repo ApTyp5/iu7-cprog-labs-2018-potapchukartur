@@ -17,7 +17,7 @@ unsigned int fib(unsigned int num)
     }
     viv = (pow((1+sqrt(5))/2,num)/sqrt(5) + 0.5);
     return viv;
-}[Ma@1
+}
 
 
 int main()
