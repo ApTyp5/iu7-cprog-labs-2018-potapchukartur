@@ -5,6 +5,7 @@
 #define FALSE 1
 #define WRONG_INPUT -1
 #define HAPPY_END 0
+#define MAX_ITERATIONS 100
 
 
 // Вычисление (n+1)-го элем-та последовательности
@@ -48,6 +49,7 @@ int main()
     float sum;
     float element;
     int n;
+    short int kvo; 
 
 
     printf("Input 'x': ");
@@ -74,13 +76,15 @@ int main()
     element = x;
     sum = element;
     n = 2;
-    while (element > eps)
+    while (element > eps && kvo < MAX_ITERATIONS)
     {
         element = n_plus_one_element(element,x,n);
         n += 2;
         sum += element;
     }
-
+    
+    if (kvo == MAX_ITERATIONS)
+	printf("Attention! The line is not converging.")
     x = asin(x);
     printf("The refined root: %-.7g\n",sum);
     printf("The real root: %-.7g\n",x);
