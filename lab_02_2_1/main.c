@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <math.h>
 #include <limits.h>
 #define GOLDEN_RATIO (1 + sqrt(5))/2
@@ -8,7 +8,7 @@
 #define MAX_NUM UINT_MAX
 
 
-int fib(unsigned int num)
+unsigned int fib(unsigned int num)
 {
     // viv - ВЫВод
     unsigned int viv;
