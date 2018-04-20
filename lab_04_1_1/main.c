@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #define N 10
+#define FILENAME "out.txt"
 #define HAPPY_END 0
 #define WRONG_INPUT -1
 #define TOO_MUCH_ELEMENTS -2
@@ -16,6 +17,8 @@ int prov_schet(int *a, char *invitation, int kvo)
 	return HAPPY_END;
 }
 
+/* Возвращает произведение элементов массива a[], начиная с 
+nach_el с шагом shag */
 llint multiplication(int *a, int kvo_el, int nach_el, int shag)
 {
 	llint mult = 1;
@@ -29,7 +32,7 @@ llint multiplication(int *a, int kvo_el, int nach_el, int shag)
 
 int main()
 {
-	
+	FILE *f;
 	int n;
 	int a[N];
 	llint mult; // multiplication
@@ -56,6 +59,11 @@ int main()
 	
 	mult = multiplication(a,n,0,2);
 	printf("The mult. of odd elements: %ld\n", mult);
+	
+	f = fopen(FILENAME,"w");
+	fprintf(f, "The mult. of odd elements: %ld\n", mult);
+	fclose(f);
+	
 	return HAPPY_END;
 }
 	
