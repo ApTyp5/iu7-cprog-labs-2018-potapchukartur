@@ -94,6 +94,7 @@ int main()
 		printf("%d ", a[i]);
 		fprintf(f,"%d ",a[i]);
 	}
+	fclose(f);
 	
 	return HAPPY_END;
 }
