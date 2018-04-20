@@ -50,6 +50,9 @@ int main()
 		return TOO_MUCH_ELEMENTS;
 	}
 	
+	if (na < 0)
+		printf("Warning! The number of elements msut be a natural number.\n");
+	
 	// Считали массив
 	if (prov_schet(a,"Input the elements of massive: ", n))
 	{
