@@ -50,7 +50,7 @@ int main()
 		return TOO_MUCH_ELEMENTS;
 	}
 	
-	if (na < 0)
+	if (n < 0)
 		printf("Warning! The number of elements msut be a natural number.\n");
 	
 	// Считали массив
