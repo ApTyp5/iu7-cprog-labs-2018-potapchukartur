@@ -59,111 +59,66 @@ void show(FILE *f)
 
     int num;
     while (fread(&num,sizeof(int),1,f)==1)
+	{
         fprintf(stdout,"%d ",num);
+	}
+	
 	fprintf(stdout,"\n");
 }
 
 
 
 
-int get_number_by_pos(char *filename, int pos, int *num)
+void get_number_by_pos(FILE *f, int pos, int *num)
 {
-	// pos >= 0
-	printf("!get num!\n");
-	FILE *f;
-	int rc;
-	f = fopen(filename,"rb");
-	printf("filename - %s\n",filename);
-	printf("pos - %d\n",pos);
-	fseek(f,pos*4,SEEK_SET);
-	
-	if (fread(&num,sizeof(int),1,f) != 1)
-		rc = UNSUCCESS_PROV;
-	else
-		rc = SUCCESS_PROV;
-	
-	fclose(f);
-	printf("get num - %d\n",num);
-	return rc;
-}
-
-void set_number_by_pos(char *filename, int pos, int num)
-{
-	printf("!set num!\n");
-	FILE *f;
-	
-	f = fopen(filename,"wb");
-	
 	fseek(f,pos,SEEK_SET);
-	printf("set num - %d\n",num);
-	fwrite(&num, sizeof(int), 1, f);
-	
-	fclose(f);
+	printf("%d\n",fread(num, sizeof(int),1,f));
+	printf("\n%d",*num);
 }
 
-void copy(FILE *f, FILE *fvspom)
+void set_number_by_pos(FILE *f, int kuda, int otkuda)
 {
-	printf("!copy!\n");
-	int num;
-	while(fread(&num, sizeof(int), 1, f))
-		fwrite(&num, sizeof(int), 1, fvspom);
-}
-
-void del_number_by_pos(char *filename, int pos)
-{
-	printf("!del num!\n");
-	FILE *f, *fvspom;
-	int num;
-	int i;
+	int el;
+	int vspom;
 	
-	fvspom = fopen(".vspom","wb");
-	f = fopen(filename,"rb");
+	fseek(f,otkuda,SEEK_SET);
+	fread(&el,sizeof(int),1,f);
+	fseek(f,otkuda,SEEK_SET);
 	
-	copy(f,fvspom);
-	
-	fclose(f);
-	fclose(fvspom);
-	
-	f = fopen(filename,"wb");
-	fvspom = fopen(".vspom","rb");
-	
-	for (i = 0; i < pos; i++)
+	for (int i = otkuda; i < KVO_EL + 1; i++)
 	{
-		fread(&num, sizeof(int), 1, fvspom);
-		fwrite(&num, sizeof(int), 1, f);
+		fread(&vspom,sizeof(int),1,f);
+		printf("write:%d\n",(int)fwrite(&vspom,sizeof(int),1,f));
 	}
 	
-	i += 1;
-	
-	while (fread(&num,sizeof(int),1,fvspom))
-		fwrite(&num,sizeof(int),1,f);
-	
-	fclose(f);
-	fclose(fvspom);
+	fseek(f,kuda,SEEK_SET);
 }
+
+
 
 void sort(char *filename)
 {
-	printf("!sort!\n");
 	int j, i = 0;
 	int num;
 	int vspom;
+	FILE *f;
 	
-    while (get_number_by_pos(filename,i,&num)==1)
+	f = fopen(filename, "wb+rb");
+	for (int n = 0; n < KVO_EL; n++)
 	{
+		get_number_by_pos(f,i,&num);
 		for (j = i; j > 0; j--)
 		{
-			get_number_by_pos(filename, j-1, &vspom);
+			get_number_by_pos(f, j-1, &vspom);
 			if (vspom <= num)
 				break;
 		}
-		set_number_by_pos(filename,j,num);
-		del_number_by_pos(filename,i);
+		set_number_by_pos(f,j,i);
 		i++;
-		if (i>9)
-			break;
-		
 	}
+	
+	fclose(f);
+	
 }
 
 
