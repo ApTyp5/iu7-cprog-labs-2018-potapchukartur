@@ -82,12 +82,25 @@ int main()
     sort(a,n);
     
     f = fopen(FILENAME,"w");
-    for (int i = 0; i < n; i++)
+    
+    if (!f)
     {
-        printf("%d ", a[i]);
-        fprintf(f,"%d ",a[i]);
+        perror("Open file error ");
+        return OPEN_FILE_ERROR;
     }
-    fclose(f);
+    
+    for (int i = 0; i < n; i++)       
+        if ((fprintf(f,"%d ",a[i]) != 1)|| (printf("%d ", a[i]) != 1))
+        {
+            perror("Writing error ");
+            return WRITING_ERROR;
+        }
+    
+    if (fclose(f))
+    {
+        perror()"Close file error ");
+        return CLOSE_FILE_ERROR;
+    }
     
     return HAPPY_END;
     

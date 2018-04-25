@@ -5,6 +5,9 @@
 #define HAPPY_END 0
 #define WRONG_INPUT -1
 #define TOO_MUCH_ELEMENTS -2
+#define OPEN_FILE_ERROR -3
+#define CLOSE_FILE_ERROR -4
+#define WRITING_ERROR -5
 
 typedef long int llint;
 
@@ -14,6 +17,7 @@ int prov_schet(int *a, char *invitation, int kvo)
     for (int i = 0; i < kvo; i++)
        if (!scanf("%d",a+i))
            return WRONG_INPUT;
+       
     return HAPPY_END;
 }
 
@@ -64,8 +68,24 @@ int main()
     printf("The mult. of odd elements: %ld\n", mult);
     
     f = fopen(FILENAME,"w");
-    fprintf(f, "The mult. of odd elements: %ld\n", mult);
-    fclose(f);
+    
+    if (!f)
+    {
+        perror("Open file error ");
+        return OPEN_FILE_ERROR;
+    }
+        
+    if (!fprintf(f, "The mult. of odd elements: %ld\n", mult))
+    {
+        perror("Writing error ");
+        return WRITING_ERROR;
+    }
+    
+    if (fclose(f))
+    {
+        perror("Close file error");
+        return CLOSE_FILE_ERROR;
+    }
     
     return HAPPY_END;
 }

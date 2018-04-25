@@ -7,6 +7,9 @@
 #define WRONG_INPUT -1
 #define TOO_MUCH_ELEMENTS -2
 #define FILENAME "out.txt"
+#define CLOSE_FILE_ERROR -3
+#define OPEND_FILE_ERROR -4
+#define WRITING_ERROR -5
 
 
 unsigned int fib(unsigned int num)
@@ -89,12 +92,28 @@ int main()
     add_fib(a,&n);
     
     f = fopen(FILENAME,"w");
+    if (!f)
+    {
+        perror("Open file error ");
+        return OPEND_FILE_ERROR;
+    }
+    
     for (int i = 0; i < n; i++)
     {
         printf("%d ", a[i]);
-        fprintf(f,"%d ",a[i]);
+        if (fprintf(f,"%d ",a[i]) != 1)
+        {
+            perror("Writing error ");
+            return WRITING_ERROR;
+        }
     }
-    fclose(f);
+    
+    
+    if (fclose(f))
+    {
+        perror("Close file error ");
+        return CLOSE_FILE_ERROR;
+    }
     
     return HAPPY_END;
 }
