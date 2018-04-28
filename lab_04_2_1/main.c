@@ -40,37 +40,61 @@ int schet(int *a, char *invitation, int kvo)
     return HAPPY_END;
 }
 
-int main()
+int user_input(int *n, int **a)
 {
-    FILE *f;
-    // Колличество элементов в массивах "А" и "В" 
-    int na,nb = 0;
-    int a[N], b[N]; 
-    
-    if (schet(&na, "Input the number of elements: ", 1))
+    if (schet(n,"Input the number of elements: ",1))
     {
         printf("Error! The number of elements msut be a natural number.\n");
         return WRONG_INPUT;
     }
     
-    
-    if (na < 0)
-    {
-        printf("Error! The number of elements msut be a natural number.\n");
-        return NEGATIVE_KVO;
-    }
-    
-    if (na > N)
+    if (*n > N)
     {
         printf("Error! The massive can contan maximum 10 elements.\n");
         return TOO_MUCH_ELEMENTS;
     }
     
-    if (schet(a,"Input the elements of massive: ",na))
+    if (*n < 0)
+    {
+        printf("Warning! The number of elements msut be a natural number.\n");
+        return WRONG_INPUT;
+    }
+    
+    
+    if (schet(*a,"Input the elements of massive: ", *n))
     {
         printf("Error! The elements of massive must be integer numbers.\n");
         return WRONG_INPUT;
     }
+    
+    return HAPPY_END;
+}
+
+void parray(int *a, int n)
+{
+    for (int i = 0; i < n; i++)
+        printf("%d ",*(a + i));
+}
+
+void fparray(FILE *f, int *a, int n)
+{
+    for (int i = 0; i < n; i++)
+        fprintf(f, "%d ",*(a + i));
+}
+
+int main()
+{
+    FILE *f;
+    // Колличество элементов в массивах "А" и "В" 
+    int na,nb = 0;
+    int a[N], b[N];
+    int *bp = a;    
+    int rc = HAPPY_END;
+    
+    rc = user_input(&na, &bp);
+    
+    if (rc != HAPPY_END)
+        return rc;
     
     copy_simple_numbers(a,b,na,&nb);
     
@@ -79,11 +103,9 @@ int main()
     
     printf("b: ");
     
-    for (int i = 0; i < nb; i++)
-    {
-        printf("%d ", b[i]);
-        fprintf(f,"%d ", b[i]);
-    }
+    parray(a,n);
+    
+    fparray(f,a,n);
     
     fclose(f);
     
