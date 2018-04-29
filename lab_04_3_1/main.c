@@ -8,7 +8,7 @@
 #define TOO_MUCH_ELEMENTS -2
 #define FILENAME "out.txt"
 #define CLOSE_FILE_ERROR -3
-#define OPEND_FILE_ERROR -4
+#define OPEN_FILE_ERROR -4
 #define WRITING_ERROR -5
 
 

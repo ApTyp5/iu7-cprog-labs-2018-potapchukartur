@@ -104,7 +104,7 @@ int main()
     mult = multiplication(a,n,0,2);
     printf("The mult. of odd elements: %ld\n", mult);
     
-<<<<<<< HEAD
+
     if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
         return OPEN_FILE_ERROR;
     
