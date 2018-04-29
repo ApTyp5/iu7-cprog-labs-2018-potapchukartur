@@ -114,27 +114,6 @@ int main()
     if (fclose_prov(f) == CLOSE_FILE_ERROR)
         return CLOSE_FILE_ERROR;
     
-=======
-    f = fopen(FILENAME,"w");
-    
-    if (!f)
-    {
-        perror("Open file error ");
-        return OPEN_FILE_ERROR;
-    }
-        
-    if (!fprintf(f, "The mult. of odd elements: %ld\n", mult))
-    {
-        perror("Writing error ");
-        return WRITING_ERROR;
-    }
-    
-    if (fclose(f))
-    {
-        perror("Close file error");
-        return CLOSE_FILE_ERROR;
-    }
->>>>>>> d2db7f99314048835d18de8c1d0d01a9a996aa6a
     
     return HAPPY_END;
 }
