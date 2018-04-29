@@ -8,6 +8,10 @@
 #define TOO_MUCH_ELEMENTS -2
 #define NON_HAPPY_END -3
 #define NEGATIVE_KVO -4
+#define CLOSE_FILE_ERROR -5
+#define OPEN_FILE_ERROR -6
+#define WRITING_ERROR -7
+
 
 int simple_prov(int num)
 {
@@ -99,15 +103,28 @@ int main()
     copy_simple_numbers(a,b,na,&nb);
     
     f = fopen(FILENAME,"w");
+    
+    if (!f)
+    {
+        perror("Open file error ");
+        return OPEN_FILE_ERROR;
+    }
+    
     fprintf(f,"b: ");
     
     printf("b: ");
     
+
     parray(b,nb);
     
     fparray(f,b,nb);
+
     
-    fclose(f);
+    if (fclose(f))
+    {
+        perror("Close file error ");
+        return CLOSE_FILE_ERROR;
+    }
     
     return HAPPY_END;   
 }

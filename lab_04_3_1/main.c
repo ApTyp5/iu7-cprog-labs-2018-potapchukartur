@@ -8,7 +8,9 @@
 #define TOO_MUCH_ELEMENTS -2
 #define FILENAME "out.txt"
 #define CLOSE_FILE_ERROR -3
-#define OPEN_FILE_ERROR -4
+#define OPEND_FILE_ERROR -4
+#define WRITING_ERROR -5
+
 
 
 unsigned int fib(unsigned int num)
@@ -141,8 +143,10 @@ int main()
     
     fparray(f,a,n);
     
+    
     if (fclose_prov(f) == CLOSE_FILE_ERROR)
         return CLOSE_FILE_ERROR;
+
     
     return HAPPY_END;
 }

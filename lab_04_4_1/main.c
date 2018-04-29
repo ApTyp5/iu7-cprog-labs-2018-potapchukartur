@@ -131,8 +131,10 @@ int main()
     
     sort(a,n);
     
+
     if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
         return OPEN_FILE_ERROR;
+
     
     parray(a,n);
     
