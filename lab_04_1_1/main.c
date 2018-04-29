@@ -5,6 +5,9 @@
 #define HAPPY_END 0
 #define WRONG_INPUT -1
 #define TOO_MUCH_ELEMENTS -2
+#define CLOSE_FILE_ERROR -3
+#define OPEN_FILE_ERROR -4
+
 
 typedef long int llint;
 

@@ -7,6 +7,8 @@
 #define WRONG_INPUT -1
 #define TOO_MUCH_ELEMENTS -2
 #define FILENAME "out.txt"
+#define CLOSE_FILE_ERROR -3
+#define OPEN_FILE_ERROR -4
 
 
 unsigned int fib(unsigned int num)

@@ -103,9 +103,9 @@ int main()
     
     printf("b: ");
     
-    parray(a,n);
+    parray(b,nb);
     
-    fparray(f,a,n);
+    fparray(f,b,nb);
     
     fclose(f);
     
