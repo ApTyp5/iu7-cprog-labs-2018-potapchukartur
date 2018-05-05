@@ -2,8 +2,9 @@
 
 #define NUM 2000000
 #define HAPPY_END 0
+#define NON_HAPPY_END -2
 
-int prime_prov(a)
+int prime_prov(int num)
 {
     int i = 2;
     
@@ -18,17 +19,23 @@ int prime_prov(a)
 }
 
 
-void try_add(int *sum, int a, int b)
+void try_add(unsigned long long *sum, int a, int b)
 {
     if (prime_prov(a) == 0)
+    {
         *sum += a;
+        //printf("%d\n",a);
+    }
     if (prime_prov(b) == 0)
+    {
         *sum += b;
+        //printf("%d\n",b);
+    }
 }
 
 int main()
 {
-    int sum = 5;
+    unsigned long long sum = 5;
     int counter = 6;
     int a,b;
     
@@ -39,9 +46,11 @@ int main()
             a = counter + 1;
             b = counter - 1;      
             try_add(&sum, a, b);
-            counter += 1;
+            counter += 6;
         }
         
-        printf("%d",sum);
-    }        
+        printf("%llu",sum);
+    }   
+    
+    return sum;
 }
