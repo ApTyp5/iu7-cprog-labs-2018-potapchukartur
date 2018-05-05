@@ -19,7 +19,8 @@ int fopen_check(FILE **f, char *filename, char *mode)
 {
     if ((*f = fopen(filename, mode)) == 0)
     {
-        printf("Error while opening '%s' : %s", filename, strerror(errno));
+        fprintf(stderr, "Error while opening '%s' : %s", filename, 
+        strerror(errno));
         return NON_HAPPY_END;
     }
     
@@ -30,7 +31,8 @@ int fclose_check(FILE *f, char *filename)
 {
     if (fclose(f))
     {
-        printf("Error while closing '%s': %s", filename, strerror(errno));
+        fprintf(stderr, "Error while closing '%s': %s", filename,
+        strerror(errno));
         return NON_HAPPY_END;
     }
     
@@ -118,11 +120,6 @@ void try_to_printf(FILE *f, int *rc)
     }        
 }
 
-void p(char *a)
-{
-    printf(a);
-}
-
 int main(int argc, char **argv)
 {
     FILE *fb , *fe ;
@@ -132,7 +129,6 @@ int main(int argc, char **argv)
 
     if (rc)
         format_help();
-    
     
     if (!rc)
         rc = fopen_check(&fb, argv[1], "r");
