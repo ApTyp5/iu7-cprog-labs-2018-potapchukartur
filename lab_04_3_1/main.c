@@ -1,8 +1,11 @@
+/* Вставить в исходный массив после каждого элемента, кратного 3-м,
+ * очередное число Фибоначчи.*/
+
 #include <stdio.h>
 #include <limits.h>
 #include <math.h>
 
-#define N 20
+#define N 10
 #define HAPPY_END 0
 #define WRONG_INPUT -1
 #define TOO_MUCH_ELEMENTS -2
@@ -13,9 +16,10 @@
 
 
 
-unsigned int fib(unsigned int num)
+unsigned int fib(const unsigned int num)
 {
     // viv - ВЫВод
+    // Число Фибоначчи находится методом Золотого Сечения
     unsigned int viv;
     
     viv = (pow((1+sqrt(5))/2,num)/sqrt(5) + 0.5);
@@ -23,7 +27,7 @@ unsigned int fib(unsigned int num)
     return viv;
 }
 
-int schet(int *a, char *invitation, int kvo)
+int schet(int *const a, const char *const invitation, const int kvo)
 {
     printf("%s",invitation);
     for (int i = 0; i < kvo; i++)
@@ -33,7 +37,7 @@ int schet(int *a, char *invitation, int kvo)
     return HAPPY_END;
 }
 
-int user_input(int *n, int **a)
+int user_input(int *const n, int *const a)
 {
     if (schet(n,"Input the number of elements: ",1))
     {
@@ -54,7 +58,7 @@ int user_input(int *n, int **a)
     }
     
     
-    if (schet(*a,"Input the elements of massive: ", *n))
+    if (schet(a,"Input the elements of massive: ", *n))
     {
         printf("Error! The elements of massive must be integer numbers.\n");
         return WRONG_INPUT;
@@ -63,13 +67,13 @@ int user_input(int *n, int **a)
     return HAPPY_END;
 }
 
-void move(int *a, int n, int i)
+void move(int *const a, int n, const int i)
 {
-    for (n = n; n > i; n--)
+    for (; n > i; n--)
         a[n] = a[n-1];
 }
 
-void add_fib(int *a, int *n)
+void add_fib(int *const a, int *const n)
 {
     int i = 0;
     int schetchik = 0;
@@ -87,9 +91,10 @@ void add_fib(int *a, int *n)
     }
 }
 
-int fopen_prov(FILE **f, char *filename, char *mode)
+int fopen_prov(const FILE *f, const char *const filename,
+	       	              const char *const mode)
 {
-    *f = fopen(filename, mode);
+    f = fopen(filename, mode);
     if (!f)
     {
         perror("Open file error: ");
@@ -98,7 +103,7 @@ int fopen_prov(FILE **f, char *filename, char *mode)
     return HAPPY_END;
 }
 
-int fclose_prov(FILE *f)
+int fclose_prov(FILE *const f)
 {
     if (fclose(f) != 0)
     {
@@ -109,13 +114,7 @@ int fclose_prov(FILE *f)
     return HAPPY_END;
 }
 
-void parray(int *a, int n)
-{
-    for (int i = 0; i < n; i++)
-        printf("%d ",*(a + i));
-}
-
-void fparray(FILE *f, int *a, int n)
+void fparray(FILE *const f, int *const a, const int n)
 {
     for (int i = 0; i < n; i++)
         fprintf(f, "%d ",*(a + i));
@@ -124,22 +123,22 @@ void fparray(FILE *f, int *a, int n)
 int main()
 {
     
-    FILE *f;
-    int n, a[N];
+    FILE *f = NULL;
+    int n, a[2*N] = {0};
     int *bp = a;
     int rc = HAPPY_END;
     
-    rc = user_input(&n, &bp);
+    rc = user_input(&n, bp);
     
     if (rc != HAPPY_END)
         return rc;
-    
+
     add_fib(a,&n);
     
-    if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
-        return OPEN_FILE_ERROR;
+    if (fopen_prov(f, FILENAME, "w") == OPEN_FILE_ERROR)
+        return OPEN_FILE_ERRR;
     
-    parray(a,n);
+    fparray(stdout,a,n);
     
     fparray(f,a,n);
     

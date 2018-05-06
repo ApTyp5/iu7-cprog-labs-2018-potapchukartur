@@ -1,4 +1,7 @@
-﻿#include <stdio.h>
+﻿/* Поместить в новый массив элементы исходного массива, 
+ * которые являются простыми числами.*/
+
+#include <stdio.h>
 #include <math.h>
 
 #define N 10
@@ -13,7 +16,7 @@
 #define WRITING_ERROR -7
 
 
-int simple_prov(int num)
+int simple_prov(const int num)
 {
     for (int i = 2; i*i < num; i++)
     {
@@ -25,7 +28,8 @@ int simple_prov(int num)
 }
 
 // Копирует простые числа из массива "a" в массив "b"
-void copy_simple_numbers(int *a, int *b, int kvoa, int *kvob)
+void copy_simple_numbers(const int *const a, int *const b,
+	                 const int kvoa, int *kvob)
 {
     
     for (int i = 0; i < kvoa; i++)
@@ -34,7 +38,7 @@ void copy_simple_numbers(int *a, int *b, int kvoa, int *kvob)
 }
 
 
-int schet(int *a, char *invitation, int kvo)
+int schet(int *const a, const char *const invitation, const int kvo)
 {
     printf("%s",invitation);
     for (int i = 0; i < kvo; i++)
@@ -44,7 +48,7 @@ int schet(int *a, char *invitation, int kvo)
     return HAPPY_END;
 }
 
-int user_input(int *n, int **a)
+int user_input(int *const n, int *const a)
 {
     if (schet(n,"Input the number of elements: ",1))
     {
@@ -65,7 +69,7 @@ int user_input(int *n, int **a)
     }
     
     
-    if (schet(*a,"Input the elements of massive: ", *n))
+    if (schet(a,"Input the elements of massive: ", *n))
     {
         printf("Error! The elements of massive must be integer numbers.\n");
         return WRONG_INPUT;
@@ -74,13 +78,7 @@ int user_input(int *n, int **a)
     return HAPPY_END;
 }
 
-void parray(int *a, int n)
-{
-    for (int i = 0; i < n; i++)
-        printf("%d ",*(a + i));
-}
-
-void fparray(FILE *f, int *a, int n)
+void fparray(FILE *const f, const int *const a, const int n)
 {
     for (int i = 0; i < n; i++)
         fprintf(f, "%d ",*(a + i));
@@ -95,7 +93,7 @@ int main()
     int *bp = a;    
     int rc = HAPPY_END;
     
-    rc = user_input(&na, &bp);
+    rc = user_input(&na, bp);
     
     if (rc != HAPPY_END)
         return rc;
@@ -110,12 +108,9 @@ int main()
         return OPEN_FILE_ERROR;
     }
     
-    fprintf(f,"b: ");
-    
     printf("b: ");
     
-
-    parray(b,nb);
+    fparray(stdin,b,nb);
     
     fparray(f,b,nb);
 

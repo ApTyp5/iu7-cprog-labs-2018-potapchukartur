@@ -1,3 +1,4 @@
+/* Отсортировать массив вставками.*/
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -12,7 +13,7 @@
 #define FILENAME "out.txt"
 
 
-int schet(int *a, char *invitation, int kvo)
+int schet(int *const a, const char *const invitation, const int kvo)
 {
     printf("%s",invitation);
     for (int i = 0; i < kvo; i++)
@@ -22,21 +23,16 @@ int schet(int *a, char *invitation, int kvo)
     return HAPPY_END;
 }
 
-void parray(int *a, int n)
-{
-    for (int i = 0; i < n; i++)
-        printf("%d ",*(a + i));
-}
-
-void fparray(FILE *f, int *a, int n)
+void fparray(FILE *const f, const int *const a, const int n)
 {
     for (int i = 0; i < n; i++)
         fprintf(f, "%d ",*(a + i));
 }
 
-int fopen_prov(FILE **f, char *filename, char *mode)
+int fopen_prov(const FILE *f, const char *const filename,
+	                      const char *const mode)
 {
-    *f = fopen(filename, mode);
+    f = fopen(filename, mode);
     if (!f)
     {
         perror("Open file error: ");
@@ -45,7 +41,7 @@ int fopen_prov(FILE **f, char *filename, char *mode)
     return HAPPY_END;
 }
 
-int fclose_prov(FILE *f)
+int fclose_prov(FILE *const f)
 {
     if (fclose(f) != 0)
     {
@@ -56,16 +52,16 @@ int fclose_prov(FILE *f)
     return HAPPY_END;
 }
 
-void vstavka(int *a, int otkuda, int kuda)
+void vstavka(int *const a, const int from, const int to)
 {
-    int el = a[otkuda];
+    int el = a[from];
     
-    for (int i = otkuda; i > kuda; i--)
+    for (int i = from; i > to; i--)
         a[i] = a[i-1];
-    a[kuda] = el;
+    a[to] = el;
 }
 
-void sort(int *a, int n)
+void sort(int *const a, const int n)
 {
     int vs;
     
@@ -86,7 +82,7 @@ void sort(int *a, int n)
         }
 }
 
-int user_input(int *n, int **a)
+int user_input(int *const n, int *const a)
 {
     if (schet(n,"Input the number of elements: ",1))
     {
@@ -107,7 +103,7 @@ int user_input(int *n, int **a)
     }
     
     
-    if (schet(*a,"Input the elements of massive: ", *n))
+    if (schet(a,"Input the elements of massive: ", *n))
     {
         printf("Error! The elements of massive must be integer numbers.\n");
         return WRONG_INPUT;
@@ -119,12 +115,12 @@ int user_input(int *n, int **a)
 int main()
 {
     
-    FILE *f;
+    FILE *f = NULL;
     int n, a[N] = {0};
     int *bp = a;
     int rc; 
     
-    rc = user_input(&n, &bp);
+    rc = user_input(&n, bp);
     
     if (rc)
         return rc;
@@ -132,11 +128,11 @@ int main()
     sort(a,n);
     
 
-    if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
+    if (fopen_prov(f, FILENAME, "w") == OPEN_FILE_ERROR)
         return OPEN_FILE_ERROR;
 
     
-    parray(a,n);
+    fparray(stdin,a,n);
     
     fparray(f,a,n);
     
