@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <errno.h>
@@ -152,3 +152,4 @@ int main(int args, char **argv)
     }
     return rc;
 }
+
