@@ -1,3 +1,6 @@
+/* Сумма последовательных произведений элементов массива
+до первого отрицательного(включительно) или до конца */
+
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -22,7 +25,7 @@ void format_help()
     printf("main <source filename> <target filename>\n");
 }
 
-int format_prov(int argc)
+int format_prov(const int argc)
 {
     if (argc != 3)
     {
@@ -33,18 +36,19 @@ int format_prov(int argc)
     return HAPPY_END;
 }
 
-int fopen_prov(FILE **f, char *filename, char *mode)
+int fopen_prov(FILE **const f, const char *const filename,
+                               const char *const mode)
 {
     
     *f = fopen(filename, mode);
     
     if (*f)
         return HAPPY_END;
-    
+    perror("Open file error");
     return NON_HAPPY_END;
 }
 
-int print_trying(FILE *to, int what)
+int print_trying(FILE *const to, const int what)
 {
     if (!fprintf(to,"%d",what))
         return SAVE_ERROR;
@@ -52,31 +56,33 @@ int print_trying(FILE *to, int what)
     return HAPPY_END;
 }
 
-int read_array(FILE *f, int **sl, int **el)
+int read_array(FILE *const f, int *sl, int **const el)
 {
     // sl <=> start_list
     // el <=> end_list
     int i;
-    int *vspom = *sl;
+    _Bool flag = 1;
     
     while ((int)fscanf(f,"%d",&i) == 1)
     {   
-        *vspom = i;
-        vspom += 1;
+        *sl = i;
+        sl += 1;
+        flag = 0;
     }
     
-    *el = vspom;
+    *el = sl;
     
-    if (*el == *sl)
+    if (flag)
     {
         printf("The input file msut contain integers.\n");
         return EMPTY_FILE;
     }
+    
     return HAPPY_END;
 }
 
 
-int major_work(int *sl, int *el)
+int major_work(int *sl, const int *const el)
 {
     // sl <=> start_list
     // el <=> end_list
@@ -89,7 +95,7 @@ int major_work(int *sl, int *el)
     for (vspom = sl; vspom != (el - 1) && *(vspom) >= 0; vspom++)
         ;
     
-    for (sl = sl; sl <= vspom; sl++)
+    for (; sl <= vspom; sl++)
     {
         local_mult *= *sl;
         global_sum += local_mult;
@@ -98,7 +104,8 @@ int major_work(int *sl, int *el)
     return global_sum;
 }
 
-int open_files(FILE **fone, char *name_fone, FILE **ftwo, char *name_ftwo) 
+int open_files(FILE **const fone, const char *const name_fone,
+               FILE **const ftwo, const char *const name_ftwo) 
 {
     if (fopen_prov(fone, name_fone, "r"))
     {
@@ -115,9 +122,9 @@ int open_files(FILE **fone, char *name_fone, FILE **ftwo, char *name_ftwo)
     return HAPPY_END;
 }
 
-int close_files(FILE *fone, FILE *ftwo)
+int close_files(FILE *const fone, FILE *const ftwo)
 {
-    if (fclose(fone) )
+    if (fclose(fone))
     {
         perror("Close input file error ");
         return CLOSE_INPUT_FILE_ERROR;
@@ -148,7 +155,7 @@ int main(int argc, char **argv)
     
     if (!rc)
     {
-        rc = read_array(fin, &start_list, &end_list);
+        rc = read_array(fin, start_list, &end_list);
         if (!rc)
         {
             sum = major_work(start_list, end_list);
