@@ -29,10 +29,10 @@ void fparray(FILE *const f, const int *const a, const int n)
         fprintf(f, "%d ",*(a + i));
 }
 
-int fopen_prov(const FILE *f, const char *const filename,
+int fopen_prov(FILE **const f, const char *const filename,
 	                      const char *const mode)
 {
-    f = fopen(filename, mode);
+    *f = fopen(filename, mode);
     if (!f)
     {
         perror("Open file error: ");
@@ -128,11 +128,11 @@ int main()
     sort(a,n);
     
 
-    if (fopen_prov(f, FILENAME, "w") == OPEN_FILE_ERROR)
+    if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
         return OPEN_FILE_ERROR;
 
     
-    fparray(stdin,a,n);
+    fparray(stdout,a,n);
     
     fparray(f,a,n);
     

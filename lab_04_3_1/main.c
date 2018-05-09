@@ -91,11 +91,11 @@ void add_fib(int *const a, int *const n)
     }
 }
 
-int fopen_prov(const FILE *f, const char *const filename,
+int fopen_prov(FILE **const f, const char *const filename,
 	       	              const char *const mode)
 {
-    f = fopen(filename, mode);
-    if (!f)
+    *f = fopen(filename, mode);
+    if (!*f)
     {
         perror("Open file error: ");
         return OPEN_FILE_ERROR;
@@ -135,8 +135,8 @@ int main()
 
     add_fib(a,&n);
     
-    if (fopen_prov(f, FILENAME, "w") == OPEN_FILE_ERROR)
-        return OPEN_FILE_ERRR;
+    if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
+        return OPEN_FILE_ERROR;
     
     fparray(stdout,a,n);
     

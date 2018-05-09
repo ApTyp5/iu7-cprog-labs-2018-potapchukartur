@@ -84,9 +84,33 @@ void fparray(FILE *const f, const int *const a, const int n)
         fprintf(f, "%d ",*(a + i));
 }
 
+int fopen_prov(FILE **const f, const char *const filename, 
+                         const char *const mode)
+{
+    *f = fopen(filename, mode);
+    if (!*f)
+    {
+        perror("Open file error");
+        return NON_HAPPY_END;
+    }
+    
+    return HAPPY_END;  
+}
+
+int fclose_prov(FILE *const f)
+{
+    if (fclose(f))
+    {
+        perror("Close file error ");
+        return CLOSE_FILE_ERROR;
+    }
+    
+    return HAPPY_END;
+}
+
 int main()
 {
-    FILE *f;
+    FILE *f = NULL;
     // Колличество элементов в массивах "А" и "В" 
     int na,nb = 0;
     int a[N], b[N];
@@ -100,26 +124,17 @@ int main()
     
     copy_simple_numbers(a,b,na,&nb);
     
-    f = fopen(FILENAME,"w");
-    
-    if (!f)
-    {
-        perror("Open file error ");
+    if (fopen_prov(&f, FILENAME, "w"))
         return OPEN_FILE_ERROR;
-    }
     
     printf("b: ");
     
-    fparray(stdin,b,nb);
+    fparray(stdout,b,nb);
     
     fparray(f,b,nb);
 
-    
-    if (fclose(f))
-    {
-        perror("Close file error ");
+    if (fclose_prov(f))
         return CLOSE_FILE_ERROR;
-    }
     
     return HAPPY_END;   
 }

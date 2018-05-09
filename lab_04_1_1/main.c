@@ -66,21 +66,20 @@ int user_input(int *const n, int *const a)
     return HAPPY_END;
 }
 
-int fopen_prov(const FILE *f, const char *const filename,
-	       	              const char *const mode)
+int fopen_prov(FILE **const f, const char *const filename,
+                              const char *const mode)
 {
-    f = fopen(filename, mode);
-    if (!f)
+    *f = fopen(filename, mode);
+    if (!*f)
     {
         perror("Open file error: ");
         return OPEN_FILE_ERROR;
-    }
-    return HAPPY_END;
+	} return HAPPY_END;
 }
 
 int fclose_prov(FILE *const f)
 {
-    if (fclose(f) != 0)
+    if (fclose(f))
     {
         perror("Close file error ");
         return CLOSE_FILE_ERROR;
@@ -97,27 +96,23 @@ int main()
     int a[N] = {0};
     int *bp = a;
     llint mult; // multiplication
-    printf("1");
+
     rc = user_input(&n, bp);
-    printf("2");
+
     if (rc != HAPPY_END)
         return rc;
     
     mult = multiplication(a,n,0,2);
     printf("The mult. of odd elements: %ld\n", mult);
-    printf("3");
 
 
-    if (fopen_prov(f, FILENAME, "w") == OPEN_FILE_ERROR)
+    if (fopen_prov(&f, FILENAME, "w"))
         return OPEN_FILE_ERROR;
-    
     
     fprintf(f, "The mult. of odd elements: %ld\n", mult);
     
-    if (fclose_prov(f) == CLOSE_FILE_ERROR)
+    if (fclose_prov(f))
         return CLOSE_FILE_ERROR;
-    
-    
     return HAPPY_END;
 }
     
