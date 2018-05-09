@@ -1,0 +1,1 @@
+Input must have 2 local maximums!
