@@ -74,7 +74,7 @@ int read_array(FILE *const f, int *sl, int **const el)
     
     if (flag)
     {
-        printf("The input file msut contain integers.\n");
+        fprintf(stderr,"The input file msut contain integers.\n");
         return EMPTY_FILE;
     }
     
