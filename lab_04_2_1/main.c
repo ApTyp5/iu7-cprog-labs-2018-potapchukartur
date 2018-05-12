@@ -14,6 +14,7 @@
 #define CLOSE_FILE_ERROR -5
 #define OPEN_FILE_ERROR -6
 #define WRITING_ERROR -7
+#define MEMORY_ERROR -8
 
 
 int simple_prov(const int num)
@@ -28,13 +29,18 @@ int simple_prov(const int num)
 }
 
 // Копирует простые числа из массива "a" в массив "b"
-void copy_simple_numbers(const int *const a, int *const b,
-	                 const int kvoa, int *kvob)
+int copy_simple_numbers(const int *const a, int *const b, const int kvoa,
+                              int *kvob, int max_kvo_b)
 {
-    
+    // править, чтобы не было выхода за границы памяти
     for (int i = 0; i < kvoa; i++)
         if (!simple_prov(a[i]))
+        {
+            if (*kvob == max_kvo_b)
+                return MEMORY_ERROR;
             b[(*kvob)++] = a[i];
+        }
+    return HAPPY_END;
 }
 
 
@@ -84,20 +90,16 @@ void fparray(FILE *const f, const int *const a, const int n)
         fprintf(f, "%d ",*(a + i));
 }
 
-int fopen_prov(FILE **const f, const char *const filename, 
-                         const char *const mode)
+FILE *fopen_try(const char *const filename, const char *const mode)
 {
-    *f = fopen(filename, mode);
-    if (!*f)
-    {
+    FILE *f = fopen(filename, mode);
+    if (!f)
         perror("Open file error");
-        return NON_HAPPY_END;
-    }
     
-    return HAPPY_END;  
+    return f;  
 }
 
-int fclose_prov(FILE *const f)
+int fclose_try(FILE *const f)
 {
     if (fclose(f))
     {
@@ -122,9 +124,10 @@ int main()
     if (rc != HAPPY_END)
         return rc;
     
-    copy_simple_numbers(a,b,na,&nb);
-    
-    if (fopen_prov(&f, FILENAME, "w"))
+    if ((rc = copy_simple_numbers(a,b,na,&nb,N)))
+        return rc;
+
+    if (!(f = fopen_try(FILENAME,"w")))
         return OPEN_FILE_ERROR;
     
     printf("b: ");
@@ -133,7 +136,7 @@ int main()
     
     fparray(f,b,nb);
 
-    if (fclose_prov(f))
+    if (fclose_try(f))
         return CLOSE_FILE_ERROR;
     
     return HAPPY_END;   

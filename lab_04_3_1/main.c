@@ -91,21 +91,18 @@ void add_fib(int *const a, int *const n)
     }
 }
 
-int fopen_prov(FILE **const f, const char *const filename,
-	       	              const char *const mode)
+FILE *fopen_try(const char *const filename, const char *const mode)
 {
-    *f = fopen(filename, mode);
-    if (!*f)
-    {
-        perror("Open file error: ");
-        return OPEN_FILE_ERROR;
-    }
-    return HAPPY_END;
+    FILE *f = fopen(filename, mode);
+    if (!f)
+        perror("Open file error");
+    
+    return f;  
 }
 
-int fclose_prov(FILE *const f)
+int fclose_try(FILE *const f)
 {
-    if (fclose(f) != 0)
+    if (fclose(f))
     {
         perror("Close file error ");
         return CLOSE_FILE_ERROR;
@@ -135,7 +132,7 @@ int main()
 
     add_fib(a,&n);
     
-    if (fopen_prov(&f, FILENAME, "w") == OPEN_FILE_ERROR)
+    if (!(f = fopen_try(FILENAME, "w")))
         return OPEN_FILE_ERROR;
     
     fparray(stdout,a,n);
@@ -143,7 +140,7 @@ int main()
     fparray(f,a,n);
     
     
-    if (fclose_prov(f) == CLOSE_FILE_ERROR)
+    if (fclose_try(f) == CLOSE_FILE_ERROR)
         return CLOSE_FILE_ERROR;
 
     

@@ -14,9 +14,9 @@ typedef long int llint;
 
 int schet(int *const a, const char *const invitation, const int kvo)
 {
-    printf("%s",invitation);
+    printf("%s", invitation);
     for (int i = 0; i < kvo; i++)
-       if (!scanf("%d",a+i))
+       if (!scanf("%d", a+i))
            return WRONG_INPUT;
        
     return HAPPY_END;
@@ -25,7 +25,7 @@ int schet(int *const a, const char *const invitation, const int kvo)
 /* Возвращает произведение элементов массива a[], начиная с 
 nach_el с шагом shag */
 llint multiplication(const int *const a, const int kvo_el, int nach_el,
-	       	     const int shag)
+					                     const int shag)
 {
     llint mult = 1;
     while (nach_el < kvo_el)
@@ -38,7 +38,7 @@ llint multiplication(const int *const a, const int kvo_el, int nach_el,
 
 int user_input(int *const n, int *const a)
 {
-    if (schet(n,"Input the number of elements: ",1))
+    if (schet(n, "Input the number of elements: ", 1))
     {
         printf("Error! The number of elements msut be a natural number.\n");
         return WRONG_INPUT;
@@ -57,7 +57,7 @@ int user_input(int *const n, int *const a)
     }
     
     
-    if (schet(a,"Input the elements of massive: ", *n))
+    if (schet(a, "Input the elements of massive: ", *n))
     {
         printf("Error! The elements of massive must be integer numbers.\n");
         return WRONG_INPUT;
@@ -66,18 +66,16 @@ int user_input(int *const n, int *const a)
     return HAPPY_END;
 }
 
-int fopen_prov(FILE **const f, const char *const filename,
-                              const char *const mode)
+FILE *fopen_try(const char *const filename, const char *const mode)
 {
-    *f = fopen(filename, mode);
-    if (!*f)
-    {
-        perror("Open file error: ");
-        return OPEN_FILE_ERROR;
-	} return HAPPY_END;
+    FILE *f = fopen(filename, mode);
+	if (!f)
+		perror("Open file error");
+	
+	return f;
 }
 
-int fclose_prov(FILE *const f)
+int fclose_try(FILE *const f)
 {
     if (fclose(f))
     {
@@ -102,17 +100,18 @@ int main()
     if (rc != HAPPY_END)
         return rc;
     
-    mult = multiplication(a,n,0,2);
+    mult = multiplication(a, n, 0, 2);
     printf("The mult. of odd elements: %ld\n", mult);
 
 
-    if (fopen_prov(&f, FILENAME, "w"))
+    if (!(f = fopen_try(FILENAME, "w")))
         return OPEN_FILE_ERROR;
     
     fprintf(f, "The mult. of odd elements: %ld\n", mult);
     
-    if (fclose_prov(f))
+    if (fclose_try(f))
         return CLOSE_FILE_ERROR;
+    
     return HAPPY_END;
 }
     
