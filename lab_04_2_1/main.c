@@ -46,9 +46,9 @@ int copy_simple_numbers(const int *const a, int *const b, const int kvoa,
 
 int schet(int *const a, const char *const invitation, const int kvo)
 {
-    printf("%s",invitation);
+    printf("%s", invitation);
     for (int i = 0; i < kvo; i++)
-        if (!scanf("%d",a+i))
+        if (!scanf("%d", a+i))
             return WRONG_INPUT;
         
     return HAPPY_END;
@@ -87,7 +87,7 @@ int user_input(int *const n, int *const a)
 void fparray(FILE *const f, const int *const a, const int n)
 {
     for (int i = 0; i < n; i++)
-        fprintf(f, "%d ",*(a + i));
+        fprintf(f, "%d ", *(a + i));
 }
 
 FILE *fopen_try(const char *const filename, const char *const mode)
@@ -114,7 +114,7 @@ int main()
 {
     FILE *f = NULL;
     // Колличество элементов в массивах "А" и "В" 
-    int na,nb = 0;
+    int na, nb = 0;
     int a[N], b[N];
     int *bp = a;    
     int rc = HAPPY_END;
@@ -124,7 +124,7 @@ int main()
     if (rc != HAPPY_END)
         return rc;
     
-    if ((rc = copy_simple_numbers(a,b,na,&nb,N)))
+    if ((rc = copy_simple_numbers(a, b, na, &nb, N)))
         return rc;
 
     if (!(f = fopen_try(FILENAME,"w")))
@@ -132,9 +132,9 @@ int main()
     
     printf("b: ");
     
-    fparray(stdout,b,nb);
+    fparray(stdout, b, nb);
     
-    fparray(f,b,nb);
+    fparray(f, b, nb);
 
     if (fclose_try(f))
         return CLOSE_FILE_ERROR;

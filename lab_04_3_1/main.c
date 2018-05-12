@@ -29,9 +29,9 @@ unsigned int fib(const unsigned int num)
 
 int schet(int *const a, const char *const invitation, const int kvo)
 {
-    printf("%s",invitation);
+    printf("%s", invitation);
     for (int i = 0; i < kvo; i++)
-        if (!scanf("%d",a+i))
+        if (!scanf("%d", a+i))
             return WRONG_INPUT;
         
     return HAPPY_END;
@@ -39,7 +39,7 @@ int schet(int *const a, const char *const invitation, const int kvo)
 
 int user_input(int *const n, int *const a)
 {
-    if (schet(n,"Input the number of elements: ",1))
+    if (schet(n,"Input the number of elements: ", 1))
     {
         printf("Error! The number of elements msut be a natural number.\n");
         return WRONG_INPUT;
@@ -130,14 +130,14 @@ int main()
     if (rc != HAPPY_END)
         return rc;
 
-    add_fib(a,&n);
+    add_fib(a, &n);
     
     if (!(f = fopen_try(FILENAME, "w")))
         return OPEN_FILE_ERROR;
     
-    fparray(stdout,a,n);
+    fparray(stdout, a, n);
     
-    fparray(f,a,n);
+    fparray(f, a, n);
     
     
     if (fclose_try(f) == CLOSE_FILE_ERROR)

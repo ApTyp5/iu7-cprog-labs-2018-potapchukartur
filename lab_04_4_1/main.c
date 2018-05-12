@@ -15,9 +15,9 @@
 
 int schet(int *const a, const char *const invitation, const int kvo)
 {
-    printf("%s",invitation);
+    printf("%s", invitation);
     for (int i = 0; i < kvo; i++)
-        if (!scanf("%d",a+i))
+        if (!scanf("%d", a+i))
             return WRONG_INPUT;
         
     return HAPPY_END;
@@ -26,7 +26,7 @@ int schet(int *const a, const char *const invitation, const int kvo)
 void fparray(FILE *const f, const int *const a, const int n)
 {
     for (int i = 0; i < n; i++)
-        fprintf(f, "%d ",*(a + i));
+        fprintf(f, "%d ", *(a + i));
 }
 
 FILE *fopen_try(const char *const filename, const char *const mode)
@@ -100,7 +100,7 @@ int user_input(int *const n, int *const a)
     }
     
     
-    if (schet(a,"Input the elements of massive: ", *n))
+    if (schet(a, "Input the elements of massive: ", *n))
     {
         printf("Error! The elements of massive must be integer numbers.\n");
         return WRONG_INPUT;
@@ -122,15 +122,15 @@ int main()
     if (rc)
         return rc;
     
-    sort(a,n);
+    sort(a, n);
     
 
     if (!(f = fopen_try(FILENAME, "w")))
         return OPEN_FILE_ERROR;
 
-    fparray(stdout,a,n);
+    fparray(stdout, a, n);
     
-    fparray(f,a,n);
+    fparray(f, a, n);
     
     if (fclose_try(f) == CLOSE_FILE_ERROR)
         return CLOSE_FILE_ERROR;
