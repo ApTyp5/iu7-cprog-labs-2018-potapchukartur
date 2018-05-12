@@ -36,16 +36,13 @@ int format_prov(const int argc)
     return HAPPY_END;
 }
 
-int fopen_prov(FILE **const f, const char *const filename,
-                               const char *const mode)
+FILE *fopen_try(const char *const filename, const char *const mode)
 {
+    FILE *f = fopen(filename, mode);
+    if (!f)
+        perror("Open file error");
     
-    *f = fopen(filename, mode);
-    
-    if (*f)
-        return HAPPY_END;
-    perror("Open file error");
-    return NON_HAPPY_END;
+    return f;
 }
 
 int print_trying(FILE *const to, const int what)
@@ -56,12 +53,11 @@ int print_trying(FILE *const to, const int what)
     return HAPPY_END;
 }
 
-int read_array(FILE *const f, int *sl, int **const el)
+FILE *read_array(FILE *const f, int *sl)
 {
     // sl <=> start_list
     // el <=> end_list
     int i;
-    _Bool flag = 1;
     
     while ((int)fscanf(f,"%d",&i) == 1)
     {   
@@ -70,15 +66,7 @@ int read_array(FILE *const f, int *sl, int **const el)
         flag = 0;
     }
     
-    *el = sl;
-    
-    if (flag)
-    {
-        fprintf(stderr,"The input file msut contain integers.\n");
-        return EMPTY_FILE;
-    }
-    
-    return HAPPY_END;
+    return sl;
 }
 
 
@@ -102,24 +90,6 @@ int major_work(int *sl, const int *const el)
     }
 
     return global_sum;
-}
-
-int open_files(FILE **const fone, const char *const name_fone,
-               FILE **const ftwo, const char *const name_ftwo) 
-{
-    if (fopen_prov(fone, name_fone, "r"))
-    {
-        perror("Open input file error");
-        return OPEN_INPUT_FILE_ERROR;
-    }
-
-    if (fopen_prov(ftwo, name_ftwo, "w"))
-    {
-        perror("Open output file error ");
-        return OPEN_OUTPUT_FILE_ERROR;
-    }
-    
-    return HAPPY_END;
 }
 
 int close_files(FILE *const fone, FILE *const ftwo)
@@ -151,11 +121,19 @@ int main(int argc, char **argv)
     if (format_prov(argc) == FORMAT_ERROR)
         return FORMAT_ERROR;
     
-    rc = open_files(&fin,*(argv + 1), &fout, *(argv + 2));
+    if (!(fin = fopen_try(*(argv + 1), "r")))
+        return OPEN_INPUT_FILE_ERROR;
+    
+    if (!(fout = fopen_try(*(argv + 2), "w")))
+    {
+        fclose(fin);
+        return OPEN_OUTPUT_FILE_ERROR;
+    }
     
     if (!rc)
     {
-        rc = read_array(fin, start_list, &end_list);
+        end_list = read_array(fin, start_list);
+        rc = (end_list == empty_file)? EMPTY_FILE : HAPPY_END; 
         if (!rc)
         {
             sum = major_work(start_list, end_list);
@@ -164,7 +142,7 @@ int main(int argc, char **argv)
                 rc = close_files(fin, fout);
         }
         else
-            close_files(fin,fout);
+            close_files(fin, fout);
     }
     else
         close_files(fin, fout);
