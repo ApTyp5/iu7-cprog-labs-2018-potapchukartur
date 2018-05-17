@@ -1,4 +1,7 @@
+#include <stdio.h>
 #include "tests.h"
+
+#define HAPPY_END 0
 
 int main()
 {

@@ -1,5 +1,7 @@
-#include "lab_06.h"
-
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include "read_write.h"
 
 int print_trying(FILE *const to, const int what)
 {

@@ -1,8 +1,6 @@
 #ifndef HAPPY_END
 
 #include <stdio.h>
-#include <errno.h>
-#include <string.h>
 
 #define N 100
 #define HAPPY_END 0
@@ -24,8 +22,8 @@ int fopen_prov(FILE **const f, const char *const filename,
 int print_trying(FILE *const to, const int what);
 int read_array(FILE *const f, int *sl, int **const el);
 int major_work(int *sl, const int *const el);
-int open_files(FILE **const fin, const char *const name_fone,
-               FILE **const fout, const char *const name_ftwo);
-int close_files(FILE *const fin, FILE *const fout);
+int open_files(FILE **const fone, const char *const name_fone,
+               FILE **const ftwo, const char *const name_ftwo);
+int close_files(FILE *const fone, FILE *const ftwo);
 
 #endif

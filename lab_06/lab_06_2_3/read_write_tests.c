@@ -1,4 +1,5 @@
 ﻿#include "tests.h"
+#include "read_write.h"
 
 
 void test_31(FILE *f)
@@ -22,7 +23,7 @@ void test_31(FILE *f)
     if (our_result == right_result)
         fprintf(f, "success");
     else
-        fprintf(f, "no success, test value -> %d", our_result);
+        fprintf(f, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
 
     fprintf(f,"\n");
 }
@@ -48,7 +49,7 @@ void test_32(FILE *f)
     if (our_result == right_result)
         fprintf(f, "success");
     else
-        fprintf(f, "no success, test value -> %d", our_result);
+        fprintf(f, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
 
     fprintf(f,"\n");
 }
@@ -82,7 +83,7 @@ void test_33(FILE *fout)
     if (right_result == our_result)
         fprintf(fout, "success");
     else
-        fprintf(fout, "no success, test value -> %d", our_result);
+        fprintf(fout, "no success, test value -> %d, expected value -> %d", our_result,EMPTY_FILE);
 
     fprintf(fout,"\n");
 }
@@ -117,7 +118,7 @@ void test_34(FILE *fout)
     if (right_result == our_result)
         fprintf(fout, "success");
     else
-        fprintf(fout, "no success, test value -> %d", our_result);
+        fprintf(fout, "no success, test value -> %d, expected value -> %d", our_result, EMPTY_FILE);
 
     fprintf(fout,"\n");
 }
@@ -152,7 +153,7 @@ void test_35(FILE *fout)
     if (right_result == our_result)
         fprintf(fout, "success");
     else
-        fprintf(fout, "no success, test value -> %d", our_result);
+        fprintf(fout, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
 
     fprintf(fout,"\n");
 }

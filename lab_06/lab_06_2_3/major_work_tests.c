@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include "tests.h"
+#include "major_work.h"
 
 void test_11(FILE *f)
 {

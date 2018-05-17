@@ -1,4 +1,10 @@
-#include "lab_06.h"
+#include "read_write.h"
+#include "open_close_file.h"
+#include "major_work.h"
+#include "format.h"
+#include <stdio.h>
+
+#define N 10
 
 
 

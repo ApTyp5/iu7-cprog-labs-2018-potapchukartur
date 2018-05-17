@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include "tests.h"
+#include "format.h"
 
 #define TESTS_DATA "format_tests.txt"
 

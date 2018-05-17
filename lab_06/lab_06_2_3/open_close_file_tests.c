@@ -1,4 +1,6 @@
-﻿#include "tests.h"
+﻿#include <stdio.h>
+#include "tests.h"
+#include "open_close_file.h"
 
 
 
@@ -26,7 +28,7 @@ void test_21(FILE *fout)
     if (our_result == right_result)
         fprintf(fout, "success");
     else
-        fprintf(fout, "no success, test value -> %d", our_result);
+        fprintf(fout, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
     
     fprintf(fout,"\n");
 }
@@ -53,7 +55,7 @@ void test_22(FILE *fout)
     if (our_result == right_result)
         fprintf(fout, "success");
     else
-        fprintf(fout, "no success, test value -> %d", our_result);
+        fprintf(fout, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
     
     fprintf(fout,"\n");
 }
@@ -80,7 +82,7 @@ void test_23(FILE *fout)
     if (our_result == right_result)
         fprintf(fout, "success");
     else
-        fprintf(fout, "no success, test value -> %d", our_result);
+        fprintf(fout, "no success, test value -> %d, expected value -> %d", our_result,NON_HAPPY_END);
     
     fprintf(fout,"\n");
 }
@@ -111,7 +113,7 @@ void test_24(FILE *f)
     if (our_result == right_result)
         fprintf(f,"success");
     else
-        fprintf(f, "no success, test value -> %d", our_result);
+        fprintf(f, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
     
     fprintf(f,"\n");
 }
@@ -138,7 +140,7 @@ void test_25(FILE *f)
     if (our_result == right_result)
         fprintf(f,"success");
     else
-        fprintf(f, "no success, test value -> %d", our_result);
+        fprintf(f, "no success, test value -> %d, expected value -> %d", our_result, OPEN_INPUT_FILE_ERROR);
     
     fprintf(f,"\n");
 }
@@ -160,7 +162,7 @@ void test_26(FILE *f)
     if (right_result == our_result)
         fprintf(f, "success");
     else
-        fprintf(f,"no success, test value -> %d", our_result);
+        fprintf(f,"no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
     
     fprintf(f, "\n");
 }
@@ -183,7 +185,7 @@ void test_27(FILE *f)
     if (right_result == our_result)
         fprintf(f,"success");
     else
-        fprintf(f,"no success, test value -> %d ", our_result);
+        fprintf(f,"no success, test value -> %d, expected value -> %d", our_result, CLOSE_INPUT_FILE_ERROR);
     
     fprintf(f,"\n");
 }
@@ -207,7 +209,7 @@ void test_28(FILE *f)
     if (right_result == our_result)
         fprintf(f,"success");
     else
-        fprintf(f,"no success, test value -> %d", our_result);
+        fprintf(f,"no success, test value -> %d, expected value -> %d", our_result, CLOSE_OUTPUT_FILE_ERROR);
 
     fprintf(f,"\n");
 }
@@ -230,7 +232,7 @@ void test_29(FILE *f)
     if (right_result == our_result)
         fprintf(f,"success");
     else
-        fprintf(f,"no success, test value -> %d", our_result);
+        fprintf(f,"no success, test value -> %d, expected value -> %d", our_result, CLOSE_INPUT_FILE_ERROR);
 
     fprintf(f,"\n");
 }

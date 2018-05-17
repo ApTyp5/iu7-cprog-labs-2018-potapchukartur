@@ -1,4 +1,4 @@
-#include "lab_06.h"
+
 
 #ifndef UNEXISTING_FILE
 

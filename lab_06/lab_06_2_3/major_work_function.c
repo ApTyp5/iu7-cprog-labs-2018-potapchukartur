@@ -1,9 +1,8 @@
-#include "lab_06.h"
+#include <stdio.h>
+#include "major_work.h"
 
 
-// —читает сумму x[0] + x[0]*x[1] + ... + x[0]*...*[m]
-// где "m" - первый отрицательный элемент, либо, если таковой не нашлось,
-// то последний элемент массива
+
 
 int major_work(int *sl, const int *const el)
 {

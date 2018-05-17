@@ -1,7 +1,5 @@
-#include "lab_06.h"
-
-
-
+#include <stdio.h>
+#include "format.h"
 
 void format_help()
 {
