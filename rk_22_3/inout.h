@@ -14,6 +14,6 @@
 #define INOUT
 
 void panswer(int need, int *a);
-int user_input(*n, *a, *num)
+int user_input(int *n, int *a, int *num);
 
 #endif

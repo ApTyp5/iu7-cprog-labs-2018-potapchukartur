@@ -1,16 +1,17 @@
-#include limits.h
+#include <limits.h>
+#include "fill.h"
 
 
 void fill_sing_sort(int *s_s, int *kvo)
 {
     int max = -1;
-    int roof = MAX_INT;
+    int roof = INT_MAX;
     for (int i = 0; i < 4; i++)
     {
         max = -1;
-        for (int j = 0; i < 4, j++)
+        for (int j = 0; i < 4; j++)
             if (kvo[j] > max && kvo[j] < roof)
-                max = kvo[j]
+                max = kvo[j];
         
         s_s[i] = max;
         roof = max;

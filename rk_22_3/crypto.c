@@ -21,16 +21,20 @@ int code(char c)
         return 2;
     else if (str_equiv(c, 'G'))
         return 3;
+	else
+		return NON_HAPPY_END;
 }
 
 char decode(int n)
 {
     if (n == 0)
-        return 'A'
+        return 'A';
     else if (n == 1)
-        return 'C'
+        return 'C';
     else if (n == 2)
-        return 'T'
+        return 'T';
     else if (n == 3)
-        return 'G'
+        return 'G';
+	else
+		return NON_HAPPY_END;
 }

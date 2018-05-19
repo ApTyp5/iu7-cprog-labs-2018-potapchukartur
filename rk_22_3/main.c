@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "crypto.h"
-
+#include "fill.h"
+#include "inout.h"
 
 
 int main()
