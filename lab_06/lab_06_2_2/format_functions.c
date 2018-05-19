@@ -1,8 +1,5 @@
 #include <stdio.h>
-
-#define HAPPY_END 0
-#define FORMAT_ERROR -2
-
+#include "format.h"
 
 void format_help()
 {

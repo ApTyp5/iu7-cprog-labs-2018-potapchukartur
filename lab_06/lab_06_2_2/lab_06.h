@@ -1,8 +1,6 @@
 #ifndef HAPPY_END
 
 #include <stdio.h>
-#include <errno.h>
-#include <string.h>
 
 #define N 100
 #define HAPPY_END 0

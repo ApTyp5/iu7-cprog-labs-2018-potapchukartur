@@ -2,13 +2,16 @@ CC = gcc
 LINK_COMMAND = -o
 COMPILE_COMMAND = -c
 FLAGS = -Wall -Werror -pedantic -std=c99
-INITIAL_OBJECT_FILES = main.o format-functions.o major-work-function.o open-close-functions.o read-write-functions.o
+PROJECT_OBJECT_FILES = format_functions.o major_work_function.o open_close_file_functions.o read_write_functions.o
+TEST_OBJECT_FILES = ./format_tests.o ./major_work_tests.o ./open_close_file_tests.o ./read_write_tests.o ./run_tests.o 
 
 
-app.exe: $(INITIAL_OBJECT_FILES)
+app.exe: $(PROJECT_OBJECT_FILES) main.o
 	$(CC) $(LINK_COMMAND) $@ $^ 
 
 %.o: %.c *.h
 	$(CC) $(COMPILE_COMMAND) $< $(FLAGS)
+    
 clean:
-	rm *.o *.exe
+	rm *.o *.exe *.txt
+    

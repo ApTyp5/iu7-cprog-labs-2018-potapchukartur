@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include "open_close_file.h"
 
-#define HAPPY_END 0
-#define NON_HAPPY_END -1
-#define OPEN_INPUT_FILE_ERROR -3
-#define OPEN_OUTPUT_FILE_ERROR -4
-#define CLOSE_INPUT_FILE_ERROR -6
-#define CLOSE_OUTPUT_FILE_ERROR -7
+
 
 
 int fopen_prov(FILE **const f, const char *const filename,

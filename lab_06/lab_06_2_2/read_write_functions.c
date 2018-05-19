@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-
-#define HAPPY_END 0
-#define EMPTY_FILE -10
-#define SAVE_ERROR -8
-
+#include "read_write.h"
 
 int print_trying(FILE *const to, const int what)
 {
