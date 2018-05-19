@@ -1,0 +1,33 @@
+
+format-tests:
+    the 'format-prov' tests:
+        test_01: success
+        test_02: success
+
+major-work-tests:
+    the 'major_work' tests:
+        test_11: success
+        test_12: success
+
+open-close-tests:
+    the 'fopen_prov' tests:
+        test_21: success
+        test_22: success
+        test_23: success
+    the 'open_files' tests:
+        test_24: success
+        test_25: success
+    the 'close_files' tests:
+        test_26: success
+        test_27: success
+        test_28: success
+        test_29: success
+
+read-write-tests:
+    the 'print_trying' tests:
+        test_31: success
+        test_32: success
+    the 'read_array' tests:
+        test_33: success
+        test_34: success
+        test_35: success
