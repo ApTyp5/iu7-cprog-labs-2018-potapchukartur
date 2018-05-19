@@ -23,7 +23,10 @@ void test_31(FILE *f)
     if (our_result == right_result)
         fprintf(f, "success");
     else
-        fprintf(f, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
+	{
+        fprintf(f, 'no success, test value -> %d, in: fopen(TEST_FILE,"w"), 0; ');
+		fprintf(f, 'expected value -> %d', our_result, HAPPY_END);
+	}
 
     fprintf(f,"\n");
 }
@@ -49,7 +52,10 @@ void test_32(FILE *f)
     if (our_result == right_result)
         fprintf(f, "success");
     else
-        fprintf(f, "no success, test value -> %d, expected value -> %d", our_result, HAPPY_END);
+    {
+        fprintf(f, 'no success, test value -> %d, in: fopen(TEST_FILE,"r"),  0; ');
+        fprintf(f, 'expected value -> %d', our_result, HAPPY_END);
+    }
 
     fprintf(f,"\n");
 }

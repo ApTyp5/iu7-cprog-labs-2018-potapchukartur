@@ -17,7 +17,7 @@ void test_01(FILE *f)
     
     int right_result = HAPPY_END;
     
-    fprintf(f,"        test_01: ");
+    fprintf(f,"        %s: ",__func__);
     
     if (our_result == right_result)
         fprintf(f,"success");
