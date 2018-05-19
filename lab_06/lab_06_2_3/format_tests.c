@@ -22,7 +22,7 @@ void test_01(FILE *f)
     if (our_result == right_result)
         fprintf(f,"success");
     else
-        fprintf(f,"no success, test value -> %d",our_result);
+        fprintf(f,"no success, in:%d, test value -> %d",argc,our_result);
     fprintf(f,"\n");
 }
 
@@ -43,7 +43,7 @@ void test_02(FILE *f)
     if (our_result == right_result)
         fprintf(f,"success");
     else
-        fprintf(f,"no success, test value -> %d",our_result);
+        fprintf(f,"no success, in:%d, test value -> %d",i,our_result);
     fprintf(f,"\n");
 }
 

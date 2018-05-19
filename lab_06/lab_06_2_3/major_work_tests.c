@@ -20,7 +20,10 @@ void test_11(FILE *f)
     if (our_result == right_result)
         fprintf(f,"success\n");
     else
-        fprintf(f,"no success, test value -> %d\n",our_result);
+	{
+        fprintf(f,"no success, in:[1, 3, 5, -2] ");
+		fprintf(f,"test value -> %d\n",our_result);
+	}
 }
 
 void test_12(FILE *f)
@@ -41,7 +44,10 @@ void test_12(FILE *f)
     if (our_result == right_result)
         fprintf(f,"success\n");
     else
-        fprintf(f,"no success, test value -> %d\n",our_result);
+	{
+		fprintf(f,"no success, in:[1, 3, 5, 2] ");
+		fprintf(f,"test value -> %d\n",our_result);
+	}
 }
 
 void major_work_tests(FILE *f)
