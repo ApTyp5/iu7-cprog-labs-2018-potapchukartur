@@ -16,7 +16,10 @@ int user_input(int *n, int *a, int *num)
             return WRONG_INPUT;
         else
             *(a + code(c)) += 1;
-		
+	
+	if (scanf("%d",n) == 0)
+        return WRONG_INPUT;
+	
     return HAPPY_END;
 }
 
