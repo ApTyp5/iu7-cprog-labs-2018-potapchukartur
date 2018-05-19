@@ -21,3 +21,4 @@ clean:
 run_tests: tests.exe
 	./tests
 	rm *.o *.exe *.txt
+	cat test.results
