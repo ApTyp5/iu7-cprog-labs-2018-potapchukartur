@@ -5,6 +5,6 @@
 #ifndef FILL
 #define FILL
 
-fill_sing_sort(s_s, kvo);
+void fill_sing_sort(int *s_s, int *kvo)
 
 #enif

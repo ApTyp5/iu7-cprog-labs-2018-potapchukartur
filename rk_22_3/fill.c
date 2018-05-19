@@ -1,7 +1,7 @@
 #include limits.h
 
 
-void fill_sing_sort(s_s, kvo)
+void fill_sing_sort(int *s_s, int *kvo)
 {
     int max = -1;
     int roof = MAX_INT;
