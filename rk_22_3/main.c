@@ -9,7 +9,7 @@ int main()
     int number; // Номер частоты 
     int s_s[4] = {0};// Множество всех значений kvo
     
-    user_input(*&, kvo, &number);
+    user_input(&n, kvo, &number);
     
     fill_sing_sort(s_s, kvo);
     
