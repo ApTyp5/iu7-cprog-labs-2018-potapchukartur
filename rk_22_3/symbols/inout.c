@@ -5,85 +5,85 @@
 #include "inout.h"
 #include <string.h>
 
-#define		HAPPY_END	0
-#define		NON_HAPPY_END	-2
-#define		N		4
-#define		ARR		"AGTH"
+#define        HAPPY_END    0
+#define        NON_HAPPY_END    -2
+#define        N        4
+#define        ARR        "AGTH"
 
 int user_input(const char *const filename, int *const kvo, int *const num)
 {
-	char c;
-     	FILE *f = fopen_try(filename, "r");
-       	
-	if (!f)
-		return NON_HAPPY_END;
+    char c;
+         FILE *f = fopen_try(filename, "r");
+           
+    if (!f)
+        return NON_HAPPY_END;
 
-	for (;;)
-	{
-		if (fscanf(f, "%c", &c))
-		{
-			if (c == ' ')
-				continue;
-			fprintf(stderr, "%c\n", c);
-			
-			if (in(c, ARR, N) == 0)
-				kvo[coding(c)] += 1;
-			
-			
-			else if (c <= '9' && c >= '0')
-			{
-				*num = (int)c - (int)'0';
-				break;
-			}
-			
-			else
-			{
-				ending(f);
-				return NON_HAPPY_END;
-			}	
-		}
-		else
-		{
-			ending(f);		
-			return 	NON_HAPPY_END;
-		}	
-	}
+    for (;;)
+    {
+        if (fscanf(f, "%c", &c))
+        {
+            if (c == ' ')
+                continue;
+            fprintf(stderr, "%c\n", c);
+            
+            if (in(c, ARR, N) == 0)
+                kvo[coding(c)] += 1;
+            
+            
+            else if (c <= '9' && c >= '0')
+            {
+                *num = (int)c - (int)'0';
+                break;
+            }
+            
+            else
+            {
+                ending(f);
+                return NON_HAPPY_END;
+            }    
+        }
+        else
+        {
+            ending(f);        
+            return     NON_HAPPY_END;
+        }    
+    }
 
-	if (fclose_try(f))
-		return NON_HAPPY_END;
+    if (fclose_try(f))
+        return NON_HAPPY_END;
 
-	return HAPPY_END;
+    return HAPPY_END;
 }
 
 
 void ending(FILE *f)
 {
-	fclose(f);
-	fprintf(stderr, "Wrong intput! The input must ");
-	fprintf(stderr, "contain a 'A' 'G' 'T' 'H' ");
-	fprintf(stderr, " massive and a number in the end\n");
+    fclose(f);
+    fprintf(stderr, "Wrong intput! The input must ");
+    fprintf(stderr, "contain a 'A' 'G' 'T' 'H' ");
+    fprintf(stderr, " massive and a number in the end\n");
 }
 
 
 int fclose_try(FILE *f)
 {
-	int rc = fclose(f);
+    int rc = fclose(f);
 
-	if (rc)
-		perror("Can't close file");
+    if (rc)
+        perror("Can't close file");
 
-	return rc;
+    return rc;
 }
 
 
 FILE *fopen_try(const char *const filename, const char *const mod)
 {
-	FILE *f = NULL;
-	f = fopen(filename, "r");
+    FILE *f = NULL;
+    f = fopen(filename, "r");
 
-	if (!f)
-		fprintf(stderr, "Can't open the %s file: %s\n", filename, strerror(errno));
+    if (!f)
+        fprintf(stderr, "Can't open the %s file: %s\n", filename, strerror(errno));
 
-	return f;
-	
+    return f;
+    
 }

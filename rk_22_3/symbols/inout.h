@@ -1,7 +1,7 @@
-#define		HAPPY_END	0
-#define		NON_HAPPY_END	-2
-#define		N		4
-#define		ARR		"AGTH"
+#define        HAPPY_END    0
+#define        NON_HAPPY_END    -2
+#define        N        4
+#define        ARR        "AGTH"
 
 #ifndef __INOUT_H__
 #define __INOUT_H__
