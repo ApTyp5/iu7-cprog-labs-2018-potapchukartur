@@ -30,6 +30,18 @@ int main(const int argc, const char **const argv)
         rc = panswer(argv[2], num, psorted, kvo);
     
     }
+=======
+    fprintf(stdout, "kvo['A' 'G' 'T' 'H']: ");
+    for (int i = 0; i < N; i++)
+        fprintf(stdout, "%d ", kvo[i]);
+
+//    if (!rc)
+//    {
+//        sort(kvo, sorted);
+//        rc = panswer(num, sorted, kvo);
+//    
+//    }
+>>>>>>> 1dd6cbb231534f9d042daf35211596613ccdfbd2
 
     return rc;
 }
