@@ -52,7 +52,6 @@ int user_input(const char *const filename, int *const kvo, int *const num)
         return NON_HAPPY_END;
 
     return HAPPY_END;
-<<<<<<< HEAD
 }
 
 
@@ -72,8 +71,6 @@ int panswer(const char *const filename, const int num, const int *const sort, co
         return NON_HAPPY_END;
 
     return HAPPY_END;
-=======
->>>>>>> 1dd6cbb231534f9d042daf35211596613ccdfbd2
 }
 
 
@@ -102,11 +99,7 @@ int fclose_try(FILE *f)
 FILE *fopen_try(const char *const filename, const char *const mod)
 {
     FILE *f = NULL;
-<<<<<<< HEAD
     f = fopen(filename, mod);
-=======
-    f = fopen(filename, "r");
->>>>>>> 1dd6cbb231534f9d042daf35211596613ccdfbd2
 
     if (!f)
         fprintf(stderr, "Can't open the %s file: %s\n", filename, strerror(errno));
