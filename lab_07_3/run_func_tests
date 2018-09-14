@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+TESTDIR=./func_tests
+EX=./a.exe
+
+
+
+for (( i = 1; i <= 3; i++))
+do
+	$EX $TESTDIR/in_$i out
+	if diff out $TESTDIR/out_$i 
+	then
+		echo "Test $i successfully completed"
+	else
+		echo "The $i test answer is wrong"
+	fi
+done
+
+for (( i = 4; i <= 6; i++))
+do
+	$EX $TESTDIR/in_$i out -f
+	if diff out $TESTDIR/out_$i
+	then
+		echo "Test $i successfully completed"
+	else
+		echo "The $i test answer is wrong"
+	fi
+done
+	
+	
+
+
+
+
+

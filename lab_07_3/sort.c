@@ -6,7 +6,6 @@
 
 
 
-
 int intComp(void *arg1, void *arg2)
 {
 	return *(int *)arg1 - *(int *)arg2;
@@ -18,7 +17,9 @@ void intElCopy(int *what, int *where)
 {
 	*where = *what;
 }
+
 		
+
 //
 // Binary pastes
 //
@@ -27,6 +28,7 @@ void mysort(void *start, void *end, int elSize, int (*comparator)(void *, void *
 	void *tmp = malloc(elSize);
 	void *insPlace;
 	start += elSize;
+
 
 
 	for (int i = 0; start < end; i++, start += elSize)
@@ -39,6 +41,9 @@ void mysort(void *start, void *end, int elSize, int (*comparator)(void *, void *
 			intElCopy(tmp, insPlace);
 		}
 	}
+
+
+
 	free(tmp);
 }
 
@@ -48,7 +53,7 @@ void mysort(void *start, void *end, int elSize, int (*comparator)(void *, void *
 
 //
 // Возвращает указатель на первый эл-т длины elSize,
-// превышающий *compEl на ОТРЕЗКЕ [*leftEl .. *rightEl]
+// превышающий или равный *compEl на ОТРЕЗКЕ [*leftEl .. *rightEl]
 //
 void *binarySeek(int *leftEl, int *rightEl, int *compEl, int (*comparator)(void *, void *))
 {
@@ -60,7 +65,7 @@ void *binarySeek(int *leftEl, int *rightEl, int *compEl, int (*comparator)(void 
 		for (int i = 0; i < (rightEl - leftEl)/2; i++)
 			tmp += 1;
 
-		if ((*comparator)(compEl, tmp) >= 0)
+		if ((*comparator)(tmp, compEl) < 0)
 		{
 			leftEl = tmp;
 			continue;
@@ -69,7 +74,8 @@ void *binarySeek(int *leftEl, int *rightEl, int *compEl, int (*comparator)(void 
 		rightEl = tmp;
 	}
 
-	return  leftEl;
+
+	return *leftEl >= *compEl ? leftEl : rightEl;
 }
 
 

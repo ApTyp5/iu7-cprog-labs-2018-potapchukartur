@@ -7,7 +7,7 @@
 
 void readArr(FILE *f, int start, int end, int *mp)
 {
-	fseek(f, start, SEEK_SET);
+	fseek(f, start * sizeof(int), SEEK_SET);
 	for (int i = start; i < end; i++)
 		fscanf(f, "%d", mp++);
 }
@@ -16,5 +16,6 @@ void readArr(FILE *f, int start, int end, int *mp)
 void writeArr(FILE *f, int *mstart, int *mend)
 {
 	for ( ; mstart < mend; )
-		fprintf(f, "%d", *mstart++);
+		fprintf(f, "%d ", *mstart++);
+	fprintf(f, "\n");
 }

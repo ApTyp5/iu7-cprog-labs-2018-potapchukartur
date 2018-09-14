@@ -7,9 +7,11 @@
 
 int check_int_file(FILE *f)
 {
+	rewind(f);
 	int tmp, i, j = 1;
 	for (i = -1; j > 0; i++)
 		j = fscanf(f, "%d", &tmp);
+
 
 	if (!j)
 	{
@@ -33,14 +35,16 @@ int check_int_file(FILE *f)
 
 
 //
-// Возвращает границы элементов, начиная с 0 и до последнего 
-// отрицательного
+// Возвращает порядковые номера элементов, начиная с 0 и до элемента,
+// находящегося за последним отицательным
 //
 int till_last_less_0(FILE *f, int *start, int *end)
 {
+	rewind(f);
 	*start = 0;
+	*end = 0;
 
-	for (int i, j, *end = 0; !feof(f); j++)
+	for (int i, j = 0; !feof(f); j++)
 	{
 		fscanf(f, "%d", &i);
 		if (i < 0)
@@ -49,6 +53,8 @@ int till_last_less_0(FILE *f, int *start, int *end)
 
 	if (!(*end))
 		common_int_filt(f, start, end);
+	else
+		*end += 1;
 
 	return HAPPY_END;
 }
@@ -56,12 +62,14 @@ int till_last_less_0(FILE *f, int *start, int *end)
 
 
 //
-// Пустой фильтр
+// Классический фильтр: возвращает порядковые номера элементов от 0
+// и до элемента, находящегося за последним
 //
 int common_int_filt(FILE *f, int *start, int *end)
 {
+	rewind(f);
 	*end = 0;
-	for ( ; fscanf(f, "%d", start); (*end)++)
+	for ( ; fscanf(f, "%d", start) > 0; (*end)++)
 		;
 	*start = 0;
 
@@ -70,7 +78,7 @@ int common_int_filt(FILE *f, int *start, int *end)
 
 
 // 
-//Фильтрация + установка границ считывания
+// Фильтрация + установка границ считывания
 //
 int setBorders(FILE *f, int (*filtFunc)(FILE *, int *, int *),\
 	       	int (*checkFunc)(FILE *), int *start, int *end) 
