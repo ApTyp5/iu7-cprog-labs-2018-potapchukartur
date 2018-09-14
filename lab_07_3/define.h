@@ -1,18 +1,17 @@
 
+// If you need warning messages, define the NDEBUG flag behind
+
 #ifndef __DEFINE_H__
-#define	__DEFINE_H__
+#define    __DEFINE_H__
 
-#define			NDEBUG
-#define			HAPPY_END		0
-#define			NON_HAPPY_END		-1
-#define 		FORMAT_ERROR		-2
-#define			FOPEN_ERROR		-3
-#define			FCLOSE_ERROR		-4
-#define			ALLOCATION_ERROR	-5
-#define			EMPTY_FILE		-6
-#define			WRONG_INPUT		-7
-
-#define			PSIZE			8
+#define            HAPPY_END             0
+#define            NON_HAPPY_END        -1
+#define            FORMAT_ERROR         -2
+#define            FOPEN_ERROR          -3
+#define            FCLOSE_ERROR         -4
+#define            ALLOCATION_ERROR     -5
+#define            EMPTY_FILE           -6
+#define            WRONG_INPUT          -7
 
 #endif
 

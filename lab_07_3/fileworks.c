@@ -5,41 +5,32 @@
 #include "define.h"
 
 
+
 FILE *fopen_try(char *filename, char *mod)
 {
-	FILE *f = NULL;
-	f = fopen(filename, mod);
+    FILE *f = NULL;
+    f = fopen(filename, mod);
 
-
-
-#ifdef	NDEBUG
-	if (!f)
-		fprintf(stderr, "Can't open %s: %s\n", filename, strerror(errno));
+#ifdef    NDEBUG
+    if (!f)
+        fprintf(stderr, "Can't open %s: %s\n", filename, strerror(errno));
 #endif
 
-
-
-	return f;
+    return f;
 }
 
 
 int fclose_try(FILE *f)
 {
-	if (fclose(f))
-	{
-		
-
-
-#ifdef	NDEBUG
-		perror("Can't close file");
+    if (fclose(f))
+    {
+#ifdef    NDEBUG
+        perror("Can't close file");
 #endif
+        return NON_HAPPY_END;
+    }
 
-
-
-		return NON_HAPPY_END;
-	}
-
-	return HAPPY_END;
+    return HAPPY_END;
 }
 
 
