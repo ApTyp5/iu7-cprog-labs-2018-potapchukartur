@@ -2,14 +2,23 @@
 #include <errno.h>
 #include <string.h>
 #include "fileworks.h"
+#include "define.h"
 
 
 FILE *fopen_try(char *filename, char *mod)
 {
 	FILE *f = NULL;
 	f = fopen(filename, mod);
+
+
+
+#ifdef	NDEBUG
 	if (!f)
 		fprintf(stderr, "Can't open %s: %s\n", filename, strerror(errno));
+#endif
+
+
+
 	return f;
 }
 
@@ -18,29 +27,19 @@ int fclose_try(FILE *f)
 {
 	if (fclose(f))
 	{
-		perror("Can't close file\n");
+		
+
+
+#ifdef	NDEBUG
+		perror("Can't close file");
+#endif
+
+
+
 		return NON_HAPPY_END;
 	}
 
 	return HAPPY_END;
 }
 
-void readArr(FILE *f, int start, int end, int *mp)
-{
-	rewind(f);
-	for (int i = 0, j; i < start; i++)
-		fscanf(f, "%d", &j);
-	for (int i = start; i < end; i++)
-		fscanf(f, "%d", mp++);
-}
-
-void writeArr(FILE *f, int *mp, int len)
-{
-	for (int i = 0; i < len; i++)
-		fprintf(f, "%d ", *mp++);
-	fprintf(f, "\n");
-}
-
-	
-	
 
