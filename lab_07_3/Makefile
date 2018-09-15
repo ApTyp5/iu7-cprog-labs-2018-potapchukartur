@@ -2,6 +2,7 @@ CC := gcc
 FLAGS := -Wall -Werror
 REL_OBJ := main.o fileworks.o filt.o inout.o sort.o
 TES_OBJ := test.o fileworks.o filt.o inout.o sort.o
+SORT_CMP_OBJ := sort_cmp.o sort.o
 
 
 
@@ -16,6 +17,13 @@ mod_tests: run_tests.exe
 func_tests: a.exe
 	./run_func_tests	
 	rm out
+
+sort_cmp: sort_cmp.exe
+	./$<
+
+sort_cmp.exe: $(SORT_CMP_OBJ)
+	$(CC) -o $@ $^
+	
 	
 run_tests.exe: $(TES_OBJ)
 	$(CC) -o $@ $^

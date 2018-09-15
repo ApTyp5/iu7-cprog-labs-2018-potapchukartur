@@ -5,7 +5,7 @@
 
 
 
-int check_int_file(FILE *f)
+int check_int_file(FILE *const f)
 {
     rewind(f);
     int tmp, i, j = 1;
@@ -41,7 +41,7 @@ int check_int_file(FILE *f)
 // Возвращает порядковые номера элементов, начиная с 0 и до элемента,
 // находящегося за последним отицательным
 //
-int till_last_less_0(FILE *f, int *start, int *end)
+int till_last_less_0(FILE *const f, int *const start, int *const end)
 {
     rewind(f);
     *start = 0;
@@ -70,7 +70,7 @@ int till_last_less_0(FILE *f, int *start, int *end)
 // Классический фильтр: возвращает порядковые номера элементов от 0
 // и до элемента, находящегося за последним
 //
-int common_int_filt(FILE *f, int *start, int *end)
+int common_int_filt(FILE *const f, int *const start, int *const end)
 {
     rewind(f);
     *end = 0;
@@ -87,8 +87,8 @@ int common_int_filt(FILE *f, int *start, int *end)
 // 
 // Фильтрация + установка границ считывания
 //
-int setBorders(FILE *f, int (*filtFunc)(FILE *, int *, int *),\
-               int (*checkFunc)(FILE *), int *start, int *end) 
+int setBorders(FILE *const f, int (*filtFunc)(FILE *const, int *const, int *const),\
+               int (*checkFunc)(FILE *const), int *const start, int *const end) 
 {
     int rc = (*checkFunc)(f);
     if (!rc)

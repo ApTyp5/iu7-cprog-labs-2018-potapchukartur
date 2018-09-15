@@ -3,8 +3,10 @@
 #ifndef __INOUT_H__
 #define __INOUT_H__
 
-void readArr(FILE *f, int start, int end, int *mp);
-void writeArr(FILE *f, int *mstart, int *mend);
+#include <stdio.h>
+
+void readArr(FILE *f, const int start, const int end, int *mp);
+void writeArr(FILE *const f, int *mstart, const int *const mend);
 
 #endif
 

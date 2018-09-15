@@ -5,14 +5,14 @@
 
 
 
-int intComp(void *arg1, void *arg2)
+int intComp(const void *arg1, const void *arg2)
 {
     return *(int *)arg1 - *(int *)arg2;
 }
 
 
 
-void intElCopy(int *what, int *where)
+void intElCopy(int *const what, int *const where)
 {
     *where = *what;
 }
@@ -22,7 +22,7 @@ void intElCopy(int *what, int *where)
 //
 // Бинарные вставки
 //
-void mysort(void *start, void *end, int elSize, int (*comparator)(void *, void *))
+void mysort(void *start, void *end, const int elSize, int (*comparator)(const void *, const void *))
 {
     void *tmp = malloc(elSize);
     void *insPlace;
@@ -54,7 +54,7 @@ void mysort(void *start, void *end, int elSize, int (*comparator)(void *, void *
 // Возвращает указатель на первый эл-т длины elSize,
 // превышающий или равный *compEl на ОТРЕЗКЕ [*leftEl .. *rightEl]
 //
-void *binarySeek(int *leftEl, int *rightEl, int *compEl, int (*comparator)(void *, void *))
+void *binarySeek(int *leftEl, int *rightEl, const int *const compEl, int (*comparator)(const void *, const void *))
 {
     int *tmp;
 
@@ -86,7 +86,7 @@ void *binarySeek(int *leftEl, int *rightEl, int *compEl, int (*comparator)(void 
 // Передвигает int-ы на отрезке [*leftEl ..  *rightEl]
 // на step шагов вправо
 // 
-void moveRight(int *leftEl, int *rightEl, int step)
+void moveRight(const int *const leftEl, int *rightEl, const int step)
 {
     for ( ; rightEl > leftEl - 1; rightEl--)
     {

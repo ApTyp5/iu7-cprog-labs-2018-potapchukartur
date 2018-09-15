@@ -6,7 +6,7 @@
 
 
 
-FILE *fopen_try(char *filename, char *mod)
+FILE *fopen_try(const char *const filename, const char *const mod)
 {
     FILE *f = NULL;
     f = fopen(filename, mod);
@@ -20,7 +20,7 @@ FILE *fopen_try(char *filename, char *mod)
 }
 
 
-int fclose_try(FILE *f)
+int fclose_try(FILE *const f)
 {
     if (fclose(f))
     {

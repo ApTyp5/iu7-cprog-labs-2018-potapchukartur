@@ -8,8 +8,8 @@
 #include "fileworks.h"
 
 
-void *malloc_try(size_t);
-int format_check(int);
+void *malloc_try(const size_t);
+int format_check(const int);
 
 
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 
 
 
-void *malloc_try(size_t size)
+void *malloc_try(const size_t size)
 {
     void *result = malloc(size);
     if (!result)
@@ -113,7 +113,7 @@ void *malloc_try(size_t size)
         
 
 
-int format_check(int argc)
+int format_check(const int argc)
 {
     if (argc != 3 && argc != 4)
     {

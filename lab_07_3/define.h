@@ -2,7 +2,7 @@
 // If you need warning messages, define the NDEBUG flag behind
 
 #ifndef __DEFINE_H__
-#define    __DEFINE_H__
+#define __DEFINE_H__
 
 #define            HAPPY_END             0
 #define            NON_HAPPY_END        -1
