@@ -10,7 +10,7 @@ SORT_CMP_OBJ := sort_cmp.o sort.o
 a.exe: $(REL_OBJ)
 	$(CC) -o $@ $^
 
-mod_tests: run_tests.exe
+mod_tests: tests.exe
 	./run_tests.exe
 	rm *.exe *.o .*~ test.txt
 
@@ -25,7 +25,7 @@ sort_cmp.exe: $(SORT_CMP_OBJ)
 	$(CC) -o $@ $^
 	
 	
-run_tests.exe: $(TES_OBJ)
+tests.exe: $(TES_OBJ)
 	$(CC) -o $@ $^
 
 %.o: %.c *.h
