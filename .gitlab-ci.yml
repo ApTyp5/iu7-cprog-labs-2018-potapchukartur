@@ -1,10 +1,10 @@
 image: testing
 test:
-    tags:
-        - testing-docker
-    script:
-        -testing
-    artifacts:
-        paths: [report.txt.enc]
-        when: always
+  tags:
+    - testing-docker
+  script:
+    make mod_tests
+  artifacts:
+    paths: [report.txt.enc]
+    when: always
 
