@@ -3,7 +3,7 @@ test:
   tags:
     - testing-docker
   script:
-    make mod_tests
+    - testing
   artifacts:
     paths: [report.txt.enc]
     when: always
