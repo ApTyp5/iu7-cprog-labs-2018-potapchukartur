@@ -1,72 +1,31 @@
-#include <stdlib.h>
-#include "sort.h"
-#include "define.h"
 
+typedef int (*comparator)(const void *, const void *);
 
-
-
-int intComp(const void *arg1, const void *arg2)
+int int_comp(const void *int1, const void *int2)
 {
-    return *(int *)arg1 - *(int *)arg2;
+    return *(int*)int1 - *(int*)int2;
 }
 
 
 
-void intElCopy(int *const what, int *const where)
+void int_el_copy(int *const what, int *const where)
 {
     *where = *what;
 }
 
-        
-
 //
-// Бинарные вставки
-//
-void mysort(void *start, void *end, const int elSize, int (*comparator)(const void *, const void *))
-{
-    void *tmp = malloc(elSize);
-    void *insPlace;
-    start += elSize;
-
-
-
-    for (int i = 0; start < end; i++, start += elSize)
-    {
-        if (intComp(start, start - elSize) < 0)
-        {
-            intElCopy(start, tmp);
-            insPlace = binarySeek(start - (i + 1)*elSize, start - elSize, start, intComp);
-            moveRight(insPlace, start - elSize, 1);
-            intElCopy(tmp, insPlace);
-        }
-    }
-
-
-
-    free(tmp);
-}
-
-
-
-
-
-//
-// Возвращает указатель на первый эл-т длины elSize,
+// Возвращает указатель на первый элемент,
 // превышающий или равный *compEl на ОТРЕЗКЕ [*leftEl .. *rightEl]
-//
-void *binarySeek(int *leftEl, int *rightEl, const int *const compEl, int (*comparator)(const void *, const void *))
+int *binary_seek(int *leftEl, int *rightEl, const int *const compEl, comparator comp)
 {
     int *tmp;
-
-
-
     while (rightEl - leftEl > 1)
     {
         tmp = leftEl;
         for (int i = 0; i < (rightEl - leftEl)/2; i++)
             tmp += 1;
 
-        if ((*comparator)(tmp, compEl) < 0)
+        if ((comp)(tmp, compEl) < 0)
         {
             leftEl = tmp;
             continue;
@@ -80,19 +39,40 @@ void *binarySeek(int *leftEl, int *rightEl, const int *const compEl, int (*compa
     return *leftEl >= *compEl ? leftEl : rightEl;
 }
 
-
-
 // 
 // Передвигает int-ы на отрезке [*leftEl ..  *rightEl]
 // на step шагов вправо
 // 
-void moveRight(const int *const leftEl, int *rightEl, const int step)
+void move_right(const int *const leftEl, int *rightEl, const int step)
 {
     for ( ; rightEl > leftEl - 1; rightEl--)
     {
         *(rightEl + step) = *rightEl;
     }
 }
-        
-    
+
+
+
+void mysort(void *start, int len, int size, comparator comp)
+{
+    //void *end = start + len * size;
+    int *end = (int *)start + len;
+    int tmp;
+    int *ins_place;
+
+
+
+    for (int *begin = start; begin < end; begin++)
+        if (comp(begin, begin - 1) < 0)
+        {
+            int_el_copy(begin, &tmp);
+            ins_place = binary_seek(start, begin - 1, begin, comp);
+            move_right(ins_place, begin - 1, 1);
+            int_el_copy(&tmp, ins_place);
+        }
+}
+
+
+
+
 

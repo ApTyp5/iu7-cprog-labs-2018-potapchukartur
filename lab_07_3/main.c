@@ -1,127 +1,117 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "define.h"
-#include "filt.h"
-#include "inout.h"
-#include "sort.h"
+#include <stdlib.h>
 #include "fileworks.h"
+#include "sort.h"
+#include "filt.h"
+#include "define.h"
+
+#define db(a)   //printf("db(%d)\n ", a);
+#define dp(a)   printf("dp(%p)\n", (void*)a);
 
 
-void *malloc_try(const size_t);
-int format_check(const int);
+
+
+
+int format_check(int argc);
+void reference();
 
 
 
 int main(int argc, char **argv)
 {
-    int start = 0;
-    int end = 0;
-    int (*filt_func)(FILE *f, int *start, int *end) = common_int_filt;
-    int *mp = NULL;
-    int *emp = NULL;
 
+    int *in_pb = NULL;
+    int *in_pe = NULL;
 
+    int *out_pb = NULL;
+    int *out_pe = NULL;
 
-    int rc = format_check(argc); 
-    if (rc)
-    {
+    int *close_ptr = NULL;
+
+    if (format_check(argc))//done
         return FORMAT_ERROR;
-    }
 
-
-
-    FILE *f = fopen_try(argv[1], "r");
-    if (!f)
-    {
+    FILE *f = fopen_try(argv[1], "r");//done
+    if (f == NULL)
         return FOPEN_ERROR;
-    }
 
 
-
-    if (!rc)
-    {
-        if (argc == 4 && !strcmp(argv[3], "-f"))
-            filt_func = till_last_less_0;
-
-        rc = setBorders(f, filt_func, check_int_file, &start, &end);
-    }
-
+    int len = flen(f);//done
+    db(len)
+    int rc = frarr(f, len, &in_pb, &in_pe, &close_ptr);//done
 
 
     if (!rc)
-    {
-        mp = malloc_try(sizeof(int) * (end - start));
-        if (!mp)
-            rc = ALLOCATION_ERROR;
-
-        emp = mp + (end - start);
-    }
+        rc = fclose_try(f);//done
 
 
 
-    if (!rc)
-    {
-        readArr(f, start, end, mp);
-        if (fclose_try(f))
-            rc = FCLOSE_ERROR;
-    }
+
+    if (!rc && argc == 4 && !strcmp("f", argv[3]))
+        rc = key(in_pb, in_pe, &out_pb, &out_pe);//done
     else
-        fclose(f);
+    {
+        out_pb = in_pb;
+        out_pe = in_pe;
+    }
 
 
 
     if (!rc)
     {
-        mysort(mp, emp, sizeof(int), intComp);
-        f = fopen_try(argv[2], "w");
-        if (!f)
+        mysort(out_pb, out_pe - out_pb, sizeof(int), int_comp);
+        f = fopen_try(argv[2], "w");//done
+        if (f == NULL)
             rc = FOPEN_ERROR;
     }
 
 
-
     if (!rc)
-    {
-        writeArr(f, mp, emp);
-        rc = fclose_try(f);
-    }
+        fparr(f, out_pb, out_pe);//done
 
 
-    if (mp)
-        free(mp);
+    free(close_ptr);
+
+
+    if (rc && rc != FOPEN_ERROR)
+        fclose(f);
+    else 
+        rc = fclose_try(f);//done
 
     return rc;
 }
 
+    
 
-
-void *malloc_try(const size_t size)
+int format_check(int argc)
 {
-    void *result = malloc(size);
-    if (!result)
-    {
-#ifdef NDEBUG
-        fprintf(stderr, "Allocation error!\n");
-#endif
-
-
-    }
-
-    return result;
-}
-        
-
-
-int format_check(const int argc)
-{
-    if (argc != 3 && argc != 4)
+    if (argc!=3 && argc!=4)
     {
 #ifdef NDEBUG
         fprintf(stderr, "Format error!\n");
 #endif
-        return FORMAT_ERROR; 
+        return NON_HAPPY_END;
     }
 
     return HAPPY_END;
 }
+
+
+void reference()
+{
+#ifdef NDEBUG
+    printf("a.exe <in_file> <out_file> [f]\n");
+#endif
+}
+
+    
+
+
+
+
+
+
+
+    
+
+

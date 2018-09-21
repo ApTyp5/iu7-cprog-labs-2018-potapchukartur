@@ -2,7 +2,6 @@
 #include "define.h"
 #include "fileworks.h"
 #include "filt.h"
-#include "inout.h"
 #include "sort.h"
 
 #define        ___TEST(a)        printf("TEST(%d): ", a);
@@ -116,11 +115,11 @@ void tfileworks()
 ___TEST(1)
 
     char *mod = "r";
-    char *filename = tmpnam(NULL);
+    char *filename = "unexisting.txt";
     FILE *fexpRes = NULL;
     FILE *fresult = fopen_try(filename, mod);
 
-    printf("fopen_try(%s, %s)\t%p\t\t%p\t\t%s\n", "<tmpfile>", mod, fexpRes, fresult, fexpRes == fresult ? "SUCCESS" : "CRASH");
+    printf("fopen_try(%s, %s)\t%p\t\t%p\t\t%s\n", "<tmpfile>", mod, (void *)fexpRes, (void *)fresult, fexpRes == fresult ? "SUCCESS" : "CRASH");
     
 
 
@@ -131,7 +130,7 @@ ___TEST(2)
     int expRes = NON_HAPPY_END;
     int result = fclose_try(desc);
     
-    printf("fclose_try(%s)\t\t%d\t\t%d\t\t%s\n", "NULL", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("fclose_try(%s)\t\t%s\t\t%d\t\t%s\n", "NULL", "!= 0", result, result != HAPPY_END ? "SUCCESS" : "CRASH");
 
 
 
@@ -142,7 +141,29 @@ ___TEST(3)
     result = fclose_try(desc);
 
     printf("fclose_try(%s)\t%d\t\t%d\t\t%s\n", "<existing file>", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+___TEST(4)
+
+    int arr[5] = {1, 
+                  2,
+                  3,
+                  4,
+                  5,
+                   };
+    FILE *f = tmpfile();
+    for (int i = 0; i < 5; i++)
+        fprintf(f, "%d ", arr[i]);
+
+    expRes = 5;
+    result = flen(f);
+
+    printf( "flen(..)\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
 }
+
+    
+    
 
 
 
@@ -155,73 +176,43 @@ void tfilt()
 
 ___TEST(1)
 
-    FILE *f = tmpfile();
-    int expRes = EMPTY_FILE;
-    int result = check_int_file(f);
+    int arr[6] = {0, 1, 2, -3, 4, 5};
+    //[1, 2, 3, 4, 5]
+    int *start = arr + 1, *stop = arr + 5 + 1;
+    int *begin = NULL, *end = NULL;
 
-    printf("check_int_file(<%s>)\t%d\t\t%d\t\t%s\n", "emptyFile", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-    fclose(f);
+    key(start, stop, &begin, &end);
 
+    int result = end - begin;
+    int expRes = 3;
     
+
+    printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 ___TEST(2)
 
-    f = fopen("test.txt", "w");
-    fprintf(f, "%s", "asdf");
-    fclose(f);
-    f = fopen("test.txt", "r");
-    expRes = WRONG_INPUT;
-    result = check_int_file(f);
-    fclose(f);
+    arr[3] = 3; // [0, 1, 2, 3, 4, 5]
+    begin = NULL;
+    end = NULL;
 
-    printf("check_int_file(<%s>)\t%d\t\t%d\t\t%s\n", "abcFile", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    key(start, stop, &begin, &end);
 
+    result = end - begin;
+    expRes = 5;
+    printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(3)
 
-    f = tmpfile();
-    fprintf(f, "%d\n", 1);
-    expRes = HAPPY_END;
-    result = check_int_file(f);
-    fclose(f);
+    stop = start;
+    result = key(start, stop, &begin, &end);
+    expRes = EMPTY_FILE;
 
-    printf("check_int_file(<%s>)\t%d\t\t%d\t\t%s\n", "intFile", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(EMPTY ARR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
-
-
-___TEST(4)
-
-    f = tmpfile();
-    fprintf(f, "%d %d %d %d %d", 1, 2, -3, 4, 5);
-    int start = 0, end = 0;
-    till_last_less_0(f, &start, &end);
-    result = end;
-    expRes = 3;
-
-    printf("till_last_less_0(..)\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-
-
-    fclose(f);
-
-
-
-
-___TEST(5)
-
-    f = tmpfile();
-    fprintf(f, "%d %d %d %d %d", 1, 2, -3, 4, 5);
-    start = 0;
-    end = 0;
-    common_int_filt(f, &start, &end);
-    result = end;
-    expRes = 5;
-
-    printf("common_int_filt(..)\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-
-
-    fclose(f);
 }
+
+
 
 
 
@@ -229,7 +220,7 @@ ___TEST(5)
 
 void tsort()
 {
-    phat("sort.h");
+    phat("sort.c:");
 
 
 
@@ -242,7 +233,7 @@ ___TEST(1)
     for (int i = 2; i < 10; i++)
         c[i] = i - 1;
 
-    moveRight(a, a + 8, 1);
+    move_right(a, a + 8, 1);
 
     int result = intListEq(a, c, 10);
     int expRes = HAPPY_END;
@@ -272,7 +263,7 @@ ___TEST(2)
         5,
     };
 
-    moveRight(a1, a1 + 5, 3);
+    move_right(a1, a1 + 5, 3);
 
     result = intListEq(a1, c1, 10);
     expRes = HAPPY_END;
@@ -285,13 +276,14 @@ ___TEST(3)
 
     for (int i = 0; i < 4; i++)
         a[i] = i + 1;
+    // [ 1, 2, 3, 4]
 
     int compEl = 3;
     int *pCompEl = &compEl;
-    int *presult = binarySeek(a, a + 5, pCompEl, intComp);
+    int *presult = binary_seek(a, a + 5, pCompEl, int_comp);
     int *pexpRes = a+2;
 
-    printf("binarySeek(..)\t\t\t%d\t\t%d\t\t%s\n", *pexpRes, *presult, pexpRes == presult ? "SUCCESS" : "CRASH");
+    printf("binary_seek(..)\t\t%d\t\t%d\t\t%s\n", *pexpRes, *presult, pexpRes == presult ? "SUCCESS" : "CRASH");
 
 
 
@@ -303,7 +295,7 @@ ___TEST(4)
         c[i] = i;
     }
 
-    mysort(a, a + 10, sizeof(int), intComp);
+    mysort(a, 10, sizeof(int), int_comp);
     result = intListEq(a, c, 10);
     expRes = HAPPY_END;
 
@@ -338,7 +330,7 @@ ___TEST(5)
         93,
     };
 
-    mysort(d, d + 10, sizeof(int), intComp);
+    mysort(d, 10, sizeof(int), int_comp);
     result = intListEq(d, e, 10);
     expRes = HAPPY_END;
 

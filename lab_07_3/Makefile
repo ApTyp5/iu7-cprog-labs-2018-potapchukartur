@@ -1,18 +1,18 @@
 CC := gcc
-FLAGS := -Wall -Werror
-REL_OBJ := main.o fileworks.o filt.o inout.o sort.o
-TES_OBJ := test.o fileworks.o filt.o inout.o sort.o
+FLAGS := -Wall -Werror -std=c99 -pedantic 
+REL_OBJ := main.o fileworks.o filt.o sort.o
+TES_OBJ := test.o fileworks.o filt.o sort.o
 SORT_CMP_OBJ := sort_cmp.o sort.o
 
 
 
 
+
 a.exe: $(REL_OBJ)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ 
 
 mod_tests: tests.exe
-	./run_tests.exe
-	rm *.exe *.o .*~ test.txt
+	./tests.exe
 
 func_tests: a.exe
 	./run_func_tests	

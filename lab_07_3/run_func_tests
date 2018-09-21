@@ -17,9 +17,10 @@ do
 	fi
 done
 
+
 for (( i = 4; i <= 6; i++))
 do
-	$EX $TESTDIR/in_$i out -f
+	$EX $TESTDIR/in_$i out f
 	if diff out $TESTDIR/out_$i
 	then
 		echo "Test $i successfully completed"
@@ -28,6 +29,7 @@ do
 	fi
 done
 	
+
 	
 
 
