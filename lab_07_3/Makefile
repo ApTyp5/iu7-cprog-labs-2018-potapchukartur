@@ -8,13 +8,13 @@ SORT_CMP_OBJ := sort_cmp.o sort.o
 
 
 
-a.exe: $(REL_OBJ)
+app.exe: $(REL_OBJ)
 	$(CC) -o $@ $^ 
 
 mod_tests: tests.exe
 	./tests.exe
 
-func_tests: a.exe
+func_tests: app.exe
 	./run_func_tests	
 	rm out
 
@@ -25,7 +25,7 @@ sort_cmp.exe: $(SORT_CMP_OBJ)
 	$(CC) -o $@ $^
 	
 	
-tests.exe: $(TES_OBJ)
+test.exe: $(TES_OBJ)
 	$(CC) -o $@ $^
 
 %.o: %.c *.h
