@@ -2,7 +2,7 @@
 
 
 TESTDIR=./func_tests
-EX=./a.exe
+EX=./app.exe
 
 
 
