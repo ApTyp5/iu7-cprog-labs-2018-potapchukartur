@@ -37,8 +37,7 @@ int fint_check(FILE *f)
     int sig = 1;
 
 
-    for (; (sig = fscanf(f, "%d", &read)) > 0; len++)
-        ;
+    for (; (sig = fscanf(f, "%d", &read)) > 0; len++);
     if (sig)
         return len;
 
@@ -75,8 +74,7 @@ int *frarr(FILE *f, int len, int **pb, int **pe, int add)
 void fparr(FILE *f, int *pb, int *pe)
 {
     rewind(f);
-    for (; pe > pb; fprintf(f, "%d ", *pb++))
-            ;
+    for (; pe > pb; fprintf(f, "%d ", *pb++));
     fprintf(f, "\n");
 }
 

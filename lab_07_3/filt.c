@@ -1,27 +1,37 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "define.h"
-
+#include "filt.h"
 
 
 int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
 {
+    if (in_pb > in_pe)
+        return WRONG_INPUT;
+
     if (in_pb == in_pe)
         return EMPTY_FILE;
 
-    *out_pe = in_pe;
-    *out_pb = in_pb;
-    *(in_pb - 1) = -1; // Вспоминаем про тот элемент, который мы запасли в frarr
+    mykey(&in_pb, &in_pe);
 
 
-    for (; *--in_pe >= 0;)
-       ;
+    *out_pb = malloc(sizeof(int) * (in_pe - in_pb));
+    *out_pe = *out_pb;
 
-    if (in_pe > in_pb)
-        *out_pe = in_pe + 1;
+
+    for (; in_pb < in_pe; *(*out_pe)++ = *in_pb++);
 
     return HAPPY_END;
 }
+
+
+
+
+
+
+
+
 
 
 
