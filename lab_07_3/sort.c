@@ -55,20 +55,17 @@ void move_right(const int *const leftEl, int *rightEl, const int step)
 
 void mysort(void *start, int len, int size, comparator comp)
 {
-    //void *end = start + len * size;
     int *end = (int *)start + len;
     int tmp;
     int *ins_place;
 
-
-
     for (int *begin = start; begin < end; begin++)
         if (comp(begin, begin - 1) < 0)
         {
-            int_el_copy(begin, &tmp);
+            tmp = *begin;
             ins_place = binary_seek(start, begin - 1, begin, comp);
             move_right(ins_place, begin - 1, 1);
-            int_el_copy(&tmp, ins_place);
+            *ins_place = tmp;
         }
 }
 

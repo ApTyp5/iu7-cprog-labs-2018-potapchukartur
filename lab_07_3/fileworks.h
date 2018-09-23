@@ -8,10 +8,9 @@
 #ifndef __FILEWORKS_H__
 #define __FILEWORKS_H__
 
-FILE *fopen_try(char *filename, char *mod);
 int fclose_try(FILE *f);
 void fparr(FILE *f, int *pb, int *pe);
-int frarr(FILE *f, int len, int **pb, int **pe, int **);
-int flen(FILE *f);
+int *frarr(FILE *f, int len, int **pb, int **pe, int add);
+int fint_check(FILE *f);
 
 #endif

@@ -114,17 +114,6 @@ void tfileworks()
 
 ___TEST(1)
 
-    char *mod = "r";
-    char *filename = "unexisting.txt";
-    FILE *fexpRes = NULL;
-    FILE *fresult = fopen_try(filename, mod);
-
-    printf("fopen_try(%s, %s)\t%p\t\t%p\t\t%s\n", "<tmpfile>", mod, (void *)fexpRes, (void *)fresult, fexpRes == fresult ? "SUCCESS" : "CRASH");
-    
-
-
-___TEST(2)
-
     FILE *desc = stdin;
     fclose(desc);
     int expRes = NON_HAPPY_END;
@@ -134,7 +123,7 @@ ___TEST(2)
 
 
 
-___TEST(3)
+___TEST(2)
 
     desc = tmpfile();
     expRes = HAPPY_END;
@@ -143,27 +132,92 @@ ___TEST(3)
     printf("fclose_try(%s)\t%d\t\t%d\t\t%s\n", "<existing file>", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
+___TEST(3)
+
+
+    FILE *f = tmpfile();
+    fprintf(f, "%d %d", 1 , -434);
+
+    result = fint_check(f);
+    expRes = 2;
+
+    printf("fint_check(<file with 2 ints>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    fclose(f);
+
 ___TEST(4)
 
-    int arr[5] = {1, 
-                  2,
-                  3,
-                  4,
-                  5,
-                   };
-    FILE *f = tmpfile();
-    for (int i = 0; i < 5; i++)
-        fprintf(f, "%d ", arr[i]);
 
-    expRes = 5;
-    result = flen(f);
+    f = tmpfile();
 
-    printf( "flen(..)\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    result = fint_check(f);
+    expRes = 0;
+
+    printf("fint_check(<file with 0 ints>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    fclose(f);
+
+
+___TEST(5)
+
+
+    f = tmpfile();
+    fprintf(f, "quux");
+    
+    result = fint_check(f);
+    expRes = WRONG_INPUT;
+
+    printf("fint_check(<file with abc>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    fclose(f);
+
+
+___TEST(6)
+
+
+    int *pb = NULL, *pe = NULL;
+    int *close_pointer = NULL;
+    int len = 3;
+    int add = 1;
+
+
+    f = tmpfile();
+    fprintf(f, "%d %d %d", -1, 1, 3);
+
+    close_pointer = frarr(f, len, &pb, &pe, add);
+
+    // Проверка соответствия выходной и входной длины
+    result = pe - pb;
+    expRes = len;
+
+    printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    fclose(f);
+
+___TEST(7)
+
+    // Проверка расстояния между "закрывающим" указателем
+    // и указателем на начало выходного массива
+    result = pb - close_pointer;
+    expRes = add;
+
+    printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+___TEST(8)
+
+    f = tmpfile();
+    fparr(f, pb, pe);
+    rewind(f);
+
+    result = fint_check(f);
+    expRes = 3;
+
+    printf("fparr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
 
 }
 
+
     
-    
+
 
 
 
@@ -177,8 +231,11 @@ void tfilt()
 ___TEST(1)
 
     int arr[6] = {0, 1, 2, -3, 4, 5};
+    int len = 5;
+    int add = 1;
+
     //[1, 2, 3, 4, 5]
-    int *start = arr + 1, *stop = arr + 5 + 1;
+    int *start = arr + add, *stop = arr + add + len;
     int *begin = NULL, *end = NULL;
 
     key(start, stop, &begin, &end);
@@ -209,6 +266,46 @@ ___TEST(3)
     expRes = EMPTY_FILE;
 
     printf("key(EMPTY ARR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+___TEST(4)
+
+    int a[6] = {0};
+    len = 5;
+    add = 1;
+    int *pa = a + add;
+
+    for (int i = 0; i < len; i++)
+        pa[i] = i;
+
+    start = pa;
+    stop = pa + len;
+
+    mykey(&start, &stop);
+
+    result = stop - start;
+    expRes = 5;
+
+    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+___TEST(5)
+
+    pa[2] = -2;
+    //a = [-1, 0, 1, -2, 3, 4]
+    //add = 1
+    //len = 5
+
+    start = a + add;
+    stop = a + add + len;
+
+    mykey(&start, &stop);
+
+    result = stop - start;
+    expRes = 3;
+
+    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
 
 }
 

@@ -5,8 +5,10 @@
 #include "filt.h"
 #include "define.h"
 
-#define db(a)   //printf("db(%d)\n ", a);
-#define dp(a)   printf("dp(%p)\n", (void*)a);
+
+//int db = 1;
+//#define db   printf("db(%d), rc = %d\n ", db++, rc);
+//#define dp(a)   printf("dp(%p)\n", (void*)a);
 
 
 
@@ -19,55 +21,66 @@ void reference();
 
 int main(int argc, char **argv)
 {
+    FILE *f = NULL;
+    int len;
 
     int *in_pb = NULL;
     int *in_pe = NULL;
 
-    int *out_pb = NULL;
-    int *out_pe = NULL;
-
     int *close_ptr = NULL;
 
-    if (format_check(argc))//done
-        return FORMAT_ERROR;
+    int rc = 0;
 
-    FILE *f = fopen_try(argv[1], "r");//done
-    if (f == NULL)
-        return FOPEN_ERROR;
-
-
-    int len = flen(f);//done
-    db(len)
-    int rc = frarr(f, len, &in_pb, &in_pe, &close_ptr);//done
-
-
-    if (!rc)
-        rc = fclose_try(f);//done
-
-
-
-
-    if (!rc && argc == 4 && !strcmp("f", argv[3]))
-        rc = key(in_pb, in_pe, &out_pb, &out_pe);//done
-    else
-    {
-        out_pb = in_pb;
-        out_pe = in_pe;
-    }
-
-
+    if (argc != 3 && argc != 4)
+        rc = FORMAT_ERROR;
 
     if (!rc)
     {
-        mysort(out_pb, out_pe - out_pb, sizeof(int), int_comp);
-        f = fopen_try(argv[2], "w");//done
+        f = fopen(argv[1], "r");
         if (f == NULL)
             rc = FOPEN_ERROR;
     }
 
 
     if (!rc)
-        fparr(f, out_pb, out_pe);//done
+    {
+        len = fint_check(f);
+        if (!len)
+            rc = EMPTY_FILE;
+        rc = (len == WRONG_INPUT ? WRONG_INPUT : 0);
+    }
+
+
+    if (!rc)
+    {
+        close_ptr = frarr(f, len, &in_pb, &in_pe, 1);
+
+        // 1 доп. эл., который выделится в памяти для считанного
+        // массива выше, понадобится для фильтрации
+
+        rc = (close_ptr == NULL ? ALLOCATION_ERROR : rc);
+    }
+
+
+    if (!rc)
+        rc = fclose_try(f);
+
+
+    if (!rc && argc == 4 && !strcmp("f", argv[3]))
+        mykey(&in_pb, &in_pe); 
+
+
+    if (!rc)
+    {
+        mysort(in_pb, in_pe - in_pb, sizeof(int), int_comp);
+        f = fopen(argv[2], "w");
+        if (f == NULL)
+            rc = FOPEN_ERROR;
+    }
+
+
+    if (!rc)
+        fparr(f, in_pb, in_pe);
 
 
     free(close_ptr);
@@ -76,25 +89,34 @@ int main(int argc, char **argv)
     if (rc && rc != FOPEN_ERROR)
         fclose(f);
     else 
-        rc = fclose_try(f);//done
+        rc = fclose_try(f);
+
+
+    switch (rc)
+    {
+    case FORMAT_ERROR:
+        break;
+        
+    case FOPEN_ERROR:
+        break;
+
+    case FCLOSE_ERROR:
+        break;
+
+    case EMPTY_FILE:
+        break;
+
+    case WRONG_INPUT:
+        break;
+
+    case ALLOCATION_ERROR:
+        break;
+    }
 
     return rc;
 }
 
     
-
-int format_check(int argc)
-{
-    if (argc!=3 && argc!=4)
-    {
-#ifdef NDEBUG
-        fprintf(stderr, "Format error!\n");
-#endif
-        return NON_HAPPY_END;
-    }
-
-    return HAPPY_END;
-}
 
 
 void reference()
