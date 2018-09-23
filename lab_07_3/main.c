@@ -62,8 +62,8 @@ int main(int argc, char **argv)
     }
 
 
-    if (!rc)
-        rc = fclose_try(f);
+    if (f)
+        rc = fclose(f);
 
 
     if (!rc && argc == 4 && !strcmp("f", argv[3]))
@@ -83,13 +83,11 @@ int main(int argc, char **argv)
         fparr(f, in_pb, in_pe);
 
 
-    free(close_ptr);
+    if (close_ptr)
+        free(close_ptr);
 
 
-    if (rc && rc != FOPEN_ERROR)
-        fclose(f);
-    else 
-        rc = fclose_try(f);
+    rc = fclose(f);
 
 
     switch (rc)
@@ -100,7 +98,7 @@ int main(int argc, char **argv)
     case FOPEN_ERROR:
         break;
 
-    case FCLOSE_ERROR:
+    case EOF: // Возвращается при неудачном закрытии файла
         break;
 
     case EMPTY_FILE:

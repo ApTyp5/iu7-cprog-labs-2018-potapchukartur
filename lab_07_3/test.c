@@ -117,7 +117,7 @@ ___TEST(1)
     FILE *desc = stdin;
     fclose(desc);
     int expRes = NON_HAPPY_END;
-    int result = fclose_try(desc);
+    int result = fclose(desc);
     
     printf("fclose_try(%s)\t\t%s\t\t%d\t\t%s\n", "NULL", "!= 0", result, result != HAPPY_END ? "SUCCESS" : "CRASH");
 
@@ -127,7 +127,7 @@ ___TEST(2)
 
     desc = tmpfile();
     expRes = HAPPY_END;
-    result = fclose_try(desc);
+    result = fclose(desc);
 
     printf("fclose_try(%s)\t%d\t\t%d\t\t%s\n", "<existing file>", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 

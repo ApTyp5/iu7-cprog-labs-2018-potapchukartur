@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <errno.h>
-#include <string.h>
 #include <stdlib.h>
 #include "define.h"
 #include "fileworks.h"
@@ -78,14 +76,5 @@ void fparr(FILE *f, int *pb, int *pe)
     fprintf(f, "\n");
 }
 
-
-
-int fclose_try(FILE *f)
-{
-	if (fclose(f))
-		return FCLOSE_ERROR;
-
-	return HAPPY_END;
-}
 
 

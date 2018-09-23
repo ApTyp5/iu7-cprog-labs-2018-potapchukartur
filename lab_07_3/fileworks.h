@@ -8,7 +8,6 @@
 #ifndef __FILEWORKS_H__
 #define __FILEWORKS_H__
 
-int fclose_try(FILE *f);
 void fparr(FILE *f, int *pb, int *pe);
 int *frarr(FILE *f, int len, int **pb, int **pe, int add);
 int fint_check(FILE *f);
