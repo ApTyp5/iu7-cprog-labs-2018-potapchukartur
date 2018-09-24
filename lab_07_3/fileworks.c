@@ -48,6 +48,9 @@ int *frarr(FILE *f, int len, int **pb, int **pe, int add)
     if (!f)
         return NULL;
 
+    if (add < 0)
+        return NULL;
+
     *pb = (int *)malloc((len + add) * sizeof(int));
     if (*pb == NULL)
         return NULL;
@@ -61,10 +64,6 @@ int *frarr(FILE *f, int len, int **pb, int **pe, int add)
 
     for (int i = 0; i < len; i++)
         fscanf(f, "%d", (*pe)++);
-
-
-    //for (; *pe - *pb < len; fscanf(f, "%d", (*pe)++))
-     //   printf("%ld, ", *pe - *pb);
 
 
     return *pb - add;

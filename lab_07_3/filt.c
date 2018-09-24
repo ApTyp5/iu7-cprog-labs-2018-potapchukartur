@@ -20,6 +20,10 @@ int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
 
 
     *out_pb = malloc(sizeof(int) * (in_pe - in_pb));
+
+    if (out_pb == NULL)
+        return ALLOCATION_ERROR;
+
     *out_pe = *out_pb;
 
 
