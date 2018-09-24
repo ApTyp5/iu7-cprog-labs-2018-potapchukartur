@@ -92,23 +92,23 @@ int main(int argc, char **argv)
 
     switch (rc)
     {
-    case FORMAT_ERROR:
-        break;
-        
-    case FOPEN_ERROR:
-        break;
+        case FORMAT_ERROR:
+            break;
+            
+        case FOPEN_ERROR:
+            break;
 
-    case EOF: // Возвращается при неудачном закрытии файла
-        break;
+        case EOF: // Возвращается при неудачном закрытии файла
+            break;
 
-    case EMPTY_FILE:
-        break;
+        case EMPTY_FILE:
+            break;
 
-    case WRONG_INPUT:
-        break;
+        case WRONG_INPUT:
+            break;
 
-    case ALLOCATION_ERROR:
-        break;
+        case ALLOCATION_ERROR:
+            break;
     }
 
     return rc;
