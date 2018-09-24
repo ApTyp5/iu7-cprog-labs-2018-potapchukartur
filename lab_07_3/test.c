@@ -257,7 +257,7 @@ ___TEST(1)
     key(start, stop, &begin, &end);
 
     int result = end - begin;
-    int expRes = 3;
+    int expRes = 2;
     
 
     printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
@@ -328,7 +328,7 @@ ___TEST(6)
     mykey(&start, &stop);
 
     result = stop - start;
-    expRes = 3;
+    expRes = 2;
 
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 

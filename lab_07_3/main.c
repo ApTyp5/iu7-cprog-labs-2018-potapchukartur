@@ -80,7 +80,8 @@ db
 
 
     if (!rc && argc == 4 && !strcmp("f", argv[3]))
-        mykey(&in_pb, &in_pe); 
+       rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? FILTER_ERROR : HAPPY_END);
+
 
 db
     if (!rc)
@@ -119,11 +120,11 @@ db
 void reference()
 {
     printf("\n==> --> ==> --> QUICK REFERENCE <-- <== <-- <==\n"
-           "The program sorts int data in <in_file> and "
-           "writes the result into <out_file>\n"
-           "Call format: a.exe <in_file> <out_file> [f]\n"
-           "[f] - sort the elements before the first negative\n"
-           "<== <-- <== <-- <== <-- --> ==> --> ==> --> ==>\n");
+        "The program sorts int data in <in_file> and "
+        "writes the result into <out_file>\n"
+        "Call format: a.exe <in_file> <out_file> [f]\n"
+        "[f] - sort the elements before the first negative\n"
+        "<== <-- <== <-- <== <-- --> ==> --> ==> --> ==>\n");
 }
 
     
@@ -132,35 +133,35 @@ void reference()
 void show_prompt(int rc, char *last_file)
 {
     switch (rc)
-        {
-            case FORMAT_ERROR:
-                fprintf(stderr, "Format error!\n");
-                reference();
-                break;
-                
-            case FOPEN_ERROR:
-                fprintf(stderr, "Can't open file '%s'!\n", last_file);
-                perror("");
-                break;
+    {
+        case FORMAT_ERROR:
+            fprintf(stderr, "Format error!\n");
+            reference();
+            break;
+            
+        case FOPEN_ERROR:
+            fprintf(stderr, "Can't open file '%s'!\n", last_file);
+            perror("");
+            break;
 
-            case EOF: // Возвращается при неудачном закрытии файла
-                fprintf(stderr, "Can't close file '%s'!\n", last_file);
-                perror("");
-                break;
+        case EOF: // Возвращается при неудачном закрытии файла
+            fprintf(stderr, "Can't close file '%s'!\n", last_file);
+            perror("");
+            break;
 
-            case EMPTY_FILE:
-                fprintf(stderr, "The file '%s' is empty!\n", last_file);
-                break;
+        case EMPTY_FILE:
+            fprintf(stderr, "The file '%s' is empty!\n", last_file);
+            break;
 
-            case WRONG_INPUT:
-                fprintf(stderr, "There are incorrect tokens in file %s!\n", last_file);
-                fprintf(stderr, "The input file must contain integers!\n");
-                break;
+        case WRONG_INPUT:
+            fprintf(stderr, "There are incorrect tokens in file %s!\n", last_file);
+            fprintf(stderr, "The input file must contain integers!\n");
+            break;
 
-            case ALLOCATION_ERROR:
-                fprintf(stderr, "Allocation error!\n");
-                break;
-        }
+        case ALLOCATION_ERROR:
+            fprintf(stderr, "Allocation error!\n");
+            break;
+    }
 }
 
 

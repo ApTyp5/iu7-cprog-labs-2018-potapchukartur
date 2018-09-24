@@ -18,10 +18,14 @@ int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
 
     mykey(&in_pb, &in_pe);
 
+    if (in_pb == in_pe)
+        return WRONG_INPUT;
 
     *out_pb = malloc(sizeof(int) * (in_pe - in_pb));
     *out_pe = *out_pb;
 
+    if (!*out_pb)
+        return ALLOCATION_ERROR;
 
     for (; in_pb < in_pe; *(*out_pe)++ = *in_pb++);
 
@@ -34,20 +38,20 @@ int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
 
 
 
-
-
-
-
-
-void mykey(int **pb, int **pe)
+int mykey(int **pb, int **pe)
 {
     int *save = *pe;
     *(*pb - 1) = -1; // Вот и пригодился тот доп. элемент
     
-    for (; *(*pe - 1) >= 0; (*pe)--);
+    for (; *--(*pe) >= 0;);
 
     if (*pe == *pb)
+        return FILTER_ERROR;
+
+    if (*pe < *pb)
         *pe = save;
+
+    return *pe - *pb;
 }
 
 

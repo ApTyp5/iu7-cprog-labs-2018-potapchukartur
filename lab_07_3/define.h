@@ -10,6 +10,7 @@
 #define     ALLOCATION_ERROR    -5
 #define     EMPTY_FILE          -6
 #define     WRONG_INPUT         -7
+#define     FILTER_ERROR        -8
 
 #endif
 
