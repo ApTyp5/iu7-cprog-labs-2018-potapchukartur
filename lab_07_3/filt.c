@@ -7,6 +7,9 @@
 
 int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
 {
+    if (in_pb == NULL || in_pe == NULL)
+        return WRONG_INPUT;
+
     if (in_pb > in_pe)
         return WRONG_INPUT;
 
@@ -41,8 +44,7 @@ void mykey(int **pb, int **pe)
     int *save = *pe;
     *(*pb - 1) = -1; // Вот и пригодился тот доп. элемент
     
-    for (; *(*pe - 1) >= 0; (*pe)--)
-        ;
+    for (; *(*pe - 1) >= 0; (*pe)--);
 
     if (*pe == *pb)
         *pe = save;

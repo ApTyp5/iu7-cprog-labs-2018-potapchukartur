@@ -3,14 +3,17 @@ FLAGS := -Wall -Werror -std=c99 -pedantic
 REL_OBJ := main.o fileworks.o filt.o sort.o
 TES_OBJ := test.o fileworks.o filt.o sort.o
 SORT_CMP_OBJ := sort_cmp.o sort.o
+DBFLAGS :=
 
 
-
-
+ifeq ($(mod),db)
+	DBFLAGS += -g3 -O0
+endif
+	
 
 
 app.exe: $(REL_OBJ)
-	$(CC) -o $@ $^ 
+	$(CC) -o $@ $^ $(DBFLAGS)
 
 mod_tests: test.exe
 	./test.exe

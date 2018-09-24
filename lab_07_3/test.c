@@ -198,9 +198,22 @@ ___TEST(7)
     expRes = add;
 
     printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-
+    
 
 ___TEST(8)
+
+    f = NULL;
+
+    int *presult = frarr(f, len, &pb, &pe, add);
+
+    int *pexpRes = NULL;
+
+    printf("frarr(FILE *NULL)\t\t%p\t\t%p\t\t%s\n", (void *)pexpRes, (void *)presult, pexpRes == presult ? "SUCCESS" : "CRASH");
+
+
+
+
+___TEST(9)
 
     f = tmpfile();
     fparr(f, pb, pe);
@@ -210,6 +223,9 @@ ___TEST(8)
     expRes = 3;
 
     printf("fparr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    fclose(f);
+
+
 
 
 
@@ -267,7 +283,18 @@ ___TEST(3)
 
     printf("key(EMPTY ARR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
+
 ___TEST(4)
+
+    start = NULL;
+    result = key(start, stop, &begin, &end);
+    expRes = WRONG_INPUT;
+
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+
+___TEST(5)
 
     int a[6] = {0};
     len = 5;
@@ -288,7 +315,7 @@ ___TEST(4)
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-___TEST(5)
+___TEST(6)
 
     pa[2] = -2;
     //a = [-1, 0, 1, -2, 3, 4]
@@ -432,6 +459,19 @@ ___TEST(5)
     expRes = HAPPY_END;
 
     printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+    int int1 = 5;
+    int int2 = 10;
+
+    int_el_copy(&int1, &int2);
+    result = int2;
+    expRes = 5;
+
+    printf("int_el_copy(&5, &10)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+
 
 }
 

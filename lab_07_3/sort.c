@@ -1,4 +1,5 @@
 
+#include <stdio.h>
 typedef int (*comparator)(const void *, const void *);
 
 int int_comp(const void *int1, const void *int2)
@@ -18,7 +19,7 @@ void int_el_copy(int *const what, int *const where)
 // превышающий или равный *compEl на ОТРЕЗКЕ [*leftEl .. *rightEl]
 int *binary_seek(int *leftEl, int *rightEl, const int *const compEl, comparator comp)
 {
-    int *tmp;
+    int *tmp = NULL;
     while (rightEl - leftEl > 1)
     {
         tmp = leftEl;
@@ -56,8 +57,8 @@ void move_right(const int *const leftEl, int *rightEl, const int step)
 void mysort(void *start, int len, int size, comparator comp)
 {
     int *end = (int *)start + len;
-    int tmp;
-    int *ins_place;
+    int tmp = 0;
+    int *ins_place = NULL;
 
     for (int *begin = start; begin < end; begin++)
         if (comp(begin, begin - 1) < 0)
