@@ -9,6 +9,11 @@ DBFLAGS :=
 ifeq ($(mod),db)
 	DBFLAGS += -g3 -O0
 endif
+
+ifeq ($(mod),rel)
+	FLAGS += -DNDEBUG
+endif
+
 	
 
 

@@ -2,7 +2,7 @@
 #ifndef __SORT_H__
 #define __SORT_H__
 
-typedef comparator int(*)(const void *, const void *);
+typedef int(*comparator)(const void *, const void *);
 
 int int_comp(const void *int1, const void *int2);
 void int_el_copy(int *const what, int *const where);
