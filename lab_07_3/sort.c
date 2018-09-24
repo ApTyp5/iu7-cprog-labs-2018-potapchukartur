@@ -59,8 +59,9 @@ void mysort(void *start, int len, int size, comparator comp)
     int *end = (int *)start + len;
     int tmp = 0;
     int *ins_place = NULL;
+    int *begin = start;
 
-    for (int *begin = start; begin < end; begin++)
+    for (begin += 1; begin < end; begin++)
         if (comp(begin, begin - 1) < 0)
         {
             tmp = *begin;
