@@ -357,13 +357,33 @@ ___TEST(1)
     for (int i = 2; i < 10; i++)
         c[i] = i - 1;
 
-    move_right(a, a + 8, 1);
+    move_right(a, a + 8, sizeof(int));
 
     int result = intListEq(a, c, 10);
     int expRes = HAPPY_END;
 
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+//___TEST(2)
+
+    int a0[7] = {
+        2,
+        2,
+        7,
+        8,
+        87,
+        93,
+        -3,
+    };
+
+
+    move_right(a0, a0 + 6, sizeof(int));
+    result = a0[6];
+    expRes = 93;
+
     
+    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(2)
@@ -387,7 +407,7 @@ ___TEST(2)
         5,
     };
 
-    move_right(a1, a1 + 5, 3);
+    move_right(a1, a1 + 5, 3*sizeof(int));
 
     result = intListEq(a1, c1, 10);
     expRes = HAPPY_END;
@@ -395,8 +415,21 @@ ___TEST(2)
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-
 ___TEST(3)
+
+int int1 = 5;
+    int int2 = 10;
+
+    el_copy((char*)&int1, (char*)&int2, sizeof(int));
+    result = int2;
+    expRes = 5;
+
+    printf("el_copy(&5, &10, sizeof(int))\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+
+
+___TEST(4)
 
     for (int i = 0; i < 4; i++)
         a[i] = i + 1;
@@ -404,14 +437,14 @@ ___TEST(3)
 
     int compEl = 3;
     int *pCompEl = &compEl;
-    int *presult = binary_seek(a, a + 5, pCompEl, int_comp);
+    int *presult = binary_seek((char *)a, (char *)(a + 4), (char *)pCompEl, int_comp, sizeof(int));
     int *pexpRes = a+2;
 
     printf("binary_seek(..)\t\t%d\t\t%d\t\t%s\n", *pexpRes, *presult, pexpRes == presult ? "SUCCESS" : "CRASH");
 
 
 
-___TEST(4)
+___TEST(5)
 
     for (int i = 0; i < 10; i++)
     {
@@ -427,10 +460,10 @@ ___TEST(4)
 
 
 
-___TEST(5)
+___TEST(6)
 
     int d [10] = {
-        7,
+               7,
                2,
                93,
                8,
@@ -439,6 +472,7 @@ ___TEST(5)
                -3,
                4,
                3,
+               0,
     };
 
     int e[10] = {
@@ -461,17 +495,7 @@ ___TEST(5)
     printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-    int int1 = 5;
-    int int2 = 10;
-
-    int_el_copy(&int1, &int2);
-    result = int2;
-    expRes = 5;
-
-    printf("int_el_copy(&5, &10)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-
-
-
+    
 
 }
 

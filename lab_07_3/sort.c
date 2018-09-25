@@ -1,6 +1,8 @@
-
+#include <stdlib.h>
 #include <stdio.h>
+
 typedef int (*comparator)(const void *, const void *);
+
 
 int int_comp(const void *int1, const void *int2)
 {
@@ -8,70 +10,116 @@ int int_comp(const void *int1, const void *int2)
 }
 
 
-
-void int_el_copy(int *const what, int *const where)
+void el_copy(char *what, char *where, int size)
 {
-    *where = *what;
+    for (int i = 0; i < size; i++)
+        *where++ = *what++;
 }
+
+
+int bit_dist(const char *el_1, const char *el_2)
+{
+    return (abs(el_1 - el_2));
+}
+
+
+char *half_bit_dist(const char *el_1, const char *el_2, int size)
+{
+    int hbd = bit_dist(el_1, el_2)/2/size;
+
+    for (int i = 0; i < hbd; i++)
+        el_1 += size;
+    return (char *)el_1;
+}
+        
+
+
 
 //
 // Возвращает указатель на первый элемент,
-// превышающий или равный *compEl на ОТРЕЗКЕ [*leftEl .. *rightEl]
-int *binary_seek(int *leftEl, int *rightEl, const int *const compEl, comparator comp)
+// превышающий или равный *comp_el на ОТРЕЗКЕ [*left_el .. *right_el]
+char *binary_seek(const char *left_el, const char *right_el, const char *const comp_el, comparator comp, int size)
 {
-    int *tmp = NULL;
-    while (rightEl - leftEl > 1)
+    void *tmp;
+    while (bit_dist(right_el, left_el) > size)
     {
-        tmp = leftEl;
-        for (int i = 0; i < (rightEl - leftEl)/2; i++)
-            tmp += 1;
+        tmp = half_bit_dist(left_el, right_el, size);
 
-        if ((comp)(tmp, compEl) < 0)
+        if ((comp)(tmp, comp_el) < 0)
         {
-            leftEl = tmp;
+            left_el = tmp;
             continue;
         }
+        right_el = tmp;
 
-        rightEl = tmp;
     }
 
-
-
-    return *leftEl >= *compEl ? leftEl : rightEl;
+    return (comp)(left_el, comp_el) >= 0 ? (char *)left_el : (char *)right_el;
 }
 
+
 // 
-// Передвигает int-ы на отрезке [*leftEl ..  *rightEl]
-// на step шагов вправо
+// Передвигает int-ы на отрезке [*left_el ..  *right_el]
+// на size бит вправо
 // 
-void move_right(const int *const leftEl, int *rightEl, const int step)
+void move_right(const char *const left_el, char *right_el, const int size)
 {
-    for ( ; rightEl > leftEl - 1; rightEl--)
+    right_el += size - 1;
+
+    for (;right_el >= left_el; right_el--)
     {
-        *(rightEl + step) = *rightEl;
+        *(right_el + size) = *right_el;
+    }
+}
+
+int r = 0;
+
+
+void mysort(void *const start, int len, int size, comparator comp)
+{
+    char *end = (char *)start + len*size;
+    char *tmp = malloc(size);
+    char *ins_place = NULL;
+    char *begin = (char *)start;
+
+
+    for (begin += size; begin < end; begin += size, r++)
+    {
+        if (comp(begin, begin - size) < 0)
+        {
+            el_copy(begin, tmp, size);
+            ins_place = binary_seek(start, begin - size, begin, comp, size);
+
+            move_right(ins_place, begin - size, size);
+            
+
+            el_copy(tmp, ins_place, size);
+        }
     }
 }
 
 
 
-void mysort(void *start, int len, int size, comparator comp)
-{
-    int *end = (int *)start + len;
-    int tmp = 0;
-    int *ins_place = NULL;
-    int *begin = start;
+/*
 
-    for (begin += 1; begin < end; begin++)
-        if (comp(begin, begin - 1) < 0)
-        {
-            tmp = *begin;
-            ins_place = binary_seek(start, begin - 1, begin, comp);
-            move_right(ins_place, begin - 1, 1);
-            *ins_place = tmp;
-        }
+int main()
+{
+    int a[10] = {0};
+    int *b = a + 10;
+
+    printf("bit_dist = %d\n", bit_dist((char *)a, (char *)b));
+    printf("a = %p\n", (void *)a);
+    printf("b = %p\n", (void *)b);
+    printf("a+b /2 = %p\n", half_bit_dist((char *)a, (char *)b, 4));
+
+    a[3] = 213;
+    el_copy((char *)a + 3*4, (char *)a + 4*9, 4);
+    for (int i = 0; i < 10; i++)
+        printf("%d ", a[i]);
+   
+
+
+    return 0;
 }
 
-
-
-
-
+*/
