@@ -267,7 +267,7 @@ ___TEST(3)
 
     stop = start;
     result = key(start, stop, &begin, &end);
-    expRes = EMPTY_FILE;
+    expRes = WRONG_INPUT;
 
     printf("key(EMPTY ARR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 

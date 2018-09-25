@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 
     int rc = 0;
 db
-    if (!(argc == 3 || argc == 4))
+    if (!(argc == 3 || (argc == 4 && !strcmp(argv[3], "f"))))
         rc = FORMAT_ERROR;
 db
     if (!rc)
@@ -79,8 +79,8 @@ db
         rc = fclose(f);
 
 
-    if (!rc && argc == 4 && !strcmp("f", argv[3]))
-       rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? FILTER_ERROR : HAPPY_END);
+    if (!rc && argc == 4)
+            rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? FILTER_ERROR : HAPPY_END);
 
 
 db
