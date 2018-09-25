@@ -35,7 +35,7 @@ int fint_check(FILE *f)
     int sig = 1;
 
 
-    for (; (sig = fscanf(f, "%d", &read)) > 0; len++);
+    for (; (sig = fscanf(f, "%d", &read)) > 0; len++)
     if (sig)
         return len;
 
@@ -45,9 +45,6 @@ int fint_check(FILE *f)
 
 int *frarr(FILE *f, int len, int **pb, int **pe, int add)
 {
-    if (!f)
-        return NULL;
-
     *pb = (int *)malloc((len + add) * sizeof(int));
     if (*pb == NULL)
         return NULL;

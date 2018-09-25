@@ -332,6 +332,12 @@ ___TEST(6)
 
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
+___TEST(7)
+
+    result = mykey(&start, &start);
+    expRes = FILTER_ERROR;
+
+    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
 }

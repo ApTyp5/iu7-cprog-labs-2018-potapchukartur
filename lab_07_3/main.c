@@ -161,6 +161,10 @@ void show_prompt(int rc, char *last_file)
         case ALLOCATION_ERROR:
             fprintf(stderr, "Allocation error!\n");
             break;
+
+        case FILTER_ERROR:
+            fprintf(stderr, "The filter returns empty output!\n");
+            break;
     }
 }
 
