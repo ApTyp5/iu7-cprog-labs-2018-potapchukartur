@@ -274,18 +274,27 @@ ___TEST(3)
 
 ___TEST(4)
 
+    stop = NULL;
+    result = key(start, stop, &begin, &end);
+    expRes = WRONG_INPUT;
+
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+___TEST(4)
+
     start = NULL;
     result = key(start, stop, &begin, &end);
     expRes = WRONG_INPUT;
 
     printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
+
 ___TEST(5)
 
     result = key(stop, start, &begin, &end);
     expRes = WRONG_INPUT;
 
-    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 ___TEST(6)
 
@@ -301,7 +310,7 @@ ___TEST(6)
 
 
 
-___TEST(6)
+___TEST(7)
 
     int a[6] = {0};
     len = 5;
@@ -322,7 +331,7 @@ ___TEST(6)
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-___TEST(7)
+___TEST(8)
 
     pa[2] = -2;
     //a = [-1, 0, 1, -2, 3, 4]
@@ -339,7 +348,7 @@ ___TEST(7)
 
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
-___TEST(8)
+___TEST(9)
 
     result = mykey(&start, &start);
     expRes = FILTER_ERROR;
