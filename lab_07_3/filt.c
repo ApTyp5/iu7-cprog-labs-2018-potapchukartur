@@ -10,11 +10,8 @@ int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
     if (in_pb == NULL || in_pe == NULL)
         return WRONG_INPUT;
 
-    if (in_pb > in_pe)
+    if (in_pb >= in_pe)
         return WRONG_INPUT;
-
-    if (in_pb == in_pe)
-        return EMPTY_FILE;
 
     mykey(&in_pb, &in_pe);
 
