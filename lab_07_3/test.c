@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "define.h"
 #include "fileworks.h"
 #include "filt.h"
@@ -198,7 +199,7 @@ ___TEST(7)
     expRes = add;
 
     printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-
+    free(close_pointer);
 
 
 ___TEST(8)
@@ -209,13 +210,8 @@ ___TEST(8)
 
     result = fint_check(f);
     expRes = 3;
-
     printf("fparr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
     fclose(f);
-
-
-
-
 
 }
 
@@ -246,6 +242,8 @@ ___TEST(1)
 
     int result = end - begin;
     int expRes = 2;
+
+    free(begin);
     
 
     printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
@@ -261,6 +259,8 @@ ___TEST(2)
     result = end - begin;
     expRes = 5;
     printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+    free(begin);
 
 
 ___TEST(3)
