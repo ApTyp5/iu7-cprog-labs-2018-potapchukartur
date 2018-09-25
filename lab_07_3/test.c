@@ -287,6 +287,19 @@ ___TEST(5)
 
     printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
+___TEST(6)
+
+    int c[3] = {-1, 2, 3};
+    start = c;
+    stop = c + 3;
+
+    result = key(start, stop, &begin, &end);
+    expRes = FILTER_ERROR;
+
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+
 
 ___TEST(6)
 

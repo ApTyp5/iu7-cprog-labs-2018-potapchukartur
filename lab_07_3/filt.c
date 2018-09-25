@@ -16,7 +16,7 @@ int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
     mykey(&in_pb, &in_pe);
 
     if (in_pb == in_pe)
-        return WRONG_INPUT;
+        return FILTER_ERROR;
 
     *out_pb = malloc(sizeof(int) * (in_pe - in_pb));
     *out_pe = *out_pb;
