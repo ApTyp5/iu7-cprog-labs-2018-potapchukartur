@@ -72,8 +72,6 @@ void move_right(const char *const left_el, char *right_el, const int size)
     }
 }
 
-int r = 0;
-
 
 void mysort(void *const start, int len, int size, comparator comp)
 {
@@ -83,19 +81,18 @@ void mysort(void *const start, int len, int size, comparator comp)
     char *begin = (char *)start;
 
 
-    for (begin += size; begin < end; begin += size, r++)
+    for (begin += size; begin < end; begin += size)
     {
         if (comp(begin, begin - size) < 0)
         {
             el_copy(begin, tmp, size);
             ins_place = binary_seek(start, begin - size, begin, comp, size);
-
             move_right(ins_place, begin - size, size);
-            
-
             el_copy(tmp, ins_place, size);
         }
     }
+
+    free(tmp);
 }
 
 
