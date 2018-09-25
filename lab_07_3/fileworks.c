@@ -46,9 +46,6 @@ int fint_check(FILE *f)
 int *frarr(FILE *f, int len, int **pb, int **pe, int add)
 {
     *pb = (int *)malloc((len + add) * sizeof(int));
-    if (*pb == NULL)
-        return NULL;
-
 
     *pb += add;// Доп. элементы для доп. информации
     *pe = *pb;
