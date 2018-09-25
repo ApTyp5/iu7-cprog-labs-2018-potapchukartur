@@ -200,20 +200,8 @@ ___TEST(7)
     printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
     
 
+
 ___TEST(8)
-
-    f = NULL;
-
-    int *presult = frarr(f, len, &pb, &pe, add);
-
-    int *pexpRes = NULL;
-
-    printf("frarr(FILE *NULL)\t\t%p\t\t%p\t\t%s\n", (void *)pexpRes, (void *)presult, pexpRes == presult ? "SUCCESS" : "CRASH");
-
-
-
-
-___TEST(9)
 
     f = tmpfile();
     fparr(f, pb, pe);
@@ -292,9 +280,15 @@ ___TEST(4)
 
     printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
-
-
 ___TEST(5)
+
+    result = key(stop, start, &begin, &end);
+    expRes = WRONG_INPUT;
+
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+
+
+___TEST(6)
 
     int a[6] = {0};
     len = 5;
@@ -315,7 +309,7 @@ ___TEST(5)
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-___TEST(6)
+___TEST(7)
 
     pa[2] = -2;
     //a = [-1, 0, 1, -2, 3, 4]
@@ -332,7 +326,7 @@ ___TEST(6)
 
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
-___TEST(7)
+___TEST(8)
 
     result = mykey(&start, &start);
     expRes = FILTER_ERROR;
@@ -371,7 +365,7 @@ ___TEST(1)
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-//___TEST(2)
+___TEST(2)
 
     int a0[7] = {
         2,
@@ -392,7 +386,7 @@ ___TEST(1)
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-___TEST(2)
+___TEST(3)
 
     int a1[10] = {
         1,
@@ -421,7 +415,7 @@ ___TEST(2)
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
-___TEST(3)
+___TEST(4)
 
 int int1 = 5;
     int int2 = 10;
@@ -435,7 +429,7 @@ int int1 = 5;
 
 
 
-___TEST(4)
+___TEST(5)
 
     for (int i = 0; i < 4; i++)
         a[i] = i + 1;
@@ -450,7 +444,7 @@ ___TEST(4)
 
 
 
-___TEST(5)
+___TEST(6)
 
     for (int i = 0; i < 10; i++)
     {
@@ -466,7 +460,7 @@ ___TEST(5)
 
 
 
-___TEST(6)
+___TEST(7)
 
     int d [10] = {
                7,

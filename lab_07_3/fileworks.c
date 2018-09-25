@@ -35,7 +35,7 @@ int fint_check(FILE *f)
     int sig = 1;
 
 
-    for (; (sig = fscanf(f, "%d", &read)) > 0; len++)
+    for (; (sig = fscanf(f, "%d", &read)) > 0; len++);
     if (sig)
         return len;
 
