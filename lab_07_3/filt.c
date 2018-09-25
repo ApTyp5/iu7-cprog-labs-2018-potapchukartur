@@ -21,8 +21,6 @@ int key(int *in_pb, int *in_pe, int **out_pb, int **out_pe)
     *out_pb = malloc(sizeof(int) * (in_pe - in_pb));
     *out_pe = *out_pb;
 
-    if (!*out_pb)
-        return ALLOCATION_ERROR;
 
     for (; in_pb < in_pe; *(*out_pe)++ = *in_pb++);
 
