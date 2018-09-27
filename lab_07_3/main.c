@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
         rc = fclose(f); // Закрываем файл
 
     if (!rc && argc == 4)
-            rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? // Фильтруем массив
+        rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? // Фильтруем массив
                     FILTER_ERROR : HAPPY_END);
     if (!rc)
     {
@@ -84,31 +84,25 @@ void show_prompt(int rc, const char *const last_file)
             fprintf(stderr, "Format error!\n");
             reference();
             break;
-            
         case FOPEN_ERROR:
             fprintf(stderr, "Can't open file '%s'!\n", last_file);
             perror("");
             break;
-
         case EOF: // Возвращается при неудачном закрытии файла
             fprintf(stderr, "Can't close file '%s'!\n", last_file);
             perror("");
             break;
-
         case EMPTY_FILE:
             fprintf(stderr, "The file '%s' is empty!\n", last_file);
             break;
-
         case WRONG_INPUT:
             fprintf(stderr, "There are incorrect tokens in file %s!\n",
-                    last_file);
+                last_file);
             fprintf(stderr, "The input file must contain integers!\n");
             break;
-
         case ALLOCATION_ERROR:
             fprintf(stderr, "Allocation error!\n");
             break;
-
         case FILTER_ERROR:
             fprintf(stderr, "The filter returns empty output!\n");
             break;
