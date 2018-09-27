@@ -46,7 +46,7 @@ int int_list_eq(int *a, int *b, int length)
 
 
 
-void intListCp(int *major, int *copied, int length)
+void int_list_cp(int *major, int *copied, int length)
 {
     for (int i = 0; i < length; i++)
         *copied++ = *major++;
@@ -98,11 +98,11 @@ ___TEST(2)
 ___TEST(3)
 
     int c[5];
-    intListCp(a, c, 5);
+    int_list_cp(a, c, 5);
     exp_res = HAPPY_END;
     result = int_list_eq(a, c, 5);
 
-    printf("intListCp(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
+    printf("int_list_cp(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 }
 
 
@@ -398,7 +398,7 @@ ___TEST(2)
         87,
         93,
         -3,
-    };
+        };
 
 
     move_right(a0, a0 + 6, sizeof(int));
@@ -417,7 +417,7 @@ ___TEST(3)
         3,
         4,
         5,
-    };
+        };
 
     int c1[10] = {
         1, 
@@ -428,9 +428,9 @@ ___TEST(3)
         3,
         4,
         5,
-    };
+        };
 
-    move_right(a1, a1 + 5, 3*sizeof(int));
+    move_right(a1, a1 + 5, 3 * sizeof(int));
 
     result = int_list_eq(a1, c1, 10);
     exp_res = HAPPY_END;
@@ -440,7 +440,7 @@ ___TEST(3)
 
 ___TEST(4)
 
-int int1 = 5;
+    int int1 = 5;
     int int2 = 10;
 
     el_copy((char*)&int1, (char*)&int2, sizeof(int));
@@ -458,9 +458,9 @@ ___TEST(5)
         a[i] = i + 1;
     // [ 1, 2, 3, 4]
 
-    int compEl = 3;
-    int *pCompEl = &compEl;
-    int *presult = binary_seek((char *)a, (char *)(a + 4), (char *)pCompEl, int_comp, sizeof(int));
+    int comp_el = 3;
+    int *p_comp_el = &comp_el;
+    int *presult = binary_seek((char *)a, (char *)(a + 4), (char *)p_comp_el, int_comp, sizeof(int));
     int *pexp_res = a+2;
 
     printf("binary_seek(..)\t\t%d\t\t%d\t\t%s\n", *pexp_res, *presult, pexp_res == presult ? "SUCCESS" : "CRASH");
@@ -486,17 +486,17 @@ ___TEST(6)
 ___TEST(7)
 
     int d [10] = {
-               7,
-               2,
-               93,
-               8,
-               87,
-               2,
-               -3,
-               4,
-               3,
-               0,
-    };
+        7,
+        2,
+        93,
+        8,
+        87,
+        2,
+        -3,
+        4,
+        3,
+        0,
+        };
 
     int e[10] = {
         -3,
@@ -509,7 +509,7 @@ ___TEST(7)
         8,
         87,
         93,
-    };
+        };
 
     mysort(d, 10, sizeof(int), int_comp);
     result = int_list_eq(d, e, 10);
