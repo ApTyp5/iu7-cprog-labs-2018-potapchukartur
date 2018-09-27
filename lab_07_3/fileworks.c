@@ -56,7 +56,6 @@ int fint_check(FILE *f)
  */
 int file_check(FILE *f, int *const len)
 {
-
     *len = fint_check(f);
     switch (*len)
     {
@@ -85,10 +84,10 @@ int file_check(FILE *f, int *const len)
  * \param[out] rc указатель на код ошибки
  */
 int *frarr(FILE *f, int len, int **pb, int **pe, int add,
-        int *const rc)
+    int *const rc)
 {
     *pb = (int *)malloc((len + add) * sizeof(int));
-    if(*pb == NULL)
+    if (*pb == NULL)
     {
         *rc = ALLOCATION_ERROR;
         return NULL;
