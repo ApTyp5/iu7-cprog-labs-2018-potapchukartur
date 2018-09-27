@@ -26,17 +26,17 @@ int main()
 
 
 
-void phat(char *moduleName)
+void phat(char *module_name)
 {
     printf("\n\n");
-    printf(">> %s\n", moduleName);
+    printf(">> %s\n", module_name);
     printf("\n");
     printf("\t\tfunction\t\texpected\trecieved\ttest_result\n");
 }
 
 
 
-int intListEq(int *a, int *b, int length)
+int int_list_eq(int *a, int *b, int length)
 {
     for (; length; length--)
            if (*a++ != *b++)
@@ -79,9 +79,9 @@ ___TEST(1)
     };
 
     int expRes = HAPPY_END;
-    int result = intListEq(a, b, 5);
+    int result = int_list_eq(a, b, 5);
 
-    printf("intListEq(<eqiv lists>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("int_list_eq(<eqiv lists>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
     
 
@@ -89,9 +89,9 @@ ___TEST(2)
 
     b[0] = 1;
     expRes = NON_HAPPY_END;
-    result = intListEq(a, b, 5);
+    result = int_list_eq(a, b, 5);
 
-    printf("intListEq(<not eqiv lists>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("int_list_eq(<not eqiv lists>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 
 
 
@@ -100,7 +100,7 @@ ___TEST(3)
     int c[5];
     intListCp(a, c, 5);
     expRes = HAPPY_END;
-    result = intListEq(a, c, 5);
+    result = int_list_eq(a, c, 5);
 
     printf("intListCp(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
 }
@@ -382,7 +382,7 @@ ___TEST(1)
 
     move_right(a, a + 8, sizeof(int));
 
-    int result = intListEq(a, c, 10);
+    int result = int_list_eq(a, c, 10);
     int expRes = HAPPY_END;
 
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
@@ -432,7 +432,7 @@ ___TEST(3)
 
     move_right(a1, a1 + 5, 3*sizeof(int));
 
-    result = intListEq(a1, c1, 10);
+    result = int_list_eq(a1, c1, 10);
     expRes = HAPPY_END;
 
     printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
@@ -476,7 +476,7 @@ ___TEST(6)
     }
 
     mysort(a, 10, sizeof(int), int_comp);
-    result = intListEq(a, c, 10);
+    result = int_list_eq(a, c, 10);
     expRes = HAPPY_END;
 
     printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
@@ -512,7 +512,7 @@ ___TEST(7)
     };
 
     mysort(d, 10, sizeof(int), int_comp);
-    result = intListEq(d, e, 10);
+    result = int_list_eq(d, e, 10);
     expRes = HAPPY_END;
 
     printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
