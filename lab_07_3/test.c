@@ -39,8 +39,8 @@ void phat(char *module_name)
 int int_list_eq(int *a, int *b, int length)
 {
     for (; length; length--)
-           if (*a++ != *b++)
-               return NON_HAPPY_END;
+        if (*a++ != *b++)
+            return NON_HAPPY_END;
     return HAPPY_END;
 }
 
@@ -78,20 +78,20 @@ ___TEST(1)
         1,
     };
 
-    int expRes = HAPPY_END;
+    int exp_res = HAPPY_END;
     int result = int_list_eq(a, b, 5);
 
-    printf("int_list_eq(<eqiv lists>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("int_list_eq(<eqiv lists>)\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
     
 
 ___TEST(2)
 
     b[0] = 1;
-    expRes = NON_HAPPY_END;
+    exp_res = NON_HAPPY_END;
     result = int_list_eq(a, b, 5);
 
-    printf("int_list_eq(<not eqiv lists>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("int_list_eq(<not eqiv lists>)\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 
@@ -99,10 +99,10 @@ ___TEST(3)
 
     int c[5];
     intListCp(a, c, 5);
-    expRes = HAPPY_END;
+    exp_res = HAPPY_END;
     result = int_list_eq(a, c, 5);
 
-    printf("intListCp(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("intListCp(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 }
 
 
@@ -117,7 +117,7 @@ ___TEST(1)
 
     FILE *desc = stdin;
     fclose(desc);
-    int expRes = NON_HAPPY_END;
+    int exp_res = NON_HAPPY_END;
     int result = fclose(desc);
     
     printf("fclose_try(%s)\t\t%s\t\t%d\t\t%s\n", "NULL", "!= 0", result, result != HAPPY_END ? "SUCCESS" : "CRASH");
@@ -127,10 +127,10 @@ ___TEST(1)
 ___TEST(2)
 
     desc = tmpfile();
-    expRes = HAPPY_END;
+    exp_res = HAPPY_END;
     result = fclose(desc);
 
-    printf("fclose_try(%s)\t%d\t\t%d\t\t%s\n", "<existing file>", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("fclose_try(%s)\t%d\t\t%d\t\t%s\n", "<existing file>", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(3)
@@ -140,9 +140,9 @@ ___TEST(3)
     fprintf(f, "%d %d", 1 , -434);
 
     result = fint_check(f);
-    expRes = 2;
+    exp_res = 2;
 
-    printf("fint_check(<file with 2 ints>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("fint_check(<file with 2 ints>)\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
     fclose(f);
 
 ___TEST(4)
@@ -151,9 +151,9 @@ ___TEST(4)
     f = tmpfile();
 
     result = fint_check(f);
-    expRes = 0;
+    exp_res = 0;
 
-    printf("fint_check(<file with 0 ints>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("fint_check(<file with 0 ints>)\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
     fclose(f);
 
 
@@ -164,9 +164,9 @@ ___TEST(5)
     fprintf(f, "quux");
     
     result = fint_check(f);
-    expRes = WRONG_INPUT;
+    exp_res = WRONG_INPUT;
 
-    printf("fint_check(<file with abc>)\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("fint_check(<file with abc>)\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
     fclose(f);
 
 
@@ -187,9 +187,9 @@ ___TEST(6)
 
     // Проверка соответствия выходной и входной длины
     result = pe - pb;
-    expRes = len;
+    exp_res = len;
 
-    printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
     fclose(f);
 
 ___TEST(7)
@@ -197,9 +197,9 @@ ___TEST(7)
     // Проверка расстояния между "закрывающим" указателем
     // и указателем на начало выходного массива
     result = pb - close_pointer;
-    expRes = add;
+    exp_res = add;
 
-    printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(8)
@@ -209,8 +209,8 @@ ___TEST(8)
     rewind(f);
 
     result = fint_check(f);
-    expRes = 3;
-    printf("fparr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    exp_res = 3;
+    printf("fparr(...)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
     fclose(f);
 
     free(close_pointer);
@@ -242,12 +242,12 @@ ___TEST(1)
     key(start, stop, &begin, &end);
 
     int result = end - begin;
-    int expRes = 2;
+    int exp_res = 2;
 
     free(begin);
     
 
-    printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 ___TEST(2)
 
@@ -258,8 +258,8 @@ ___TEST(2)
     key(start, stop, &begin, &end);
 
     result = end - begin;
-    expRes = 5;
-    printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    exp_res = 5;
+    printf("key(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
     free(begin);
 
@@ -268,34 +268,34 @@ ___TEST(3)
 
     stop = start;
     result = key(start, stop, &begin, &end);
-    expRes = WRONG_INPUT;
+    exp_res = WRONG_INPUT;
 
-    printf("key(EMPTY ARR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(EMPTY ARR)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(4)
 
     stop = NULL;
     result = key(start, stop, &begin, &end);
-    expRes = WRONG_INPUT;
+    exp_res = WRONG_INPUT;
 
-    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 ___TEST(4)
 
     start = NULL;
     result = key(start, stop, &begin, &end);
-    expRes = WRONG_INPUT;
+    exp_res = WRONG_INPUT;
 
-    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(5)
 
     result = key(stop, start, &begin, &end);
-    expRes = WRONG_INPUT;
+    exp_res = WRONG_INPUT;
 
-    printf("key(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(...)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 ___TEST(6)
 
@@ -304,9 +304,9 @@ ___TEST(6)
     stop = c + 3;
 
     result = key(start, stop, &begin, &end);
-    expRes = FILTER_ERROR;
+    exp_res = FILTER_ERROR;
 
-    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("key(EMPTY PTR)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 
@@ -327,9 +327,9 @@ ___TEST(7)
     mykey(&start, &stop);
 
     result = stop - start;
-    expRes = 5;
+    exp_res = 5;
 
-    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(8)
@@ -345,16 +345,16 @@ ___TEST(8)
     mykey(&start, &stop);
 
     result = stop - start;
-    expRes = 2;
+    exp_res = 2;
 
-    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 ___TEST(9)
 
     result = mykey(&start, &start);
-    expRes = FILTER_ERROR;
+    exp_res = FILTER_ERROR;
 
-    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 }
@@ -383,9 +383,9 @@ ___TEST(1)
     move_right(a, a + 8, sizeof(int));
 
     int result = int_list_eq(a, c, 10);
-    int expRes = HAPPY_END;
+    int exp_res = HAPPY_END;
 
-    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(2)
@@ -403,10 +403,10 @@ ___TEST(2)
 
     move_right(a0, a0 + 6, sizeof(int));
     result = a0[6];
-    expRes = 93;
+    exp_res = 93;
 
     
-    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(3)
@@ -433,9 +433,9 @@ ___TEST(3)
     move_right(a1, a1 + 5, 3*sizeof(int));
 
     result = int_list_eq(a1, c1, 10);
-    expRes = HAPPY_END;
+    exp_res = HAPPY_END;
 
-    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("moveRight(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 ___TEST(4)
@@ -445,9 +445,9 @@ int int1 = 5;
 
     el_copy((char*)&int1, (char*)&int2, sizeof(int));
     result = int2;
-    expRes = 5;
+    exp_res = 5;
 
-    printf("el_copy(&5, &10, sizeof(int))\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("el_copy(&5, &10, sizeof(int))\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 
@@ -461,9 +461,9 @@ ___TEST(5)
     int compEl = 3;
     int *pCompEl = &compEl;
     int *presult = binary_seek((char *)a, (char *)(a + 4), (char *)pCompEl, int_comp, sizeof(int));
-    int *pexpRes = a+2;
+    int *pexp_res = a+2;
 
-    printf("binary_seek(..)\t\t%d\t\t%d\t\t%s\n", *pexpRes, *presult, pexpRes == presult ? "SUCCESS" : "CRASH");
+    printf("binary_seek(..)\t\t%d\t\t%d\t\t%s\n", *pexp_res, *presult, pexp_res == presult ? "SUCCESS" : "CRASH");
 
 
 
@@ -477,9 +477,9 @@ ___TEST(6)
 
     mysort(a, 10, sizeof(int), int_comp);
     result = int_list_eq(a, c, 10);
-    expRes = HAPPY_END;
+    exp_res = HAPPY_END;
 
-    printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
 
@@ -513,9 +513,9 @@ ___TEST(7)
 
     mysort(d, 10, sizeof(int), int_comp);
     result = int_list_eq(d, e, 10);
-    expRes = HAPPY_END;
+    exp_res = HAPPY_END;
 
-    printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
+    printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
 
 
     
