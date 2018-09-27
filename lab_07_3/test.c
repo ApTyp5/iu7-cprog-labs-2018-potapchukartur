@@ -68,7 +68,7 @@ ___TEST(1)
         3,
         2,
         1,
-    };
+        };
     
     int b[5] = {
         5,
@@ -76,7 +76,7 @@ ___TEST(1)
         3,
         2,
         1,
-    };
+        };
 
     int exp_res = HAPPY_END;
     int result = int_list_eq(a, b, 5);
@@ -137,7 +137,7 @@ ___TEST(3)
 
 
     FILE *f = tmpfile();
-    fprintf(f, "%d %d", 1 , -434);
+    fprintf(f,"%d %d", 1 , -434);
 
     result = fint_check(f);
     exp_res = 2;
@@ -231,7 +231,7 @@ void tfilt()
 
 ___TEST(1)
 
-    int arr[6] = {0, 1, 2, -3, 4, 5};
+    int arr[6] = { 0, 1, 2, -3, 4, 5 };
     int len = 5;
     int add = 1;
 
@@ -299,7 +299,7 @@ ___TEST(5)
 
 ___TEST(6)
 
-    int c[3] = {-1, 2, 3};
+    int c[3] = { -1, 2, 3 };
     start = c;
     stop = c + 3;
 
@@ -313,7 +313,7 @@ ___TEST(6)
 
 ___TEST(7)
 
-    int a[6] = {0};
+    int a[6] = { 0 };
     len = 5;
     add = 1;
     int *pa = a + add;
@@ -355,8 +355,6 @@ ___TEST(9)
     exp_res = FILTER_ERROR;
 
     printf("mykey(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
-
-
 }
 
 
@@ -373,7 +371,7 @@ void tsort()
 
 ___TEST(1)
 
-    int a[10], c[10] = {0};
+    int a[10], c[10] = { 0 };
     for (int i = 0; i < 10; i++)
         a[i] = i;
 
@@ -461,7 +459,7 @@ ___TEST(5)
     int comp_el = 3;
     int *p_comp_el = &comp_el;
     int *presult = binary_seek((char *)a, (char *)(a + 4), (char *)p_comp_el, int_comp, sizeof(int));
-    int *pexp_res = a+2;
+    int *pexp_res = a + 2;
 
     printf("binary_seek(..)\t\t%d\t\t%d\t\t%s\n", *pexp_res, *presult, pexp_res == presult ? "SUCCESS" : "CRASH");
 
@@ -516,10 +514,6 @@ ___TEST(7)
     exp_res = HAPPY_END;
 
     printf("mysort(..)\t\t\t%d\t\t%d\t\t%s\n", exp_res, result, exp_res == result ? "SUCCESS" : "CRASH");
-
-
-    
-
 }
 
 
