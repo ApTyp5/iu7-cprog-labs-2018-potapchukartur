@@ -137,7 +137,7 @@ ___TEST(3)
 
 
     FILE *f = tmpfile();
-    fprintf(f,"%d %d", 1 , -434);
+    fprintf(f, "%d %d", 1, -434);
 
     result = fint_check(f);
     exp_res = 2;
