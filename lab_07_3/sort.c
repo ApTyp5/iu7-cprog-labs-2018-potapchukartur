@@ -39,7 +39,7 @@ int bit_dist(const char *el_1, const char *el_2)
 ///находящуюся в центре между el_1 и el_2
 char *half_bit_dist(const char *el_1, const char *el_2, int size)
 {
-    int hbd = bit_dist(el_1, el_2)/(2*size);
+    int hbd = bit_dist(el_1, el_2) / (2*size);
 
     for (int i = 0; i < hbd; i++)
         el_1 += size;
