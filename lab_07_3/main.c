@@ -6,117 +6,63 @@
 #include "define.h"
 
 
-int db = 1;
-#define db   //printf("db(%d), rc = %d\n ", db++, rc);
-//#define dp(a)   printf("dp(%p)\n", (void*)a);
 
-
-
-
-
-int format_check(int argc);
+int format_check(int argc, char **argv);
 void reference();
-void show_prompt(int rc, char *last_file);
+void show_prompt(int rc, const char *const last_file);
 
 
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
     FILE *f = NULL;
     int len;
-#ifdef  NDEBUG
-    char *last_file = NULL;
-#endif
-
     int *in_pb = NULL;
     int *in_pe = NULL;
-
     int *close_ptr = NULL;
 
-    int rc = 0;
-db
-    if (!(argc == 3 || (argc == 4 && !strcmp(argv[3], "f"))))
-        rc = FORMAT_ERROR;
-db
-    if (!rc)
-    {
+    int rc = format_check(argc, argv); // Проверяем формат
+
 #ifdef  NDEBUG
-        last_file = argv[1];
+    char *last_file = argv[1];
 #endif
-        f = fopen(argv[1], "r");
-        if (f == NULL)
-        {
-            rc = FOPEN_ERROR;
-        }
-    }
-db
-
-
     if (!rc)
-    {
-        len = fint_check(f);
-
-        if (!len)
-            rc = EMPTY_FILE;
-    }
-
+        f = fopen_try(argv[1], "r", &rc); // Открываем файл
     if (!rc)
-        rc = (len == WRONG_INPUT ? WRONG_INPUT : 0);
-db
-
+        rc = file_check(f, &len); // Проверяем файл
     if (!rc)
-    {
-        close_ptr = frarr(f, len, &in_pb, &in_pe, 1);
-
-        // 1 доп. эл., который выделится в памяти для считанного
-        // массива выше, понадобится для фильтрации
-
-        rc = (close_ptr == NULL ? ALLOCATION_ERROR : rc);
-    }
-db
-
+        close_ptr = frarr(f, len, &in_pb, &in_pe, 1, &rc); // Считываем массив
     if (!rc && f)
-        rc = fclose(f);
-
+        rc = fclose(f); // Закрываем файл
 
     if (!rc && argc == 4)
-            rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? FILTER_ERROR : HAPPY_END);
-
-
-db
+            rc = (mykey(&in_pb, &in_pe) == FILTER_ERROR ? // Фильтруем массив
+                    FILTER_ERROR : HAPPY_END);
     if (!rc)
     {
 #ifdef  NDEBUG
         last_file = argv[2];
 #endif
-
-        mysort(in_pb, in_pe - in_pb, sizeof(int), int_comp);
-        f = fopen(argv[2], "w");
-        if (f == NULL)
-            rc = FOPEN_ERROR;
+        mysort(in_pb, in_pe - in_pb, sizeof(int), int_comp);// Сортируем массив
+        f = fopen_try(argv[2], "w", &rc); //Открываем выходной файл
     }
-db
-
     if (!rc)
-        fparr(f, in_pb, in_pe);
-
-db
+        fparr(f, in_pb, in_pe); // Печатаем массив в файл
     if (close_ptr)
-        free(close_ptr);
-db
+        free(close_ptr); // Освобождаем память
     if (!rc && f)
-        rc = fclose(f);
-db
+        rc = fclose(f); // Закрываем файл
+
 #ifdef  NDEBUG
-    show_prompt(rc, last_file);
+    show_prompt(rc, last_file); // Выводим справку
 #endif
 
     return rc;
 }
 
-    
 
 
+/// Вывод справки
 void reference()
 {
     printf("\n==> --> ==> --> QUICK REFERENCE <-- <== <-- <==\n"
@@ -129,8 +75,8 @@ void reference()
 
     
 
-
-void show_prompt(int rc, char *last_file)
+/// Показывает "подсказку", исходя из полученного кода ошибки
+void show_prompt(int rc, const char *const last_file)
 {
     switch (rc)
     {
@@ -154,7 +100,8 @@ void show_prompt(int rc, char *last_file)
             break;
 
         case WRONG_INPUT:
-            fprintf(stderr, "There are incorrect tokens in file %s!\n", last_file);
+            fprintf(stderr, "There are incorrect tokens in file %s!\n",
+                    last_file);
             fprintf(stderr, "The input file must contain integers!\n");
             break;
 
@@ -167,6 +114,15 @@ void show_prompt(int rc, char *last_file)
             break;
     }
 }
+
+/// Проверка формата ввода
+int format_check(int argc, char **argv)
+{
+    if (!(argc == 3 || (argc == 4 && !strcmp(argv[3], "f"))))
+        return FORMAT_ERROR;
+    return HAPPY_END;
+}
+
 
 
 

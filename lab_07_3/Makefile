@@ -35,7 +35,7 @@ sort_cmp.exe: $(SORT_CMP_OBJ)
 	
 	
 test.exe: $(TES_OBJ)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(DBFLAGS)
 
 %.o: %.c *.h
 	$(CC) -c $< $(FLAGS)

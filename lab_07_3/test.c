@@ -177,12 +177,13 @@ ___TEST(6)
     int *close_pointer = NULL;
     int len = 3;
     int add = 1;
+    int rc;
 
 
     f = tmpfile();
     fprintf(f, "%d %d %d", -1, 1, 3);
 
-    close_pointer = frarr(f, len, &pb, &pe, add);
+    close_pointer = frarr(f, len, &pb, &pe, add, &rc);
 
     // Проверка соответствия выходной и входной длины
     result = pe - pb;
@@ -199,7 +200,6 @@ ___TEST(7)
     expRes = add;
 
     printf("frarr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
-    free(close_pointer);
 
 
 ___TEST(8)
@@ -213,6 +213,7 @@ ___TEST(8)
     printf("fparr(...)\t\t\t%d\t\t%d\t\t%s\n", expRes, result, expRes == result ? "SUCCESS" : "CRASH");
     fclose(f);
 
+    free(close_pointer);
 }
 
 
