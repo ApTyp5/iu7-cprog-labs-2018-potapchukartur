@@ -39,9 +39,9 @@ int bit_dist(const char *el_1, const char *el_2)
 ///находящуюся в центре между el_1 и el_2
 char *half_bit_dist(const char *el_1, const char *el_2, int size)
 {
-    int hbd = bit_dist(el_1, el_2)/2/size;
+    int hbd=bit_dist(el_1, el_2)/2/size;
 
-    for (int i = 0; i < hbd; i++)
+    for (int i=0; i < hbd; i++)
         el_1 += size;
     return (char *)el_1;
 }
@@ -58,7 +58,7 @@ char *half_bit_dist(const char *el_1, const char *el_2, int size)
 // \param[in] left_el левая граница упорядоченного массива
 // \param[in] right_el правая граница уаорядоченного массива
 char *binary_seek(const char *left_el, const char *right_el,
-        const char *const comp_el, comparator comp, int size)
+    const char *const comp_el, comparator comp, int size)
 {
     void *tmp;
     while (bit_dist(right_el, left_el) > size)
@@ -97,7 +97,7 @@ void move_right(const char *const left_el, char *right_el, const int size)
 // \param[in] comp  ф-я сравнивания 2-х элементов
 void mysort(void *const start, int len, int size, comparator comp)
 {
-    char *end = (char *)start + len*size;
+    char *end = (char *)start+len*size;
     char *tmp = malloc(size);
     char *ins_place = NULL;
     char *begin = (char *)start;
