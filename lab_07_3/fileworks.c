@@ -56,12 +56,13 @@ int fint_check(FILE *f)
  */
 int file_check(FILE *f, int *const len)
 {
+
     *len = fint_check(f);
     switch (*len)
     {
         case WRONG_INPUT:
             return WRONG_INPUT;
-        case EMPTY_FILE:
+        case 0:
             return EMPTY_FILE;
         default:
             return HAPPY_END;
