@@ -95,21 +95,25 @@ void move_right(const char *const left_el, char *right_el, const int size)
 // \param[in] len   длина массива
 // \param[in] size  размер одного элемента
 // \param[in] comp  ф-я сравнивания 2-х элементов
-void mysort(void *const start, int len, int size, comparator comp)
+void mysort(void *const start, size_t len, size_t size, comparator comp)
 {
     char *end = (char *)start + len * size;
     char *tmp = malloc(size);
     char *ins_place = NULL;
     char *begin = (char *)start;
 
+    char *step_back;
+
+
 
     for (begin += size; begin < end; begin += size)
     {
-        if (comp(begin, begin - size) < 0)
+        step_back = begin - size;
+        if (comp(begin, step_back) < 0)
         {
             el_copy(begin, tmp, size);
-            ins_place = binary_seek(start, begin - size, begin, comp, size);
-            move_right(ins_place, begin - size, size);
+            ins_place = binary_seek(start, step_back, begin, comp, size);
+            move_right(ins_place, step_back, size);
             el_copy(tmp, ins_place, size);
         }
     }
