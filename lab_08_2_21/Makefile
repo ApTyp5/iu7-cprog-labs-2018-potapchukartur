@@ -2,8 +2,11 @@ CC := gcc
 FLAGS := -Wall -Werror -std=c99 -pedantic
 OBJ := main.o inout.o
 TOBJ := test.o inout.o
-LFLAGS :=
 
+
+ifeq ($(mod),db)
+	LFLAGS := -g3 -O0
+endif
 
 
 
@@ -14,6 +17,12 @@ app.exe: $(OBJ)
 
 test.exe: $(TOBJ)
 	gcc -o $@ $^ $(LFLAGS)
+
+%.o : %.c *.h
+	gcc -c $< $(FLAGS)
+
+clean:
+	rc *.o *.exe .*~ *.test
 
 
 

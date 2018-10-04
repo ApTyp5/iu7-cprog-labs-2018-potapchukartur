@@ -17,31 +17,31 @@ int main(int argc, char *argv[])
     rc = format_check(argc, argv); // Проверка формата
 
     if (!rc)
-        f = fopen_try(argv[], "r", &rc);
+        f = fopen_try(argv[], "r", &rc); // открытие файла
 
     if (!rc)
-        mtr = get_mtr(f, &length, &width, &rc);
+        mtr = get_mtr(f, &length, &width, &rc); // чтение матрицы
 
     if (!rc)
         process;
 
     if (!rc && f)
-        rc = fclose_try(f);
+        rc = fclose(f); // rc == HE of EOF
 
     if (!rc)
-        f = fopen_try(argv[], "w", &rc);
+        f = fopen_try(argv[], "w", &rc); // открытие файла
     
     if (!rc)
-        put_mtr();
+        put_mtr(); // запись матрицы в файл
 
     if (!rc && f)
-        rc = fclose_try(f);
+        rc = fclose(f); // rc == HE or EOF
 
     if (mtr)
         free(mtr);
 
 #ifdef NDEBUG
-    shwo_prompt(rc);
+    show_prompt(rc);
 #endif
 
     return rc;
