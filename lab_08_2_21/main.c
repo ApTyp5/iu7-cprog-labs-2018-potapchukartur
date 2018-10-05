@@ -11,19 +11,25 @@ int main(int argc, char *argv[])
 {
     int rc = 0;
     FILE *f = NULL;
-    double **mtr = NULL;
-    int length, width;
+    double **mtr_1 = NULL;
+    double **answer = NULL;
+    int in_len, in_wid, out_len, out_wid;
 
     rc = format_check(argc, argv); // Проверка формата
+
+    if (!rc)
+        rc = user_input();
+
 
     if (!rc)
         f = fopen_try(argv[], "r", &rc); // открытие файла
 
     if (!rc)
-        mtr = get_mtr(f, &length, &width, &rc); // чтение матрицы
+        mtr_1 = get_mtr(f, &in_len, &in_wid, &rc); // чтение матрицы
+    
 
     if (!rc)
-        process;
+        action(argv[1], mtr, answer, in_len, in_wid, &out_len, &out_wid);
 
     if (!rc && f)
         rc = fclose(f); // rc == HE of EOF
@@ -32,7 +38,7 @@ int main(int argc, char *argv[])
         f = fopen_try(argv[], "w", &rc); // открытие файла
     
     if (!rc)
-        put_mtr(); // запись матрицы в файл
+        put_mtr(f, answer, out_len, out_wid); // запись матрицы в файл
 
     if (!rc && f)
         rc = fclose(f); // rc == HE or EOF

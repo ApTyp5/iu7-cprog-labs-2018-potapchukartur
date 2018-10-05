@@ -12,6 +12,7 @@ void get_mtr_test_2();
 void get_mtr_test_3();
 void get_mtr_test_4();
 void get_mtr_test_5();
+void put_mtr_test_1();
 
 
 #endif

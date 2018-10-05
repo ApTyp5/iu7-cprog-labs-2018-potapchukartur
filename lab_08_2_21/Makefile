@@ -22,7 +22,7 @@ test.exe: $(TOBJ)
 	gcc -c $< $(FLAGS)
 
 clean:
-	rc *.o *.exe .*~ *.test
+	rm *.o *.exe .*~ *.test
 
 
 

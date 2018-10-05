@@ -14,7 +14,6 @@
 
 
 
-
 int main()
 {
     inout();
@@ -43,6 +42,7 @@ void inout()
     get_mtr_test_3();
     get_mtr_test_4();
     get_mtr_test_5();
+    put_mtr_test_1();
 }
 
 
@@ -101,6 +101,7 @@ void get_mtr_test_2()
     FILE *f = fopen("test.txt", "w");
     fprintf(f, "3 3 3\n");
     fprintf(f, "qwer asdf");
+    rewind(f);
 
     double **dres = get_mtr_2(f, &row, &col, &rc);
     dres = (void *)dres;
@@ -121,6 +122,7 @@ void get_mtr_test_3()
     fprintf(f, "5 6 3\n");
     fprintf(f, "1 1 1.1\n");
     fprintf(f, "10 3 1.1\n");
+    rewind(f);
 
     double **dres = get_mtr_2(f, &row, &col, &rc);
     dres = (void *)dres;
@@ -141,6 +143,8 @@ void get_mtr_test_4()
     fprintf(f, "5 6 3\n");
     fprintf(f, "1 1 1.1\n");
     fprintf(f, "1 10 1.1\n");
+    rewind(f);
+
 
     double **dres = get_mtr_2(f, &row, &col, &rc);
 
@@ -159,7 +163,7 @@ void get_mtr_test_5()
     COMMON_VARS;
     int row, col;
 
-    FILE *f = fopen("test.txt", "w");
+    FILE *f = fopen("test.txt", "w + r");
     fprintf(f, "5 6 3\n");
     fprintf(f, "1 1 1.1\n");
     fprintf(f, "1 5 1.5\n");
@@ -167,21 +171,69 @@ void get_mtr_test_5()
 
     rewind(f);
 
+
     double **dres = get_mtr_2(f, &row, &col, &rc);
     dres = (void *)dres;
 
     result = rc;
     exp_res = HAPPY_END;
 
+
     if ( dres[0][0] != 1.1 || dres[0][4] != 1.5 ||
         dres[3][2] != 4.3 || dres[1][0] != 0.0 || 
         dres[4][5] != 0.0)
         result = NON_HAPPY_END;
 
-    pverd(line, "germtr_test_4", result, exp_res);
+    pverd(line, "germtr_test_5", result, exp_res);
 }
 
 
+
+
+void put_mtr_test_1()
+{
+    COMMON_VARS;
+
+    double a[2][3] = { {0.0, 1.1, 2.2}, 
+                       {3.3, 4.4, 5.5},
+    };
+
+    FILE *f = fopen("test.txt", "w");
+    put_mtr_1(f, (double **)a, 2, 3);
+    fclose(f);
+
+    f = fopen("test.txt", "r");
+    rewind(f);
+
+    
+
+
+
+    double b[2][3];
+
+    fscanf(f, "%d%d", &rc, &rc);
+
+
+    for (int i = 0; i < 2; i++)
+        for (int j = 0; j < 3; j++)
+            fscanf(f, "%lf", b[i] + j);
+
+    result = HAPPY_END;
+    exp_res = HAPPY_END;
+    
+    for (int i = 0; i < 2; i++)
+        for (int j = 0; j < 3; j++)
+            if (a[i][j] != b[i][j])
+            {
+                exp_res = NON_HAPPY_END;
+                break;
+            }
+
+
+    pverd(line, "put_mtr_test_1", result, exp_res);
+}
+
+    
 
 
     
