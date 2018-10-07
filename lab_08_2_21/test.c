@@ -43,6 +43,7 @@ void inout()
     get_mtr_test_4();
     get_mtr_test_5();
     put_mtr_test_1();
+    read_matr_test_1();
 }
 
 
@@ -178,6 +179,12 @@ void get_mtr_test_5()
     result = rc;
     exp_res = HAPPY_END;
 
+    for (int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+            printf("%lf%s", dres[i][j], (j + 1)%col ? " " : "\n");
+            
+
+
 
     if ( dres[0][0] != 1.1 || dres[0][4] != 1.5 ||
         dres[3][2] != 4.3 || dres[1][0] != 0.0 || 
@@ -234,7 +241,47 @@ void put_mtr_test_1()
 }
 
     
+void read_matr_test_1()
+{
+    COMMON_VARS;
+    int row, col;
 
+    FILE *f = fopen("test.txt", "w");
+    fprintf(f, "5 6 3\n");
+    fprintf(f, "1 1 1.1\n");
+    fprintf(f, "1 5 1.5\n");
+    fprintf(f, "4 3 4.3\n");
+
+    fclose(f);
+
+
+    double **dres = read_matr("test.txt", &row, &col, &rc);
+    dres = (void *)dres;
+
+    result = rc;
+    printf("result = %d\n", result);
+
+    exp_res = HAPPY_END;
+
+    printf("len = %d\nwidth = %d\n", row, col);
+
+    
+    for (int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+            printf("%lf%s", dres[i][j], (j + 1)%col ? " " : "\n");
+
+
+
+    if ( dres[0][0] != 1.1 || dres[0][4] != 1.5 ||
+        dres[3][2] != 4.3 || dres[1][0] != 0.0 || 
+        dres[4][5] != 0.0)
+        result = NON_HAPPY_END;
+
+    printf("result = %d\n", result);
+
+
+    pverd(line, "read_mtr_test_1", result, exp_res);
+}
 
     
 

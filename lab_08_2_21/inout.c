@@ -9,6 +9,21 @@ int db = 1;
 #define dp  printf("db(%d)\n", db++);
 
 
+double **read_matr(char *fname, int *len, int *wid, int *rc)
+{
+    double **answer = NULL;
+    FILE *f = fopen_try(fname, "r", rc);
+
+    if (!*rc)
+        answer = get_mtr_2(f, len, wid, rc);
+
+    if (!*rc)
+        *rc = fclose(f);
+
+    return answer;
+}
+    
+
 
 
 FILE *fopen_try(char *filename, char *mod, int *rc)
@@ -105,10 +120,6 @@ void put_mtr_1(FILE *f, double **mtr, int row, int col)
 }
 
 
-int user_input()
-{
-    switch()
-    {
 
 
 

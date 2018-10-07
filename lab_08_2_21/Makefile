@@ -10,7 +10,9 @@ endif
 
 
 
-
+test: test.exe
+	./test.exe
+	rm *.txt
 
 app.exe: $(OBJ)
 	gcc -o $@ $^ $(LFLAGS)
