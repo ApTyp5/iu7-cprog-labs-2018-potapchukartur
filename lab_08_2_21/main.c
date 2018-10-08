@@ -14,6 +14,7 @@ int main(int ac, char **av)
     int m2len, m2wid;
     int anslen, answid;
     str_t ansfname;
+    str_t errfile;
 
 
 
@@ -23,12 +24,14 @@ int main(int ac, char **av)
 
     if (!rc)
     {
+        errfile = av[2];
         rc = read_mtr(av[2], &mtr1, &m1len, &m1wid, get_mtr_m2);//done
         ansfname = av[3];
     }
 
     if (!rc && ac == 5) // ac == 5 <=> на вход поданы 2 файла-матрицы
     {
+        errfile = av[3];
         rc = read_mtr(av[3], &mtr2, &m2len, &m2wid, get_mtr_m2);//done
         ansfname = av[4];
     }
@@ -39,7 +42,10 @@ int main(int ac, char **av)
             &ans, &anslen, &answid);
 
     if (!rc)
+    {
+        errfile = ansfname;
         rc = write_mtr(ansfname, ans, anslen, answid, put_mtr_m1);//done
+    }
 
 
 
@@ -50,9 +56,8 @@ int main(int ac, char **av)
     if (ans)
         free(ans);
 
-#ifdef  NDEBUG
-    show_prompt(rc);
-#endif
+    show_prompt(rc, errfile);
+
     return rc;
 }
 

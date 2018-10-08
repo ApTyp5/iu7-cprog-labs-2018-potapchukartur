@@ -2,7 +2,7 @@ CC := gcc
 OBJ := main.o inout.o action.o prompt.o
 TOBJ := test.o
 CFLAGS := -Wall -Werror -std=c99 -pedantic
-LFLAGS :=
+LFLAGS := 
 
 
 

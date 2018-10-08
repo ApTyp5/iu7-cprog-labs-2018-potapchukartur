@@ -3,10 +3,7 @@
 #include "define.h"
 
 
-
 int mult_strcmp(char *str, char **arr, int len);
-
-
 
 
 int format_check(int ac, char **av)
@@ -29,12 +26,12 @@ int format_check(int ac, char **av)
 }
 
 
-int mult_strcmp(char *str, char **arr, int len)
+int mult_strcmp(str_t str, str_t *arr, int len)
 {
     for (int i = 0; i < len; i++)
-        if (strcmp(str, arr[i]))
-            return  NON_HAPPY_END;
-    return HAPPY_END;
+        if (!strcmp(str, arr[i]))
+            return  HAPPY_END;
+    return NON_HAPPY_END;
 }
 
 

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+testdir=./tests
+
+
+
+
+for (( i = 0; i < 1; i++))
+do
+    ./app.exe a testdir/in_11 testdir/in_12 out
+done
+
+
+
