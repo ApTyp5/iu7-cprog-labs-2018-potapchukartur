@@ -1,4 +1,9 @@
 
+#include <stdlib.h>
+#include "define.h"
+#include "prompt.h"
+#include "action.h"
+#include "inout.h"
 
 int main(int ac, char **av)
 {
@@ -8,6 +13,7 @@ int main(int ac, char **av)
     int m1len, m1wid;
     int m2len, m2wid;
     int anslen, answid;
+    str_t ansfname;
 
 
 
@@ -16,16 +22,24 @@ int main(int ac, char **av)
     rc = format_check(ac, av);
 
     if (!rc)
-        rc = read_mtr(av[2], &mtr1, &m1len, &m1wid, method_2);
+    {
+        rc = read_mtr(av[2], &mtr1, &m1len, &m1wid, get_mtr_m2);//done
+        ansfname = av[3];
+    }
 
     if (!rc && ac == 5) // ac == 5 <=> на вход поданы 2 файла-матрицы
-        rc = read_mtr(av[3], &mtr2, &m2len, &m2wid, method_2);
+    {
+        rc = read_mtr(av[3], &mtr2, &m2len, &m2wid, get_mtr_m2);//done
+        ansfname = av[4];
+    }
 
     if (!rc)
-        rc = act();
+        rc = act(av[1], mtr1, m1len, m1wid,
+            mtr2, m2len, m2wid,
+            &ans, &anslen, &answid);
 
     if (!rc)
-        rc = put_mtr();
+        rc = write_mtr(ansfname, ans, anslen, answid, put_mtr_m1);//done
 
 
 

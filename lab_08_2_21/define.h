@@ -7,6 +7,7 @@
 
 typedef double **matrix_t;
 typedef FILE *file_t;
+typedef char *str_t;
 
 
 // Yield codes
@@ -18,3 +19,10 @@ typedef FILE *file_t;
 #define     WRONG_ACTION            -4
 #define     TOO_MUCH_INPUT_FILES    -5
 #define     WRONG_INPUT             -6
+#define     ALLOCATION_ERROR        -7
+#define     WRONG_ADD_MTR_SIZES     -8
+#define     WRONG_MULT_MTR_SIZES    -9
+#define     FOPEN_ERROR             -10
+
+
+#endif
