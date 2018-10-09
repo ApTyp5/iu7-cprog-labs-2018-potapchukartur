@@ -5,15 +5,15 @@
 
 
 
-#define		SORT0_FILE		"trans_10000000_10000001_1000.inv"
-#define		SORT1_FILE		"bp_10000000_10000001_1000.inv"
-#define		SORT2_FILE		"qs_10000000_10000001_1000.inv"
+#define		SORT0_FILE		"trans_100_10000_100.inv"
+#define		SORT1_FILE		"bp_100_10000_100.inv"
+#define		SORT2_FILE		"qs_100_10000_100.inv"
 #define		SORT1_NAME		"binPastes"
 #define		SORT2_NAME		"qsort"
 
-#define		BEG			10000000
-#define		END			10000001
-#define		STEP			10000
+#define		BEG			100
+#define		END			10000
+#define		STEP			100
 #define		numOfIter		10
 
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 {
 
 
-	//compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, SORT0_FILE, NULL);
+	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, SORT0_FILE, NULL);
 	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, SORT1_FILE, SORT2_FILE);
 
 
