@@ -10,6 +10,9 @@ typedef FILE *file_t;
 typedef char *str_t;
 
 
+#define     EPS     1E-5
+
+
 // Yield codes
 
 #define     REFERENCE_ONLY          1
@@ -23,6 +26,7 @@ typedef char *str_t;
 #define     WRONG_ADD_MTR_SIZES     -8
 #define     WRONG_MULT_MTR_SIZES    -9
 #define     FOPEN_ERROR             -10
+#define     NO_DESIDION             -11
 
 
 #endif

@@ -1,6 +1,7 @@
 
 #include <string.h>
 #include "define.h"
+#include "aplog.h"
 
 
 int mult_strcmp(char *str, char **arr, int len);
@@ -8,6 +9,9 @@ int mult_strcmp(char *str, char **arr, int len);
 
 int format_check(int ac, char **av)
 {
+    PE;
+    PIV("ac = ", ac);
+
     char *perm_acts[] = {"a", "m", "o", "h"};
 
     if (ac != 4 && ac != 5)
@@ -43,6 +47,9 @@ void show_ref()
 
 void show_prompt(int rc, str_t errfile)
 {
+    PE;
+    PIV("rc = ", rc);
+
     switch(rc)
     {
         case EOF:

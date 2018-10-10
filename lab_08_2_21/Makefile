@@ -1,5 +1,5 @@
 CC := gcc
-OBJ := main.o inout.o action.o prompt.o
+OBJ := main.o inout.o action.o prompt.o aplog.o
 TOBJ := test.o
 CFLAGS := -Wall -Werror -std=c99 -pedantic
 LFLAGS := 
