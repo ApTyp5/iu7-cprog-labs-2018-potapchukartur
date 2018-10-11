@@ -30,10 +30,7 @@ int Ghauss(matrix_t mtr, int len, int wid,
         return ALLOCATION_ERROR;
     zero_identify(ans, num_of_x, 1);
 
-    if (num_of_x != len)
-    {
-        del_useless_cols(mtr, &len, &wid);
-    }
+    del_useless_cols(mtr, &len, &wid);
 
     col_method_max_diag(mtr, wid, *ans);
 

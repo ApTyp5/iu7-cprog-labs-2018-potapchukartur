@@ -133,9 +133,6 @@ void put_mtr_m1(file_t f, matrix_t mtr, int len, int wid)
     for (int i = 0; i < len; i++)
         for (int j = 0; j < wid; j++)
         {
-            if (i == 1 && j == 0)
-                printf("cycle mtr[1][0] = %lf", mtr[1][0]);
-
             fprintf(f, "%lf%s", mtr[i][j], (j + 1)%wid ? " " : "\n");
         }
 }

@@ -1,9 +1,13 @@
 CC := gcc
 OBJ := main.o inout.o action.o prompt.o aplog.o Ghauss.o
-TOBJ := test.o
+TOBJ := test.o inout.o action.o prompt.o aplog.o Ghauss.o
 CFLAGS := -Wall -Werror -std=c99 -pedantic
-LFLAGS := 
 
+
+ifeq ($(mod),db)
+	$(CFLAGS) += -DNDEBUG
+	LFLAGS:=-O0 -g3
+endif
 
 
 test: app.exe
@@ -13,9 +17,11 @@ test: app.exe
 	cat out
 	rm log
 
+func_test: app.exe
+	./run_tests
+
 app.exe: $(OBJ)
 	gcc -o $@ $^ $(LFLAGS)
-	
 
 test.exe: $(TOBJ)
 	gcc -o $@ $^ $(LFLAGS)
