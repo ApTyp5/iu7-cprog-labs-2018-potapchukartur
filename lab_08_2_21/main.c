@@ -63,7 +63,7 @@ int main(int ac, char **av)
     show_prompt(rc, errfile);
 
     E_LOG;
-    
+
     return rc;
 }
 

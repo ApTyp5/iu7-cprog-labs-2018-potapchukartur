@@ -16,14 +16,41 @@ extern  FILE *_apl;
                             __FILE__);\
                     fprintf(_apl, "%d --> %s:\n", __LINE__ - 2, __func__)
 
-#define     PE              fprintf(_apl, "%s:\t%d --> %s:\n",__FILE__, __LINE__ - 2, __func__);
 
-#define     PIV(inv, val)  fprintf(_apl, "%s%d\n", inv, val);
 
-#define     PM(inv, mass, num, sep)  fprintf(_apl, "%s", inv);\
+
+
+#define     PE              fprintf(_apl, "\n%s:\t%d --> %s:\n",__FILE__, __LINE__ - 2, __func__);
+
+
+#define     PM(mes)        fprintf(_apl, "%s", mes)
+
+
+#define     PIV(inv, val)  fprintf(_apl, "%s%d\n", inv, val)
+
+#define     PFV(inv, val)  fprintf(_apl, "%s%lf\n", inv, val)
+
+
+
+#define     PMAS(inv, mas, num, sep)  fprintf(_apl, "%s", inv);\
     for (int i = 0; i < num; i++)\
-        fprintf(_apl, "%d%s", mass[i], sep);\
+        fprintf(_apl, "%lf%s", mas[i], sep);\
     fprintf(_apl, "\n")
+
+#define     PMAT(inv, mtr, len, wid, sep) fprintf(_apl, "%s", inv);\
+    for (int i = 0; i < len; i++)\
+        for (int j = 0; j < wid; j++)\
+            fprintf(_apl, "%lf%s", mtr[i][j], \
+                (j + 1)%wid ? sep : "\n")
+
+#define     PMAT1(inv, mtr, len, wid, sep) fprintf(_apl, "%s", inv);\
+    for (int i = 0; i < len; i++)\
+        for (int j = 0; j < wid; j++)\
+            fprintf(f, "%lf%s", mtr[i][j], \
+                (j + 1)%wid ? sep : "\n")
+
+
+
 
 
 #define     E_LOG   fclose(_apl)

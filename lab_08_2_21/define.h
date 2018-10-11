@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 typedef double **matrix_t;
+typedef double *vector_t;
 typedef FILE *file_t;
 typedef char *str_t;
 

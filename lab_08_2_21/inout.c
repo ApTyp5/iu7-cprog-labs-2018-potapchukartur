@@ -71,6 +71,7 @@ int get_mtr_m2(file_t f, matrix_t *mtr, int *len, int *wid)
 }
 
 
+
 matrix_t allocate_matrix(int len, int wid)
 {
     PE;
@@ -86,7 +87,6 @@ matrix_t allocate_matrix(int len, int wid)
     return result;
 }
 
-
 void zero_identify(matrix_t *mtr, int len, int wid)
 {
     PE;
@@ -100,6 +100,13 @@ int write_mtr(str_t fname, matrix_t mtr, int len, int wid,
     void put_mtr(file_t, matrix_t, int len, int wid))
 {
     PE;
+    PIV("len = ", len);
+    PIV("wid = ", wid);
+    PM("fname : ");
+    PM(fname);
+    PM("\n");
+    PMAT("out :\n", mtr, len, wid, " ");
+
     int rc = HAPPY_END;
     file_t f = NULL;
 
@@ -118,12 +125,20 @@ int write_mtr(str_t fname, matrix_t mtr, int len, int wid,
 void put_mtr_m1(file_t f, matrix_t mtr, int len, int wid)
 {
     PE;
+    PIV("len = ", len);
+    PIV("wid = ", wid);
+    PMAT("mtr :\n", mtr, len, wid, " ");
+    PFV("mtr[1][0] = ", mtr[1][0]);
+
     for (int i = 0; i < len; i++)
         for (int j = 0; j < wid; j++)
-            fprintf(f, "%7lf%s", mtr[i][j], (j + 1)%wid ? " " : "\n");
+        {
+            if (i == 1 && j == 0)
+                printf("cycle mtr[1][0] = %lf", mtr[1][0]);
+
+            fprintf(f, "%lf%s", mtr[i][j], (j + 1)%wid ? " " : "\n");
+        }
 }
-
-
 
 
 
