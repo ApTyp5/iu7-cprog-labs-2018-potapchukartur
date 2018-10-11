@@ -43,13 +43,6 @@ extern  FILE *_apl;
             fprintf(_apl, "%lf%s", mtr[i][j], \
                 (j + 1)%wid ? sep : "\n")
 
-#define     PMAT1(inv, mtr, len, wid, sep) fprintf(_apl, "%s", inv);\
-    for (int i = 0; i < len; i++)\
-        for (int j = 0; j < wid; j++)\
-            fprintf(f, "%lf%s", mtr[i][j], \
-                (j + 1)%wid ? sep : "\n")
-
-
 
 
 
