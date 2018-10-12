@@ -14,14 +14,14 @@ int format_check(int ac, char **av)
 
     char *perm_acts[] = {"a", "m", "o", "h"};
 
-    if (ac != 4 && ac != 5)
+    if (ac == 2 && !strcmp(av[1], "h"))
+        return REFERENCE_ONLY;
+
+    if (ac != 4 && ac != 5 )
         return FORMAT_ERROR;
 
     if (mult_strcmp(av[1], perm_acts, 4))
         return WRONG_ACTION;
-
-    if (!strcmp(av[1], "h"))
-        return REFERENCE_ONLY;
 
     if (!strcmp(av[1], "o") && ac == 5)
         return TOO_MUCH_INPUT_FILES;
@@ -41,7 +41,7 @@ int mult_strcmp(str_t str, str_t *arr, int len)
 
 void show_ref()
 {
-    fprintf(stderr, "!@#REFERENCE#@!\n");
+    printf("!@#REFERENCE#@!\n");
 }
 
 
@@ -54,7 +54,7 @@ void show_prompt(int rc, str_t errfile)
     {
         case EOF:
             fprintf(stderr, "Error with file %s\n", errfile);
-            perror("Can't close file");
+            perror("Can't close it");
             break;
 
         case FORMAT_ERROR:
@@ -65,6 +65,11 @@ void show_prompt(int rc, str_t errfile)
         case WRONG_ACTION:
             fprintf(stderr, "Wrong action!\n\n");
             show_ref();
+            break;
+
+        case FOPEN_ERROR:
+            fprintf(stderr, "Error with file %s\n", errfile);
+            perror("Can't open it");
             break;
 
         case TOO_MUCH_INPUT_FILES:

@@ -5,9 +5,13 @@ CFLAGS := -Wall -Werror -std=c99 -pedantic
 
 
 ifeq ($(mod),db)
-	$(CFLAGS) += -DNDEBUG
 	LFLAGS:=-O0 -g3
 endif
+
+ifeq ($(mod),rel)
+	CFLAGS := $(CFLAGS) -DNDEBUG
+endif
+
 
 
 test: app.exe
@@ -18,7 +22,7 @@ test: app.exe
 	rm log
 
 func_test: app.exe
-	./run_tests
+	./func_test
 
 app.exe: $(OBJ)
 	gcc -o $@ $^ $(LFLAGS)

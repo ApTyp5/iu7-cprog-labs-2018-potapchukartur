@@ -12,7 +12,7 @@ extern  FILE *_apl;
 
 
 #define     S_LOG(FNAME)   _apl = fopen(FNAME, "a");\
-                    fprintf(_apl, "Log started in file ##%s\n", \
+                    fprintf(_apl, "Log started in file #%s\n", \
                             __FILE__);\
                     fprintf(_apl, "%d --> %s:\n", __LINE__ - 2, __func__)
 

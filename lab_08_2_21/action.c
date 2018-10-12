@@ -7,6 +7,13 @@
 #include "action.h"
 #include "Ghauss.h"
 
+int mult(matrix_t mtr1, int m1len, int m1wid,
+    matrix_t mtr2, int m2len, int m2wid,
+    matrix_t *ans, int *anslen, int *answid);
+
+int add(matrix_t mtr1, int m1len, int m1wid,
+    matrix_t mtr2, int m2len, int m2wid,
+    matrix_t *ans, int *anslen, int *answid);
 
 
 int act(str_t action, matrix_t mtr1, int m1len, int m1wid,
@@ -93,27 +100,5 @@ int mult(matrix_t mtr1, int m1len, int m1wid,
         }
     return HAPPY_END;
 }
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-                
-
-
-
-
-    
-    
-
-
 
 

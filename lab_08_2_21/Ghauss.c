@@ -30,7 +30,7 @@ int Ghauss(matrix_t mtr, int len, int wid,
         return ALLOCATION_ERROR;
     zero_identify(ans, num_of_x, 1);
 
-    del_useless_cols(mtr, &len, &wid);
+    //del_useless_cols(mtr, &len, &wid);
 
     col_method_max_diag(mtr, wid, *ans);
 
@@ -43,7 +43,7 @@ int Ghauss(matrix_t mtr, int len, int wid,
     return HAPPY_END;
 }
 
-
+/*
 // Обрезание матрицы до квадратной, причем в столбце mtr[wid]
 // останутся свободные члены
 void del_useless_cols(matrix_t mtr, int *len, int *wid)
@@ -54,6 +54,7 @@ void del_useless_cols(matrix_t mtr, int *len, int *wid)
     *wid = *len;
 }
 
+*/
 
 
 void col_method_max_diag(matrix_t mtr, int rate, double **ans)

@@ -73,8 +73,11 @@ int main(int ac, char **av)
     show_prompt(rc, errfile);
 #endif
 
+
+    PIV("end rc = ", rc);
     E_LOG;
 
+    // Возможно при аозвратном значении reference_only надо возвращать happye_end
     return rc;
 }
 
