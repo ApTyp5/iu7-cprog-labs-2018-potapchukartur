@@ -27,7 +27,7 @@ typedef char *str_t;
 #define     WRONG_ADD_MTR_SIZES     -8
 #define     WRONG_MULT_MTR_SIZES    -9
 #define     FOPEN_ERROR             -10
-#define     NO_DESIDION             -11
+#define     WRONG_SLAU_MTR_SIZES    -11
 
 
 #endif

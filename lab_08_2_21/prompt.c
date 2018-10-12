@@ -82,11 +82,15 @@ void show_prompt(int rc, str_t errfile)
             break;
 
         case WRONG_ADD_MTR_SIZES:
-            fprintf(stderr, "Matrixes you want to add have wrong sizes\n");
+            fprintf(stderr, "Matrixes you want to add have wrong sizes!\n");
             break;
 
         case WRONG_MULT_MTR_SIZES:
-            fprintf(stderr, "Matrixes you want to multiplicate have wrong sizes\n");
+            fprintf(stderr, "Matrixes you want to multiplicate have wrong sizes!\n");
+            break;
+
+        case WRONG_SLAU_MTR_SIZES:
+            fprintf(stderr, "The number of eqalizations must be eqival with number of variables!\n");
             break;
 
         case REFERENCE_ONLY:

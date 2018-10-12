@@ -18,8 +18,8 @@ int Ghauss(matrix_t mtr, int len, int wid,
 
     int num_of_x = wid - 1; 
 
-    if (len > num_of_x)
-        return NO_DESIDION;
+    if (len != num_of_x)
+        return WRONG_SLAU_MTR_SIZES;
 
     *anslen = num_of_x;
     *answid = 1;

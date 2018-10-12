@@ -128,7 +128,6 @@ void put_mtr_m1(file_t f, matrix_t mtr, int len, int wid)
     PIV("len = ", len);
     PIV("wid = ", wid);
     PMAT("mtr :\n", mtr, len, wid, " ");
-    PFV("mtr[1][0] = ", mtr[1][0]);
 
     for (int i = 0; i < len; i++)
         for (int j = 0; j < wid; j++)

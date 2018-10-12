@@ -46,13 +46,11 @@ int add(matrix_t mtr1, int m1len, int m1wid,
     PIV("m2wid = ", m2wid);
     */
 
-    db;
 
     
 
     if (!(m1len == m2len && m1wid == m2wid))
         return WRONG_ADD_MTR_SIZES;
-    db;
 
     (*ans) = allocate_matrix(m1len, m1wid);
     if (!(*ans))
