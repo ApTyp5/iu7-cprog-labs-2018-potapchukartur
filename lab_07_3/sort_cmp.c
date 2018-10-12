@@ -5,16 +5,16 @@
 
 
 
-#define		SORT0_FILE		"trans_100_10000_100.inv"
-#define		SORT1_FILE		"bp_100_10000_100.inv"
-#define		SORT2_FILE		"qs_100_10000_100.inv"
+#define		SORT0_FILE		"trans_1000_100000_1000.inv"
+#define		SORT1_FILE		"bp_1000_50000_1000.inv"
+#define		SORT2_FILE		"qs_1000_50000_1000.inv"
 #define		SORT1_NAME		"binPastes"
 #define		SORT2_NAME		"qsort"
 
-#define		BEG			100
-#define		END			10000
-#define		STEP			100
-#define		numOfIter		10
+#define		BEG			1000
+#define		END			50000
+#define		STEP			1000
+#define		numOfIter		1
 
 
 #define		START_MEASURE		tm = clock();
@@ -46,10 +46,12 @@ int main(int argc, char **argv)
 {
 
 
-	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, SORT0_FILE, NULL);
-	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, SORT1_FILE, SORT2_FILE);
+	compareSorts("BP", "QS", mysort, qsort, incArr, BEG, END, STEP, "inc_"SORT0_FILE, NULL);
+	compareSorts("BP", "QS", mysort, qsort, incArr, BEG, END, STEP, "inc_"SORT1_FILE, "inc_"SORT2_FILE);
 
+	compareSorts("BP", "QS", mysort, qsort, decArr, BEG, END, STEP, "dec_"SORT1_FILE, "dec_"SORT2_FILE);
 
+	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, "ran_"SORT1_FILE, "ran_"SORT2_FILE);
 	return 0;
 } 
 
@@ -174,11 +176,10 @@ int *ranArr(int size)
 
 unsigned long long clock()
 {
-    unsigned long long d;
+    unsigned long long lo, hi;
 
-    __asm__ __volatile__ ("rdtsc" : "=A" (d) );
-
-    return d;
+    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+    return (hi << 32) | lo;
 }
 
 
