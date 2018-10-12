@@ -2,6 +2,7 @@ CC := gcc
 OBJ := main.o inout.o action.o prompt.o aplog.o Ghauss.o
 TOBJ := test.o inout.o action.o prompt.o aplog.o Ghauss.o
 CFLAGS := -Wall -Werror -std=c99 -pedantic
+mod=rel
 
 
 ifeq ($(mod),db)
