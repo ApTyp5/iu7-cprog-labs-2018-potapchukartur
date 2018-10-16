@@ -15,11 +15,11 @@ for i in ${!commands[*]}
 do
     num=$(( $i + 1 ))
 
-    echo -e "\nRunning test $num with command: ${commands[i]}"
-    ${commands[i]}
+    echo -e "\nRunning test $num with command: ${commands[$i]}"
+    ${commands[$i]}
 
 
-    if [[ !$(diff ./$outfile $testdir/${outputs[i]}) ]] 
+    if [[ !$(diff ./$outfile $testdir/${outputs[$i]}) ]] 
     then
         echo "Test $num successfully completed"
     else
