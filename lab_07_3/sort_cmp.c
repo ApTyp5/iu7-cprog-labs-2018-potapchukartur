@@ -14,7 +14,7 @@
 #define		BEG			1000
 #define		END			50000
 #define		STEP			1000
-#define		numOfIter		1
+#define		NUMOFITER		1
 
 
 #define		START_MEASURE		tm = clock();
@@ -28,14 +28,14 @@ unsigned long long tm;
 
 
 
-int *incArr(int);
-int *decArr(int);
-int *ranArr(int);
+int *inc_arr(int);
+int *dec_arr(int);
+int *ran_arr(int);
 void compareSorts(char *comment1, char *comment2, \
-		void sort1(void *, size_t, size_t , int (*)(const void *, const void *)), \
-		void sort2(void *, size_t, size_t, int (*)(const void *,const void *)), \
-		int *createArr(int), int size_min, int size_max, \
-		int step, char *fname1, char *fname2);
+    void sort1(void *, size_t, size_t , int (*)(const void *, const void *)), \
+    void sort2(void *, size_t, size_t, int (*)(const void *,const void *)), \
+    int *createArr(int), int size_min, int size_max, \
+    int step, char *fname1, char *fname2);
 unsigned long long clock();
 void test_qsort(int *createArr(int), int size_min, int size_max, 
     int step, char *fname);
@@ -46,18 +46,17 @@ void test_qsort(int *createArr(int), int size_min, int size_max,
 
 int main(int argc, char **argv)
 {
-
 /*
-	compareSorts("BP", "QS", mysort, qsort, incArr, BEG, END, STEP, "inc_"SORT0_FILE, NULL);
-	compareSorts("BP", "QS", mysort, qsort, incArr, BEG, END, STEP, "inc_"SORT1_FILE, "inc_"SORT2_FILE);
+	compareSorts("BP", "QS", mysort, qsort, inc_arr, BEG, END, STEP, "inc_"SORT0_FILE, NULL);
+	compareSorts("BP", "QS", mysort, qsort, inc_arr, BEG, END, STEP, "inc_"SORT1_FILE, "inc_"SORT2_FILE);
 
-	compareSorts("BP", "QS", mysort, qsort, decArr, BEG, END, STEP, "dec_"SORT1_FILE, "dec_"SORT2_FILE);
+	compareSorts("BP", "QS", mysort, qsort, dec_arr, BEG, END, STEP, "dec_"SORT1_FILE, "dec_"SORT2_FILE);
 
-	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, "ran_"SORT1_FILE, "ran_"SORT2_FILE);
+	compareSorts("BP", "QS", mysort, qsort, ran_arr, BEG, END, STEP, "ran_"SORT1_FILE, "ran_"SORT2_FILE);
     */
 
 
-    test_qsort(incArr, 100000, 10000000, 100000, "qs_inc.inv");
+    test_qsort(inc_arr, 100000, 10000000, 100000, "qs_inc.inv");
 
 	return 0;
 } 
@@ -127,7 +126,7 @@ void compareSorts(char *comment1, char *comment2,
 		int *epa;
 	       
 		
-		for (int j = 0; j < numOfIter; j++)
+		for (int j = 0; j < NUMOFITER; j++)
 		{
 			pa = createArr(i);
 			epa = pa + i;
@@ -143,13 +142,12 @@ void compareSorts(char *comment1, char *comment2,
 			free(pa);
 		}
 
-		fprintf(f1, fstr, sum/numOfIter);
-
+		fprintf(f1, fstr, sum/NUMOFITER);
 		
 
 		sum = 0;
 
-		for (int j = 0; j < numOfIter; j++)
+		for (int j = 0; j < NUMOFITER; j++)
 		{
 			pa = createArr(i);
 
@@ -163,7 +161,7 @@ void compareSorts(char *comment1, char *comment2,
 			
 			free(pa);
 		}
-		fprintf(f2, "%10ld\n", sum/numOfIter);
+		fprintf(f2, "%10ld\n", sum/NUMOFITER);
 	}
 
 	fclose(f1);
@@ -172,7 +170,7 @@ void compareSorts(char *comment1, char *comment2,
 }
 
 
-int *incArr(int size)
+int *inc_arr(int size)
 {
 	int *result = malloc(size * sizeof(int));
 	int *p = result;
@@ -185,7 +183,7 @@ int *incArr(int size)
 
 
 
-int *decArr(int size)
+int *dec_arr(int size)
 {
 	int *result = malloc(size * sizeof(int));
 	int *p = result;
@@ -197,7 +195,7 @@ int *decArr(int size)
 }
 
 
-int *ranArr(int size)
+int *ran_arr(int size)
 {
 	int *result = malloc(size * sizeof(int));
 	int *p = result;
