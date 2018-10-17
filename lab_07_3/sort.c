@@ -8,7 +8,7 @@ typedef int (*comparator)(const void *, const void *);
 /// Сравнивает целые числа
 // \param[in] int1 указатель на начало 1-го числа
 // \param[in] int2 указатель на начало 2-го числа
-int int_comp(const void *int1, const void *int2)
+int int_comp(const void *const int1, const void *const int2)
 {
     return *(int*)int1 - *(int*)int2;
 }

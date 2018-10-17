@@ -37,6 +37,8 @@ void compareSorts(char *comment1, char *comment2, \
 		int *createArr(int), int size_min, int size_max, \
 		int step, char *fname1, char *fname2);
 unsigned long long clock();
+void test_qsort(int *createArr(int), int size_min, int size_max, 
+    int step, char *fname);
 
 
 
@@ -45,15 +47,49 @@ unsigned long long clock();
 int main(int argc, char **argv)
 {
 
-
+/*
 	compareSorts("BP", "QS", mysort, qsort, incArr, BEG, END, STEP, "inc_"SORT0_FILE, NULL);
 	compareSorts("BP", "QS", mysort, qsort, incArr, BEG, END, STEP, "inc_"SORT1_FILE, "inc_"SORT2_FILE);
 
 	compareSorts("BP", "QS", mysort, qsort, decArr, BEG, END, STEP, "dec_"SORT1_FILE, "dec_"SORT2_FILE);
 
 	compareSorts("BP", "QS", mysort, qsort, ranArr, BEG, END, STEP, "ran_"SORT1_FILE, "ran_"SORT2_FILE);
+    */
+
+
+    test_qsort(incArr, 100000, 10000000, 100000, "qs_inc.inv");
+
 	return 0;
 } 
+
+void test_qsort(int *createArr(int), int size_min, int size_max,
+    int step, char *fname)
+{
+    unsigned long long t;
+    int *parr;
+    FILE *f = fopen(fname, "w");
+
+    for (int i = size_min; i <= size_max; i += step)
+    {
+        printf("iter: %d\n", i);
+
+        parr = createArr(i);
+        t = clock();
+        qsort(parr, i, sizeof(int), int_comp);
+        t = clock() - t;
+        fprintf(f, "%lld\n", t);
+    }
+    
+    fclose(f);
+}
+
+
+
+
+
+
+
+
 
 void compareSorts(char *comment1, char *comment2, 
     void sort1(void *, size_t, size_t, int (*)(const void *, const void *)), 
