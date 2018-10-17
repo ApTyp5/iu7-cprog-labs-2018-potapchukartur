@@ -142,7 +142,7 @@ void compare_sorts(char *comment1, char *comment2,
 			free(pa);
 		}
 
-		fprintf(f1, fstr, sum/NUMOFITER);
+		fprintf(f1, fstr, (sum / NUMOFITER));
 		
 
 		sum = 0;
@@ -161,7 +161,7 @@ void compare_sorts(char *comment1, char *comment2,
 			
 			free(pa);
 		}
-		fprintf(f2, "%10ld\n", sum/NUMOFITER);
+		fprintf(f2, "%10ld\n", (sum / NUMOFITER));
 	}
 
 	fclose(f1);
