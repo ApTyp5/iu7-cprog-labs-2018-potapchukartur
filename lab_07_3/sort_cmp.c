@@ -31,13 +31,13 @@ unsigned long long tm;
 int *inc_arr(int);
 int *dec_arr(int);
 int *ran_arr(int);
-void compareSorts(char *comment1, char *comment2, \
+void compare_sorts(char *comment1, char *comment2, \
     void sort1(void *, size_t, size_t , int (*)(const void *, const void *)), \
     void sort2(void *, size_t, size_t, int (*)(const void *,const void *)), \
-    int *createArr(int), int size_min, int size_max, \
+    int *create_arr(int), int size_min, int size_max, \
     int step, char *fname1, char *fname2);
 unsigned long long clock();
-void test_qsort(int *createArr(int), int size_min, int size_max, 
+void test_qsort(int *create_arr(int), int size_min, int size_max, 
     int step, char *fname);
 
 
@@ -47,12 +47,12 @@ void test_qsort(int *createArr(int), int size_min, int size_max,
 int main(int argc, char **argv)
 {
 /*
-	compareSorts("BP", "QS", mysort, qsort, inc_arr, BEG, END, STEP, "inc_"SORT0_FILE, NULL);
-	compareSorts("BP", "QS", mysort, qsort, inc_arr, BEG, END, STEP, "inc_"SORT1_FILE, "inc_"SORT2_FILE);
+	compare_sorts("BP", "QS", mysort, qsort, inc_arr, BEG, END, STEP, "inc_"SORT0_FILE, NULL);
+	compare_sorts("BP", "QS", mysort, qsort, inc_arr, BEG, END, STEP, "inc_"SORT1_FILE, "inc_"SORT2_FILE);
 
-	compareSorts("BP", "QS", mysort, qsort, dec_arr, BEG, END, STEP, "dec_"SORT1_FILE, "dec_"SORT2_FILE);
+	compare_sorts("BP", "QS", mysort, qsort, dec_arr, BEG, END, STEP, "dec_"SORT1_FILE, "dec_"SORT2_FILE);
 
-	compareSorts("BP", "QS", mysort, qsort, ran_arr, BEG, END, STEP, "ran_"SORT1_FILE, "ran_"SORT2_FILE);
+	compare_sorts("BP", "QS", mysort, qsort, ran_arr, BEG, END, STEP, "ran_"SORT1_FILE, "ran_"SORT2_FILE);
     */
 
 
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 	return 0;
 } 
 
-void test_qsort(int *createArr(int), int size_min, int size_max,
+void test_qsort(int *create_arr(int), int size_min, int size_max,
     int step, char *fname)
 {
     unsigned long long t;
@@ -72,7 +72,7 @@ void test_qsort(int *createArr(int), int size_min, int size_max,
     {
         printf("iter: %d\n", i);
 
-        parr = createArr(i);
+        parr = create_arr(i);
         t = clock();
         qsort(parr, i, sizeof(int), int_comp);
         t = clock() - t;
@@ -90,10 +90,10 @@ void test_qsort(int *createArr(int), int size_min, int size_max,
 
 
 
-void compareSorts(char *comment1, char *comment2, 
+void compare_sorts(char *comment1, char *comment2, 
     void sort1(void *, size_t, size_t, int (*)(const void *, const void *)), 
     void sort2(void *, size_t, size_t, int (*)(const void *, const void *)), 
-	int *createArr(int), int size_min, int size_max, 
+	int *create_arr(int), int size_min, int size_max, 
 	int step, char *fname1, char *fname2)
 {
 	FILE *f1 = fopen(fname1, "w");
@@ -128,7 +128,7 @@ void compareSorts(char *comment1, char *comment2,
 		
 		for (int j = 0; j < NUMOFITER; j++)
 		{
-			pa = createArr(i);
+			pa = create_arr(i);
 			epa = pa + i;
 
 			START_MEASURE
@@ -149,7 +149,7 @@ void compareSorts(char *comment1, char *comment2,
 
 		for (int j = 0; j < NUMOFITER; j++)
 		{
-			pa = createArr(i);
+			pa = create_arr(i);
 
 			START_MEASURE
 
