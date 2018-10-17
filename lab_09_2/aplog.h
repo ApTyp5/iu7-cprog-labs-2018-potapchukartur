@@ -14,7 +14,7 @@ extern  FILE *_apl;
                             fprintf(_apl, "Log started in file '%s'\n", __FILE__);\
                             fprintf(_apl, "%d --> %s:\n", __LINE__ - 2, __func__)
 
-#define     CINTO           fprintf(_apl, "%d --> %s:\n", __LINE__ - 2, __func__)
+#define     WELC           fprintf(_apl, "%d --> %s:\n", __LINE__ - 2, __func__)
 
 
 #define     PS(str)         fprintf(_apl, #str)
