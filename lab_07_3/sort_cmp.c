@@ -32,8 +32,8 @@ int *inc_arr(int);
 int *dec_arr(int);
 int *ran_arr(int);
 void compare_sorts(char *comment1, char *comment2, \
-    void sort1(void *, size_t, size_t , int (*)(const void *, const void *)), \
-    void sort2(void *, size_t, size_t, int (*)(const void *,const void *)), \
+    void sort1(void *, size_t, size_t, int (*)(const void *, const void *)), \
+    void sort2(void *, size_t, size_t, int (*)(const void *, const void *)), \
     int *create_arr(int), int size_min, int size_max, \
     int step, char *fname1, char *fname2);
 unsigned long long clock();
