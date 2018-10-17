@@ -1,4 +1,5 @@
 
+#include <string.h>
 #include <stdio.h>
 
 #define     TEST_STARTED    printf("%d --> '%s()': ", __LINE__, __func__)
@@ -45,7 +46,7 @@ void strrchr_test_1()
 
     char str[5] = {'a', 'b', 'c', 'd','\0'};
     char *ans = my_strrchr(str, 'c');
-    char *exp_ans = str + 2;
+    char *exp_ans = strrchr(str, 'c');
 
     cptr_verdict(ans, exp_ans);
 }
@@ -56,7 +57,7 @@ void strrchr_test_2()
 
     char str[5] = {'a', 'b', 'c', 'd','\0'};
     char *ans = my_strrchr(str, '\0');
-    char *exp_ans = str + 4;
+    char *exp_ans = strrchr(str, '\0');
 
     cptr_verdict(ans, exp_ans);
 }
@@ -68,7 +69,7 @@ void strrchr_test_3()
 
     char str[5] = {'a', 'b', 'c', 'd','\0'};
     char *ans = my_strrchr(str, 'e');
-    char *exp_ans = NULL;
+    char *exp_ans = strrchr(str, 'e');
 
     cptr_verdict(ans, exp_ans);
 }
