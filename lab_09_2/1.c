@@ -17,9 +17,17 @@ int main(int ac, char *av[])
     size_t size = 0;
     FILE *f = tmpfile();
 
-    fprintf(f, "%c", '\0');
+    fprintf(f, "qwer\n");
     rewind(f);
-    printf("size = %ld\n len = %ld\n", getline(&lptr, &size, f), size);
+    int i = getline(&lptr, &size, stdin);
+
+    printf("%d\n", i);
+    printf("%d\n", lptr[i]);
+    printf("%ld\n", size);
+
+
+
+    //printf("size = %ld\n len = %ld\n", getline(&lptr, &size, stdin), size);
 /*
     printf("ac = %d\n", ac);
     printf("len av[1] = %d\n", strlen(av[1]));

@@ -2,17 +2,18 @@
 #include <stdlib.h>
 #include "aplog.h"
 #include "define.h"
+#include "mystring.h"
 
 
 // Проверка на сущетсвование/открытие потока отстется за пользователем
-ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
+ssize_t my_getline(char **lineptr, size_t *n, file_t stream)
 {
     WELC;
     char store[BUFFSIZE + 1];
     int storelen = 0;
     int k = 0;
 
-    if (*lineptr == NULL || *n = 0)
+    if (*lineptr == NULL || *n == 0)
     {
         *n = BUFFSIZE;
         *lineptr = malloc(BUFFSIZE + 1); // Доп символ на 0
@@ -26,7 +27,7 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
         
         if ((storelen = my_strlen(store)) > *n - k)
         {
-            realloc(*lineptr, k + BUFFSIZE + 1);
+            *lineptr = realloc(*lineptr, k + BUFFSIZE + 1);
             *n = k + BUFFSIZE;
             if (*lineptr == NULL)
                 return ALLOCATION_ERROR;
@@ -45,27 +46,27 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
     return *n - 1;
 }
 
-str_t str_replace(const str_t source, const str_t serach, const str_t replace)
+char *str_replace(const char *source, const char *serach, const char *replace)
 {
     WELC;
     int slen = my_strlen(serach);
     int rlen = my_strlen(replace);
     int delta = rlen - slen;
     int res_len = slen == rlen ? my_strsize(source) : 
-        count_len(source, serach, slen, rlen);
+        count_len(source, serach, slen, rlen, delta);
 
-    str_t ans = malloc(res_len + 1);
-    str_t result = ans;
+    char *ans = malloc(res_len + 1);
+    char *result = ans;
 
     if (result == NULL)
         return NULL;
 
     for (int i = 0; i < res_len - slen; i++, source++)
     {
-        if (source == serach[0] &&
-            !memcmp(source, serach, slen))
+        if (*source == serach[0] &&
+            !my_memcmp(source, serach, slen))
         {
-            memcpy(replace, result, rlen);
+            my_memcpy(replace, result, rlen);
 
             result += rlen;
             source += slen - 1;
@@ -75,25 +76,35 @@ str_t str_replace(const str_t source, const str_t serach, const str_t replace)
             *result++ = *source;
     }
     
-    memcpy(source, result, slen + 1);
+    my_memcpy(source, result, slen + 1);
 
-    return answer;
+    return ans;
 }
 
 
 
+void fs_printf(file_t f, char *str)
+{
+    WELC;
+
+    char tmp;
+
+    while ((tmp = *str++))
+        fprintf(f, "%c", tmp);
+}
+
    
 
 
-int count_len(const str_t source, const str_t serach, int slen, int rlen, int delta)
+int count_len(const char *source, const char *serach, int slen, int rlen, int delta)
 {
     WELC;
     int len = my_strlen(source);
 
     for (int i = 0; i < len - slen; i++)
     {
-        if (source[i] = serach[0]) 
-            if (!memcmp(source + i, serach, slen))
+        if (source[i] == serach[0]) 
+            if (!my_memcmp(source + i, serach, slen))
                 len += delta;
     }
 
@@ -104,18 +115,21 @@ int count_len(const str_t source, const str_t serach, int slen, int rlen, int de
 
 // Копирует скроку, за исключением '\0'
 // Возвращает кол-во скопированных символов
-int my_strcpy(const str_t what, str_t where)
+int my_strcpy(const char *what, char *where)
 {
     WELC;
+
     int num_of_signs = 0;
-    for (; *where; *where++ = *what++, num_of_signs++);
+    for (; *where; num_of_signs++)
+        *where++ = *what++;
+
     return num_of_signs;
 }
 
 
 
 // Возвращает длину строки, не учитывая '\0'
-int my_strlen(const str_t str)
+int my_strlen(const char *str)
 {
     WELC;
     int len = 0;
@@ -123,13 +137,13 @@ int my_strlen(const str_t str)
     return len;
 }
 
-int my_strsize(const str_t str)
+int my_strsize(const char *str)
 {
     WELC;
     return my_strlen(str) + 1;
 }
 
-int my_strcmp(const str_t str1, const str_t str2)
+int my_strcmp(const char *str1, const char *str2)
 {
     WELC;
     for (; *str1; str1++, str2++)
@@ -139,7 +153,7 @@ int my_strcmp(const str_t str1, const str_t str2)
     return *str1 - *str2;
 }
 
-int memcmp(const void *ptr1, const void *ptr2, const int len)
+int my_memcmp(const void *ptr1, const void *ptr2, const int len)
 {
     WELC;
     for (int i = 0; i < len; i++)
@@ -150,13 +164,12 @@ int memcmp(const void *ptr1, const void *ptr2, const int len)
 }
 
 
-void memcpy(const void *what, void *where, const int len)
+void my_memcpy(const void *what, void *where, const int len)
 {
     WELC;
     for (int i = 0; i < len; i++)
-        *where++ = *what++;
+        *(char *)where++ = *(char *)what++;
 }
-
 
 
 

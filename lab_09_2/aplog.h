@@ -3,9 +3,9 @@
 #ifndef __APLOG_H__
 #define __APLOG_H__
 
+#include <stdio.h>
 extern  FILE *_apl;
 
-#include <stdio.h>
 #define     FNAME       "aplog"
 
 

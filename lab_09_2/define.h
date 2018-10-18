@@ -16,6 +16,7 @@ typedef FILE *file_t;
 #define     NON_HAPPY_END       -2
 #define     FOPEN_ERROR         -3
 #define     ALLOCATION_ERROR    -4
+#define     FORMAT_ERROR        -5
 
 #endif
 
