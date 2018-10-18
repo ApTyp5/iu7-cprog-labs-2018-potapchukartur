@@ -33,6 +33,8 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
         }
 
         my_strcpy(store, *lineptr + k);
+        if (store[storelen - 1] == '\n')
+            break;
     }
 
     (*lineptr)[k + storelen + 1] = 0;
@@ -41,21 +43,64 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
     return *n - 1;
 }
 
+str_t str_replace(const str_t source, const str_t serach, const str_t replace)
+{
+    int slen = my_strlen(serach);
+    int rlen = my_strlen(replace);
+    int delta = rlen - slen;
+    int res_len = slen == rlen ? my_strsize(source) : 
+        count_len(source, serach, slen, rlen);
+
+    str_t ans = malloc(res_len + 1);
+    str_t result = ans;
+
+    if (result == NULL)
+        return NULL;
+
+    for (int i = 0; i < res_len - slen; i++, source++)
+    {
+        if (source == serach[0] &&
+            !memcmp(source, serach, slen))
+        {
+            memcpy(replace, result, rlen);
+
+            result += rlen;
+            source += slen - 1;
+            i += slen - 1; // -1 компенсирует будущее прибавление
+        }
+        else
+            *result++ = *source;
+    }
+    
+    memcpy(source, result, slen + 1);
+
+    return answer;
+}
 
 
 
+   
 
 
+int count_len(const str_t source, const str_t serach, int slen, int rlen, int delta)
+{
+    int len = my_strlen(source);
 
+    for (int i = 0; i < len - slen; i++)
+    {
+        if (source[i] = serach[0]) 
+            if (!memcmp(source + i, serach, slen))
+                len += delta;
+    }
 
-
+    return len;
 }
 
 
 
 // Копирует скроку, за исключением '\0'
 // Возвращает кол-во скопированных символов
-int my_strcpy(str_t what, str_t where)
+int my_strcpy(const str_t what, str_t where)
 {
     WELC;
     int num_of_signs = 0;
@@ -63,8 +108,10 @@ int my_strcpy(str_t what, str_t where)
     return num_of_signs;
 }
 
+
+
 // Возвращает длину строки, не учитывая '\0'
-int my_strlen(str_t str)
+int my_strlen(const str_t str)
 {
     WELC;
     int len = 0;
@@ -72,10 +119,35 @@ int my_strlen(str_t str)
     return len;
 }
 
-int my_strsize(str_t str)
+int my_strsize(const str_t str)
 {
     WELC;
     return my_strlen(str) + 1;
+}
+
+int my_strcmp(const str_t str1, const str_t str2)
+{
+    for (; *str1; str1++, str2++)
+        if (*str1 != *str2)
+            break;
+
+    return *str1 - *str2;
+}
+
+int memcmp(const void *ptr1, const void *ptr2, const int len)
+{
+    for (int i = 0; i < len; i++)
+        if (*(char *)ptr1++ != *(char *)ptr2++)
+            break;
+
+    return *(char *)ptr1 - *(char *)ptr2;
+}
+
+
+void memcpy(const void *what, void *where, const int len)
+{
+    for (int i = 0; i < len; i++)
+        *where++ = *what++;
 }
 
 
