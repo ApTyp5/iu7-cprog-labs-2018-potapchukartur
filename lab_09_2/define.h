@@ -9,5 +9,13 @@ typedef FILE *file_t;
 #define BUFFSIZE    120
 
 
+// Yield codes
+
+
+#define     HAPPY_END           0
+#define     NON_HAPPY_END       -2
+#define     FOPEN_ERROR         -3
+#define     ALLOCATION_ERROR    -4
+
 #endif
 

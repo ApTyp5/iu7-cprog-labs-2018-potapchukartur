@@ -10,7 +10,7 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
     WELC;
     char store[BUFFSIZE + 1];
     int storelen = 0;
-    int k;
+    int k = 0;
 
     if (*lineptr == NULL || *n = 0)
     {
@@ -37,6 +37,8 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
             break;
     }
 
+    if (k + storelen == 0)
+
     (*lineptr)[k + storelen + 1] = 0;
     *n += 1;
 
@@ -45,6 +47,7 @@ ssize_t my_getline(str_t *lineptr, size_t *n, file_t stream)
 
 str_t str_replace(const str_t source, const str_t serach, const str_t replace)
 {
+    WELC;
     int slen = my_strlen(serach);
     int rlen = my_strlen(replace);
     int delta = rlen - slen;
@@ -84,6 +87,7 @@ str_t str_replace(const str_t source, const str_t serach, const str_t replace)
 
 int count_len(const str_t source, const str_t serach, int slen, int rlen, int delta)
 {
+    WELC;
     int len = my_strlen(source);
 
     for (int i = 0; i < len - slen; i++)
@@ -127,6 +131,7 @@ int my_strsize(const str_t str)
 
 int my_strcmp(const str_t str1, const str_t str2)
 {
+    WELC;
     for (; *str1; str1++, str2++)
         if (*str1 != *str2)
             break;
@@ -136,6 +141,7 @@ int my_strcmp(const str_t str1, const str_t str2)
 
 int memcmp(const void *ptr1, const void *ptr2, const int len)
 {
+    WELC;
     for (int i = 0; i < len; i++)
         if (*(char *)ptr1++ != *(char *)ptr2++)
             break;
@@ -146,8 +152,12 @@ int memcmp(const void *ptr1, const void *ptr2, const int len)
 
 void memcpy(const void *what, void *where, const int len)
 {
+    WELC;
     for (int i = 0; i < len; i++)
         *where++ = *what++;
 }
+
+
+
 
 
