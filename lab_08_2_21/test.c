@@ -161,9 +161,9 @@ void tmult_1()
 {
     STEST;
 
-    int m1len = 2, m1wid = 3;
-    int m2len = 3, m2wid = 2;
-    int m3len = 2, m3wid = 2;
+    int m1len = 3, m1wid = 2;
+    int m2len = 2, m2wid = 3;
+    int m3len = 3, m3wid = 3;
     int anslen, answid;
 
     matrix_t mtr1 = allocate_matrix(m1len, m1wid);
@@ -175,16 +175,27 @@ void tmult_1()
     mtr1[0][1] = 1.1;
     mtr1[1][0] = 1.2;
     mtr1[1][1] = 1.3;
+    mtr1[2][0] = 1.4;
+    mtr1[2][1] = 1.5;
 
     mtr2[0][0] = 2.0;
     mtr2[0][1] = 2.1;
-    mtr2[1][0] = 2.2;
-    mtr2[1][1] = 2.3;
+    mtr2[0][2] = 2.2;
+    mtr2[1][0] = 2.3;
+    mtr2[1][1] = 2.4;
+    mtr2[1][2] = 2.5;
+    
 
-    mtr3[0][0] = 7.3;
-    mtr3[0][1] = 7.63;
-    mtr3[1][0] = 9.28;
-    mtr3[1][1] = 9.7;
+    mtr3[0][0] = 4.53;
+    mtr3[0][1] = 4.74;
+    mtr3[0][2] = 4.95;
+    mtr3[1][0] = 5.39;
+    mtr3[1][1] = 5.64;
+    mtr3[1][2] = 5.89;
+    mtr3[2][0] = 6.25;
+    mtr3[2][1] = 6.54;
+    mtr3[2][2] = 6.83;
+
 
     int res = mult(mtr1, m1len, m1wid,
         mtr2, m2len, m2wid,
