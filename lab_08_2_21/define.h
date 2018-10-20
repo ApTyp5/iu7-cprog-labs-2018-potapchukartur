@@ -11,7 +11,7 @@ typedef FILE *file_t;
 typedef char *str_t;
 
 
-#define     EPS     1E-5
+#define     EPS     1E-2
 
 
 // Yield codes

@@ -54,11 +54,12 @@ int main()
 
     tchange_strs();
 
+    tstr_method_max_diag();
+
     tGhauss_1();//pos
     tGhauss_2();//neg
 //    tGhauss_3();//alloc_err
 
-    tstr_method_max_diag();
 
 
     
@@ -69,15 +70,20 @@ int main()
     return 0;
 }
 
+double fabs(double a)
+{
+    return (a >= 0.0) ? a : -a;
+}
 
 double dfloat_max(double el1, double el2)
 {
     return (el1 > el2) ? el1 : el2;
 }
 
+
 int dfloat_cmp(double el1, double el2)
 {
-    return abs(abs(el1) - abs(el2)) < abs(EPS * dfloat_max(el1, el2))\
+    return fabs(fabs(el1) - fabs(el2)) < fabs(EPS * dfloat_max(el1, el2))\
         ? HAPPY_END : NON_HAPPY_END;
 }
 
@@ -206,7 +212,7 @@ void tmult_1()
     {
         for (int i = 0; i < anslen; i++)
             for (int j = 0; j < answid; j++)
-                if (ans_mtr[i][j] != mtr3[i][j])
+                if (dfloat_cmp(ans_mtr[i][j], mtr3[i][j]))
                 {
                     res = i * anslen + j;
                     break;
@@ -224,8 +230,8 @@ void tmult_2()
 {
     STEST;
 
-    int m1len = 2, m1wid = 2;
-    int m2len = 2, m2wid = 2;
+    int m1len = 2, m1wid = 3;
+    int m2len = 2, m2wid = 3;
     int anslen, answid;
 
     matrix_t mtr1 = allocate_matrix(m1len, m1wid);
@@ -262,22 +268,26 @@ void tGhauss_1()
     mtr3[0][0] = 2.33; 
     mtr3[1][0] = -2.21;
 
+
+
     int res = Ghauss(mtr, mlen, mwid,
         &ans, &alen, &awid);
     int exp_res = HAPPY_END;
 
+    
     if (!res)
     {
         for (int i = 0; i < alen; i++)
             for (int j = 0; j < awid; j++)
-                if (ans[i][j] != mtr3[i][j])
+                if (dfloat_cmp(ans[i][j], mtr3[i][j]))
                 {
-                    res = i * alen + j;
+                    res = i * awid + j;
                     break;
                 }
     }
     else
         printf("[Note! The Ghauss return val is not HAPPY_END]\n");
+
 
     PVERD(%d, res, exp_res);
 }
@@ -347,10 +357,9 @@ void tchange_strs()
     change_strs(aim_pv, 0, 1);
 
     int exp_res = HAPPY_END;
-    int res = aim_pv[0][1] == 1.0 ? HAPPY_END : 1;
+    int res = (dfloat_cmp(aim_pv[0][0], 2.0) ||
+        dfloat_cmp(aim_pv[1][0], 1.0));
 
-    if (!res && aim_pv[0][0] == 2.0)
-        res = 2;
 
     PVERD(%d, res, exp_res);
 }
@@ -418,11 +427,13 @@ void tadd_vectors()
     int exp_res = HAPPY_END;
     int res = HAPPY_END;
 
-    if (vec2[0] != 4.0)
+
+
+    if (dfloat_cmp(vec2[0],  4.0))
         res = 1;
-    else if (vec2[1] != 4.3)
+    else if (dfloat_cmp(vec2[1],  4.3))
         res = 2;
-    else if (vec2[2] != 4.6)
+    else if (dfloat_cmp(vec2[2],  4.6))
         res = 3;
 
     PVERD(%d, res, exp_res);
@@ -456,7 +467,7 @@ void tcount_ans()
     int res = HAPPY_END;
 
     for (int i = 0; i < rate; i++)
-            if (!dfloat_cmp(exp_ans[i][0], ans[i][0]))
+            if (dfloat_cmp(exp_ans[i][0], ans[i][0]))
             {
                 res = i + 1;
                 break;

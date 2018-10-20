@@ -18,7 +18,7 @@ endif
 mod_tests: test.exe
 	./test.exe
 
-func_test: app.exe
+func_tests: app.exe
 	./func_test
 
 app.exe: $(OBJ)

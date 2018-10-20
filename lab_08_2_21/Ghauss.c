@@ -14,25 +14,23 @@ int Ghauss(matrix_t mtr, int len, int wid,
 
     if (len != num_of_x)
         return WRONG_SLAU_MTR_SIZES;
-
     *anslen = num_of_x;
     *answid = 1;
 
     (*ans) = allocate_matrix(num_of_x, 1);
-
     if (!(*ans))
         return ALLOCATION_ERROR;
+
     zero_identify(ans, num_of_x, 1);
+    str_method_max_diag(mtr, num_of_x, *ans);
 
-    //del_useless_cols(mtr, &len, &wid);
 
-    str_method_max_diag(mtr, wid, *ans);
 
     for (int j = 0; j < wid - 1; j++)
         for (int i = j + 1; i < len; i++)
             add_vectors(mtr[j] + j, -mtr[i][j]/mtr[j][j], mtr[i] + j, len - j + 1); // +1 добавляем, т к хотим изменять и столбец свободных членов 
 
-    count_ans(*ans, mtr, wid);
+    count_ans(*ans, mtr, num_of_x);
 
     return HAPPY_END;
 }
@@ -56,24 +54,27 @@ void str_method_max_diag(matrix_t mtr, int rate, double **ans)
     double maxel;
     int nmax;
 
-    for (int j = 0; j < rate; j++)
+    for (int i = 0; i < rate; i++)
     {
-        maxel = mtr[0][j];
-        nmax = 0;
-        for (int i = 1; i < rate; i++)
+        maxel = mtr[i][i];
+        nmax = i;
+        for (int j = i + 1; j < rate; j++)
             if (mtr[i][j] > maxel)
             {
                 maxel = mtr[i][j];
-                nmax = i;
+                nmax = j;
             }
-        if (nmax != j)
+        if (nmax != i)
         {
-            change_cols(mtr, rate, nmax, j);
-            change_strs(ans, nmax, j);
+            change_cols(mtr, rate, nmax, i);
+            change_strs(ans, nmax, i);
         }
+
+
     }
 }
 
+// По факту эта ф-я применяется для замены указателей
 void change_strs(double **mtr, int i, int j)
 {
     double *tmp = mtr[j];
