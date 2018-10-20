@@ -1,6 +1,6 @@
 CC := gcc
-OBJ := main.o inout.o action.o prompt.o aplog.o Ghauss.o
-TOBJ := test.o inout.o action.o prompt.o aplog.o Ghauss.o
+OBJ := main.o inout.o action.o prompt.o Ghauss.o
+TOBJ := test.o inout.o action.o prompt.o Ghauss.o
 CFLAGS := -Wall -Werror -std=c99 -pedantic
 mod=rel
 
@@ -15,12 +15,8 @@ endif
 
 
 
-test: app.exe
-	./app.exe o in_21 out
-	cat log
-	cat in_21
-	cat out
-	rm log
+mod_tests: test.exe
+	./test.exe
 
 func_test: app.exe
 	./func_test

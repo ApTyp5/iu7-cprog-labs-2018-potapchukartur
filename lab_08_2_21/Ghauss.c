@@ -3,7 +3,6 @@
 #include "define.h"
 #include "Ghauss.h"
 #include "inout.h"
-#include "aplog.h"
 
 
 
@@ -11,11 +10,6 @@
 int Ghauss(matrix_t mtr, int len, int wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-    PE;
-    PIV("len = ", len);
-    PIV("wid = ", wid);
-    PMAT("init mtr:\n", mtr, len, wid, " ");
-
     int num_of_x = wid - 1; 
 
     if (len != num_of_x)
@@ -32,7 +26,7 @@ int Ghauss(matrix_t mtr, int len, int wid,
 
     //del_useless_cols(mtr, &len, &wid);
 
-    col_method_max_diag(mtr, wid, *ans);
+    str_method_max_diag(mtr, wid, *ans);
 
     for (int j = 0; j < wid - 1; j++)
         for (int i = j + 1; i < len; i++)
@@ -57,14 +51,8 @@ void del_useless_cols(matrix_t mtr, int *len, int *wid)
 */
 
 
-void col_method_max_diag(matrix_t mtr, int rate, double **ans)
+void str_method_max_diag(matrix_t mtr, int rate, double **ans)
 {
-    PE;
-    PIV("rate = ", rate);
-    PMAT("rated mtr:\n", mtr, rate, rate, " ");
-    PMAT("rated ans:\n", ans, rate, 1, " ");
-
-
     double maxel;
     int nmax;
 
@@ -81,40 +69,26 @@ void col_method_max_diag(matrix_t mtr, int rate, double **ans)
         if (nmax != j)
         {
             change_cols(mtr, rate, nmax, j);
-            change_ptrs(ans, nmax, j);
+            change_strs(ans, nmax, j);
         }
     }
 }
 
-void change_ptrs(double **aim_pv, int nmax, int j)
+void change_strs(double **mtr, int i, int j)
 {
-    PE;
-    PM("no output\n");
-
-    double *tmp = aim_pv[j];
-    aim_pv[j] = aim_pv[nmax];
-    aim_pv[nmax] = tmp;
+    double *tmp = mtr[j];
+    mtr[j] = mtr[i];
+    mtr[i] = tmp;
 }
 
 void change_cols(matrix_t mtr, int rate, int col1, int col2)
 {
-    PE;
-    PIV("rate = ", rate);
-    PIV("num of col 1 = ", col1);
-    PIV("num of col 2 = ", col2);
-    PMAT("rated mtr:\n", mtr, rate, rate, " ");
-
-
     for (int i = 0; i < rate; i++)
         change_els(mtr[i] + col1, mtr[i] + col2);
 }
 
 void change_els(double *el1, double *el2)
 {
-    PE;
-    PFV("el1 = ", *el1);
-    PFV("el2 = ", *el2);
-
     double tmp = *el1;
     *el1 = *el2;
     *el2 = tmp;
@@ -125,13 +99,6 @@ void change_els(double *el1, double *el2)
 // add vec1 * k to vec2 
 void add_vectors(double *vec1, double k, double *vec2, int len)
 {
-    PE;
-    PFV("k = ", k);
-    PIV("len = ", len);
-    PMAS("vec1 : ", vec1, len, " ");
-    PMAS("vec2 : ", vec2, len, " ");
-
-
     for (int i = 0; i < len; i++)
         *vec2++ += k * (*vec1++);
 }
@@ -140,13 +107,6 @@ void add_vectors(double *vec1, double k, double *vec2, int len)
 // Считает ответ квадратной СЛАУ
 void count_ans(matrix_t ans, matrix_t mtr, int rate)
 {
-    PE;
-    PIV("rate = ", rate);
-    PMAT("rated_ans :\n", ans, rate, rate, " ");
-    PMAT("rated_mtr + free col :\n", mtr, rate, (rate + 1), " ");
-
-
-
     for (int i = rate - 1; i > -1; i--)
     {
         // mtr[i][rate] - свободный член i-ой строки

@@ -2,15 +2,12 @@
 #include <stdlib.h>
 #include "inout.h"
 #include "define.h"
-#include "aplog.h"
 
 
 
 
 int fopen_try(file_t *f, str_t fname, str_t mod)
 {
-    PE;
-    
     *f = fopen(fname, mod);
     if (!*f)
         return FOPEN_ERROR;
@@ -23,10 +20,6 @@ int fopen_try(file_t *f, str_t fname, str_t mod)
 int read_mtr(str_t fname, matrix_t *mtr, int *len, int *wid,
     int get_mtr(file_t, matrix_t *, int *len, int *wid))
 {
-    PE;
-
-
-
     int rc = HAPPY_END;
     file_t f = NULL;
 
@@ -42,12 +35,9 @@ int read_mtr(str_t fname, matrix_t *mtr, int *len, int *wid,
 }
 
 
-
 // Второй метод считывания матрицы
 int get_mtr_m2(file_t f, matrix_t *mtr, int *len, int *wid)
 {
-    PE;
-
     int n;
     if (fscanf(f, "%d%d%d", len, wid, &n) != 3)
         return WRONG_INPUT;
@@ -74,22 +64,20 @@ int get_mtr_m2(file_t f, matrix_t *mtr, int *len, int *wid)
 
 matrix_t allocate_matrix(int len, int wid)
 {
-    PE;
     matrix_t result = malloc(sizeof(double **) * len + len * wid * sizeof(double));
 
     if (!result)
         return NULL;
 
-    double *tmp = (double *)result + len;
+    char *tmp =  (char *)result + len * sizeof(double *);
     for (int i = 0; i < len; i++, tmp += sizeof(double) * wid)
-        result[i] = tmp;
+        result[i] = (double *)tmp;
 
     return result;
 }
 
 void zero_identify(matrix_t *mtr, int len, int wid)
 {
-    PE;
     for (int i = 0; i < len; i++)
         for (int j = 0; j < wid; j++)
             (*mtr)[i][j] = 0.0;
@@ -99,14 +87,6 @@ void zero_identify(matrix_t *mtr, int len, int wid)
 int write_mtr(str_t fname, matrix_t mtr, int len, int wid,
     void put_mtr(file_t, matrix_t, int len, int wid))
 {
-    PE;
-    PIV("len = ", len);
-    PIV("wid = ", wid);
-    PM("fname : ");
-    PM(fname);
-    PM("\n");
-    PMAT("out :\n", mtr, len, wid, " ");
-
     int rc = HAPPY_END;
     file_t f = NULL;
 
@@ -124,15 +104,10 @@ int write_mtr(str_t fname, matrix_t mtr, int len, int wid,
 
 void put_mtr_m1(file_t f, matrix_t mtr, int len, int wid)
 {
-    PE;
-    PIV("len = ", len);
-    PIV("wid = ", wid);
-    PMAT("mtr :\n", mtr, len, wid, " ");
-
     for (int i = 0; i < len; i++)
         for (int j = 0; j < wid; j++)
         {
-            fprintf(f, "%lf%s", mtr[i][j], (j + 1)%wid ? " " : "\n");
+            fprintf(f, "%6lf%s", mtr[i][j], (j + 1)%wid ? " " : "\n");
         }
 }
 

@@ -3,15 +3,10 @@
 #include "define.h"
 #include "prompt.h"
 #include "action.h"
-#include "aplog.h"
 #include "inout.h"
 
 int main(int ac, char **av)
 {
-    S_LOG("log");
-
-
-
     matrix_t mtr1 = NULL;
     matrix_t mtr2 = NULL;
     matrix_t ans = NULL;
@@ -73,9 +68,6 @@ int main(int ac, char **av)
     show_prompt(rc, errfile);
 #endif
 
-
-    PIV("end rc = ", rc);
-    E_LOG;
 
     // Возможно при аозвратном значении reference_only надо возвращать happye_end
     return rc;

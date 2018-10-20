@@ -1,26 +1,17 @@
 
 #define db printf("db\n")
 #include <stdlib.h>
-#include "aplog.h"
 #include "define.h"
 #include "inout.h"
 #include "action.h"
 #include "Ghauss.h"
 
-int mult(matrix_t mtr1, int m1len, int m1wid,
-    matrix_t mtr2, int m2len, int m2wid,
-    matrix_t *ans, int *anslen, int *answid);
-
-int add(matrix_t mtr1, int m1len, int m1wid,
-    matrix_t mtr2, int m2len, int m2wid,
-    matrix_t *ans, int *anslen, int *answid);
 
 
 int act(str_t action, matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-    PE;
     switch (action[0])
     {
         case 'a':
@@ -45,17 +36,6 @@ int add(matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-    /*
-    PE;
-    PIV("m1len = ", m1len);
-    PIV("m1wid = ", m1wid);
-    PIV("m2len = ", m2len);
-    PIV("m2wid = ", m2wid);
-    */
-
-
-    
-
     if (!(m1len == m2len && m1wid == m2wid))
         return WRONG_ADD_MTR_SIZES;
 
@@ -77,8 +57,6 @@ int mult(matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-    PE;
-    
     if (!(m1wid == m2len))
         return WRONG_MULT_MTR_SIZES;
 
