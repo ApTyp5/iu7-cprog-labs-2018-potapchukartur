@@ -3,56 +3,52 @@
 #ifndef __APLOG_H__
 #define __APLOG_H__
 
-#define     DB      printf("db\n")
 
 #include <stdio.h>
+
+void start_log(const char *lname, const char *begin_fname,
+    const char *bigin_func, int line);
+void log_in(int line, const char *func, const char *fname);
+void pindent(char *ind);
+
+
+
 extern  FILE *_apl;
+extern  int indent;
 
-#include <time.h>
 
-
-#define     S_LOG(FNAME)   _apl = fopen(FNAME, "a");\
-                    fprintf(_apl, "Log started in file #%s\n", \
-                            __FILE__);\
-                    fprintf(_apl, "%d --> %s:\n", __LINE__ - 2, __func__)
+#define     FNAME       "aplog"
 
 
 
-
-
-#define     PE              fprintf(_apl, "\n%s:\t%d --> %s:\n",__FILE__, __LINE__ - 2, __func__);
-
-
-#define     PM(mes)        fprintf(_apl, "%s", mes)
-
-
-#define     PIV(inv, val)  fprintf(_apl, "%s%d\n", inv, val)
-
-#define     PFV(inv, val)  fprintf(_apl, "%s%lf\n", inv, val)
+#define     S_LOG           start_log(FNAME, __FILE__, __func__, __LINE__ - 1)
 
 
 
-#define     PMAS(inv, mas, num, sep)  fprintf(_apl, "%s", inv);\
-    for (int i = 0; i < num; i++)\
-        fprintf(_apl, "%lf%s", mas[i], sep);\
-    fprintf(_apl, "\n")
-
-#define     PMAT(inv, mtr, len, wid, sep) fprintf(_apl, "%s", inv);\
-    for (int i = 0; i < len; i++)\
-        for (int j = 0; j < wid; j++)\
-            fprintf(_apl, "%lf%s", mtr[i][j], \
-                (j + 1)%wid ? sep : "\n")
+#define     LOG_IN          log_in(__LINE__ - 1, __func__, __FILE__)
+#define     LOG_OUT         indent--
 
 
+#define     PS(str)         pindent("    "); fprintf(_apl, #str)
+#define     PV(fstr, val)   pindent("    "); fprintf(_apl, #fstr, val)
+
+#define     PA(fstr, arr, len)      for (int i = 0; i < len; i++)\
+                                    {\
+                                        pindent("    ");\
+                                        fprintf(_apl, #fstr, arr[i]);\
+                                    }\
+                                    fprintf(_apl, "\n")
+
+#define     PM(fstr, mtr, rate)     for (int i = 0; i < rate; i++)\
+                                    {\
+                                        for (int j = 0; j < rate; j++)\
+                                            PV(fstr, arr[i]);\
+                                        fprintf(_apl, "\n");\
+                                    }
 
 
 #define     E_LOG   fclose(_apl)
 
 #endif
-
-
-
-
-
 
 
