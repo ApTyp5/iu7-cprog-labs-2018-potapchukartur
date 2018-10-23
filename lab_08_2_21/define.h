@@ -3,6 +3,7 @@
 #define __DEFINE_H__
 
 #define JOURNAL
+#define db      printf("db\n")
 
 // Yield codes
 

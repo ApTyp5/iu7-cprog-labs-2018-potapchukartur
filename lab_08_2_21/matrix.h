@@ -7,7 +7,6 @@ typedef double **matrix_t;
 
 matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc);
 matrix_t alloc_mtr(int len, int wid);
-void zero_mem(void *, int);
 FILE *fopen_try(char *fnam, char *mod, int *rc);
 int put_mtr(matrix_t mtr, int len, int wid, char *fnam);
 int mtr_add(matrix_t mtr1, int m1len, int m1wid,

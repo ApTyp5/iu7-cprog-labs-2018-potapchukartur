@@ -10,7 +10,7 @@ void start_log(const char *lname, const char *begin_fname,
     const char *bigin_func, int line);
 void log_in(int line, const char *func, const char *fname);
 void pindent(char *ind);
-
+void val_pindent(char *ind);
 
 
 extern  FILE *_apl;
@@ -29,12 +29,12 @@ extern  int indent;
 #define     LOG_OUT         indent--
 
 
-#define     PS(str)         pindent("    "); fprintf(_apl, #str)
-#define     PV(fstr, val)   pindent("    "); fprintf(_apl, #fstr, val)
+#define     PS(str)         val_pindent("    "); fprintf(_apl, #str)
+#define     PV(fstr, val)   val_pindent("    "); fprintf(_apl, #fstr, val)
 
-#define     PA(fstr, arr, len)      for (int i = 0; i < len; i++)\
+#define     PA(fstr, arr, len)      val_pindent("    ");\
+                                    for (int i = 0; i < len; i++)\
                                     {\
-                                        pindent("    ");\
                                         fprintf(_apl, #fstr, arr[i]);\
                                     }\
                                     fprintf(_apl, "\n")

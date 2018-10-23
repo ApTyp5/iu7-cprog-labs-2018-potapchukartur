@@ -14,8 +14,8 @@ int main(int ac, char *av[])
 #ifdef  JOURNAL
     S_LOG;
     PV(ac = %d\n, ac);
-    PS(av: );
-    PA(%s , av, ac);
+    PS(av:\n);
+    PA(%s\40, av, ac);
 #endif
 
     // rc : 'return counter'

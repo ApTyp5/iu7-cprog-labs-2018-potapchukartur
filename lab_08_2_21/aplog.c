@@ -15,9 +15,9 @@ void start_log(const char *lname, const char *begin_fname,
 
     fprintf(_apl, "\n\n");
     fprintf(_apl, "Log started in file '%s'\n", begin_fname);
-    fprintf(_apl, "%d\t",line);
+    fprintf(_apl, "%4d",line);
     pindent("----");
-    fprintf(_apl, "> %s:\t(%20s)\n", begin_func, begin_fname);
+    fprintf(_apl, "> %s:\t%20s\n", begin_func, begin_fname);
 
     indent++;
 }
@@ -25,14 +25,18 @@ void start_log(const char *lname, const char *begin_fname,
 
 void log_in(int line, const char *func, const char *fname)
 {
-    fprintf(_apl, "%d\t", line);
+    fprintf(_apl, "\n%4d", line);
     pindent("----");
-    fprintf(_apl, "> %s\t(%20s)\n", func, fname);
+    fprintf(_apl, "> %s\t%20s\n", func, fname);
     
     indent++;
 }
 
-
+void val_pindent(char *ind)
+{
+    fprintf(_apl, "       ");
+    pindent(ind);
+}
     
 void pindent(char *ind)
 {
