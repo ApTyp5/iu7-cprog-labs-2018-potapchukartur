@@ -39,10 +39,10 @@ extern  int indent;
                                     }\
                                     fprintf(_apl, "\n")
 
-#define     PM(fstr, mtr, rate)     for (int i = 0; i < rate; i++)\
+#define     PM(fstr, mtr, len, wid) for (int i = 0; i < len; i++)\
                                     {\
-                                        for (int j = 0; j < rate; j++)\
-                                            PV(fstr, arr[i]);\
+                                        for (int j = 0; j < wid; j++)\
+                                            fprintf(_apl, #fstr, mtr[i][j]);\
                                         fprintf(_apl, "\n");\
                                     }
 

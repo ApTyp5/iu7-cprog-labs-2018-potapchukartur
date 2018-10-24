@@ -106,11 +106,16 @@ int put_mtr(matrix_t mtr, int len, int wid, char *fnam)
 #endif
     int rc = HAPPY_END;
     FILE *f = fopen_try(fnam, "w", &rc);
+    setvbuf(f, NULL, _IONBF, 0);
+
 
     if (!rc)
         for (int i = 0; i < len; i++)
             for (int j = 0; j < wid; j++)
                 fprintf(f, "%lf%s", mtr[i][j], (j + 1) % wid ? " " : "\n");
+
+    if (f)
+        rc = fclose(f);
 
 #ifdef  JOURNAL
     LOG_OUT;
@@ -156,6 +161,8 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
 {
 #ifdef  JOURNAL
     LOG_IN; 
+    PS(Before trans\n);
+    PM(%lf\40, mtr2, m2len, m2wid);
 #endif
 
     if (m1wid != m2len)
@@ -180,9 +187,11 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
     for (int i = 0; i < m1len; i++)
         for (int j = 0; j < m2len; j++)
             for (int k = 0; k < m2wid; k++)
-                (*ans)[i][j] += mtr1[i][k] * mtr2[i][k];
+                (*ans)[i][j] += mtr1[i][k] * mtr2[j][k];
 #ifdef  JOURNAL
     LOG_OUT;
+    PS(After trans);
+    PM(%lf\40, mtr2, m2len, m2wid);
 #endif
     return HAPPY_END;
 }
@@ -193,7 +202,7 @@ int mtr_trans(matrix_t *mtr, int *len, int *wid)
     LOG_IN;
 #endif
 
-   matrix_t result = alloc_mtr(*wid, *len);
+    matrix_t result = alloc_mtr(*wid, *len);
     if (!result)
         return ALLOC_ERROR;
 
@@ -221,8 +230,6 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 #ifdef  JOURNAL
     LOG_IN; 
 #endif
-
-
     // xmum - кол-во неизвестных
     int xnum = wid - 1;
     if (len != xnum)
@@ -234,6 +241,12 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
     *ans = alloc_mtr(xnum, 1);
     if (!(*ans))
         return ALLOC_ERROR;
+
+    max_diag(mtr, mlen, xnum, *ans);
+    triange_matrix(mtr, mlen, mwid, xnum);
+    count_answer();
+
+
 #ifdef  JOURNAL
     LOG_OUT; 
 #endif
@@ -242,6 +255,74 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 
 
 
+void max_diag(matrix_t mtr, int mlen, int xnum,
+    matrix_t ans)
+{
+#ifdef  JOURNAL
+    LOG_IN;
+#endif
+    int maxel, maxcol;
+
+    for (int i = 0; i < mlen; i++)
+    {
+        maxel = mtr[i][i];
+        maxcol = i;
+        for (int j = i + 1; j < xnum; j++)
+            if (mtr[i][j] > maxel)
+            {
+                maxcol = j;
+                maxel = mtr[i][j];
+            }
+        if (maxcol != i)
+        {
+            change_cols(mtr, len, i, maxcol);
+            change_raws(ans, i, maxcol);
+        }
+    }
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
+}
+
+void change_raws(matrix_t mtr, int raw1, int raw2)
+{
+    double *tmp = mtr[raw1];
+    mtr[raw1] = mtr[raw2];
+    mtr[raw2] = tmp;
+}
+
+
+void change_cols(matrix_t mtr, int len, int col1, int col2)
+{
+    for (int i = 0; i < len; i++)
+        change_doubls(mtr[len] + col1, mtr[len] + col2);
+}
+
+
+void change_doubls(double *el1, double *el2)
+{
+    double tmp = *el1;
+    *el1 = *el2;
+    *el2 = tmp;
+}
+
+
+void triange_matrix(matrix_t mtr, int mlen, int xnum)
+{
+    double koef;
+    // xnum + 1 - это ширина исходной матрицы
+    for (int i = mlen - 1; i > -1; i--)
+        for (int j = i - 1; j > -1; j--)
+        {
+            koef = mtr[j][i] / mtr[i][i];
+
+            for (int k = j; k > -1; k--)
+                mtr[j][k] += koef * mtr[i][k];
+
+            mtr[j][xnum] += koef * mtr[i][xnum];
+            
+
+        
 
 
 

@@ -18,8 +18,8 @@ do
     echo -e "\nRunning test $num with command:\n${commands[$i]}"
     ${commands[$i]}
 
-
-    if [[ $(diff ./$outfile $testdir/${outputs[$i]}) ]] 
+    diff ./$outfile $testdir/${outputs[$i]}
+    if [ $? ] 
     then
         echo "Test $num successfully completed"
     else
