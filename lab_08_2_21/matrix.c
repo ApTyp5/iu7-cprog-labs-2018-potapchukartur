@@ -307,32 +307,28 @@ void change_doubls(double *el1, double *el2)
 }
 
 
-void triange_matrix(matrix_t mtr, int mlen, int xnum)
+void triange_matrix(matrix_t mtr, int rate)
 {
-    double koef;
+    double k;
     // xnum + 1 - это ширина исходной матрицы
-    for (int i = mlen - 1; i > -1; i--)
-        for (int j = i - 1; j > -1; j--)
+    
+    // Далее:
+    // diag - диагональ матрицы
+    // raw - строка, в которой выполняются преобразования
+    for (int diag = rate - 1; diag > -1; diag--)
+    {
+        for (int raw = diag - 1; raw > -1; raw--)
         {
-            koef = mtr[j][i] / mtr[i][i];
+            int col;
+            int k = mtr[raw][diag]/mtr[diag][diag];
 
-            for (int k = j; k > -1; k--)
-                mtr[j][k] += koef * mtr[i][k];
+            for (col = rate - 1; col <= diag; col--)
+                mtr[raw][col] = 0.0;
 
-            mtr[j][xnum] += koef * mtr[i][xnum];
-            
-
-        
-
-
-
-
-
-
-
-
-        
-
-
+            for (; col > -1; col--)
+                mtr[raw][col] -= k * mtr[diag][col];
+        }
+    }
+}
 
 
