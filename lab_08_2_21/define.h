@@ -4,6 +4,7 @@
 
 #define JOURNAL
 #define db      printf("db\n")
+#define EPS     1e-3
 
 // Yield codes
 

@@ -5,6 +5,8 @@
 #include "aplog.h"
 #include "matrix.h"
 
+#define db  printf("db\n")
+
 
 matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 {
@@ -50,15 +52,18 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 
 
 
+
+
 matrix_t alloc_mtr(int len, int wid)
 {
 #ifdef  JOURNAL
     LOG_IN;
 #endif
 
+
    matrix_t result = malloc(len * sizeof(double *) + len * wid * sizeof(double));
 
-   if (!result)
+    if (!result)
        return NULL;
 
     for (int i = 0; i < len; i++)
@@ -84,7 +89,7 @@ FILE *fopen_try(char *fnam, char *mod, int *rc)
 {
 #ifdef  JOURNAL
     LOG_IN;
-    PV(opening file '%20s'\n, fnam);
+    PV(opening file %20s\n, fnam);
 #endif
 
 
@@ -106,8 +111,8 @@ int put_mtr(matrix_t mtr, int len, int wid, char *fnam)
 #endif
     int rc = HAPPY_END;
     FILE *f = fopen_try(fnam, "w", &rc);
-    setvbuf(f, NULL, _IONBF, 0);
 
+    fprintf(f, "%d %d\n", len, wid);
 
     if (!rc)
         for (int i = 0; i < len; i++)
@@ -242,9 +247,9 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
     if (!(*ans))
         return ALLOC_ERROR;
 
-    max_diag(mtr, mlen, xnum, *ans);
-    triange_matrix(mtr, mlen, mwid, xnum);
-    count_answer();
+    max_diag(mtr, len, xnum, *ans);
+    triange_matrix(mtr, xnum);
+    count_answer(mtr, xnum, *ans);
 
 
 #ifdef  JOURNAL
@@ -275,7 +280,7 @@ void max_diag(matrix_t mtr, int mlen, int xnum,
             }
         if (maxcol != i)
         {
-            change_cols(mtr, len, i, maxcol);
+            change_cols(mtr, mlen, i, maxcol);
             change_raws(ans, i, maxcol);
         }
     }
@@ -286,30 +291,51 @@ void max_diag(matrix_t mtr, int mlen, int xnum,
 
 void change_raws(matrix_t mtr, int raw1, int raw2)
 {
+#ifdef  JOURNAL
+    LOG_IN;
+#endif
+
     double *tmp = mtr[raw1];
     mtr[raw1] = mtr[raw2];
     mtr[raw2] = tmp;
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
 }
 
 
 void change_cols(matrix_t mtr, int len, int col1, int col2)
 {
+#ifdef  JOURNAL
+    LOG_IN;
+#endif
     for (int i = 0; i < len; i++)
         change_doubls(mtr[len] + col1, mtr[len] + col2);
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
 }
 
 
 void change_doubls(double *el1, double *el2)
 {
+#ifdef  JOURNAL
+    LOG_IN;
+#endif
     double tmp = *el1;
     *el1 = *el2;
     *el2 = tmp;
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
 }
 
 
 void triange_matrix(matrix_t mtr, int rate)
 {
-    double k;
+#ifdef  JOURNAL
+    LOG_IN;
+#endif
     // xnum + 1 - это ширина исходной матрицы
     
     // Далее:
@@ -322,13 +348,35 @@ void triange_matrix(matrix_t mtr, int rate)
             int col;
             int k = mtr[raw][diag]/mtr[diag][diag];
 
-            for (col = rate - 1; col <= diag; col--)
+            for (col = rate - 1; col >= diag; col--)
                 mtr[raw][col] = 0.0;
 
             for (; col > -1; col--)
                 mtr[raw][col] -= k * mtr[diag][col];
         }
     }
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
 }
+
+
+void count_answer(matrix_t mtr, int rate, matrix_t ans)
+{
+#ifdef  JOURNAL
+    LOG_IN;
+#endif
+    for (int i = 0; i < rate; i++)
+    {
+        ans[i][0] = mtr[i][rate];
+        for (int j = 0; j < i; j++)
+            ans[i][0] -= mtr[i][j] * ans[j][0];
+        ans[i][0] /= mtr[i][i];
+    }
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
+}
+
 
 

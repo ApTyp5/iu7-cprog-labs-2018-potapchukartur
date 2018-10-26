@@ -20,6 +20,11 @@ int main(int ac, char *av[])
 
     // rc : 'return counter'
     int rc = format_check(ac, av);
+
+#ifdef  JOURNAL
+    PV(rc after format_check = %d\n, rc);
+#endif
+
     if (!rc)
         rc = try_action(ac, av);
 
@@ -40,8 +45,6 @@ int format_check(int ac, char *av[])
 {
 #ifdef  JOURNAL
     LOG_IN;
-    PS(ac and av are the same as in main()\n);
-    LOG_OUT;
 #endif
 
 
@@ -58,13 +61,19 @@ int format_check(int ac, char *av[])
     if (strcmp(av[1], "o") && ac == 4)
         return WRONG_FORMAT;
 
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
     return HAPPY_END;
 }
 
 
 void show_prompt(int rc)
 {
-    LOG_IN; LOG_OUT;
+#ifdef  JOURNAL
+    LOG_IN;
+    PV(rc in show_prompt = %d\n, rc);
+#endif
     switch(rc)
     {
         case FOPEN_ERROR:
@@ -93,6 +102,9 @@ void show_prompt(int rc)
             break;
             
     }
+#ifdef  JOURNAL
+    LOG_OUT;
+#endif
 }
 
 
