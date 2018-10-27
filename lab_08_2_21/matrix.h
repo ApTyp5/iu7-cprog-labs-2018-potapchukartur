@@ -18,7 +18,7 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
 int mtr_trans(matrix_t *mtr, int *len, int *wid);
 int mtr_ghauss(matrix_t mtr, int len, int wid,
     matrix_t *ans, int *anslen, int *answid);
-void max_diag(matrix_t mtr, int mlen, int xnum,
+void max_diag(matrix_t mtr, int rate,
     matrix_t ans);
 void change_raws(matrix_t mtr, int raw1, int raw2);
 void change_cols(matrix_t mtr, int len, int col1, int col2);

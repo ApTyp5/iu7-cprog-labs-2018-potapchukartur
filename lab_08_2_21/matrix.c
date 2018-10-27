@@ -69,9 +69,6 @@ matrix_t alloc_mtr(int len, int wid)
     for (int i = 0; i < len; i++)
         result[i] = (double *)((char *)result + len * sizeof(double *) + i * wid * sizeof(double));
 
-    PV(len = %d\n, len);
-    PV(wid = %d\n, wid);
-
     for (int i = 0; i < len; i++)
         for(int j = 0; j < wid; j++)
             result[i][j] = 0.0;
@@ -97,6 +94,7 @@ FILE *fopen_try(char *fnam, char *mod, int *rc)
     if (!f)
         *rc = FOPEN_ERROR;
 #ifdef  JOURNAL
+    PV(rc after opening file = %d\n, *rc);
     LOG_OUT;
 #endif
     return f;
@@ -182,8 +180,6 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
     if (mtr_trans(&mtr2, &m2len, &m2wid) != HAPPY_END)
         return ALLOC_ERROR;
 
-    assert(m2wid == m1wid);
-
     // В дальнейшем в качестве размерностей будем 
     // сипользовать m1len, m2len и m2wid, чтобы обращаться
     // к размерностям не через разыменование
@@ -200,6 +196,7 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
 #endif
     return HAPPY_END;
 }
+
 
 int mtr_trans(matrix_t *mtr, int *len, int *wid)
 {
@@ -247,9 +244,27 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
     if (!(*ans))
         return ALLOC_ERROR;
 
-    max_diag(mtr, len, xnum, *ans);
+#ifdef JOURNAL
+    PS(mtr before max_diag\n);
+    PM(%lf\40, mtr, len, wid);
+#endif
+    max_diag(mtr, len, *ans);
+
+
+#ifdef JOURNAL
+    PS(mtr before triangle_matrix\n);
+    PM(%lf\40, mtr, len, wid);
+#endif
+
     triange_matrix(mtr, xnum);
-    count_answer(mtr, xnum, *ans);
+
+
+
+#ifdef JOURNAL
+    PS(mtr before count_answer\n);
+    PM(%lf\40, mtr, len, wid);
+#endif
+   count_answer(mtr, xnum, *ans);
 
 
 #ifdef  JOURNAL
@@ -260,7 +275,7 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 
 
 
-void max_diag(matrix_t mtr, int mlen, int xnum,
+void max_diag(matrix_t mtr, int rate,
     matrix_t ans)
 {
 #ifdef  JOURNAL
@@ -268,11 +283,11 @@ void max_diag(matrix_t mtr, int mlen, int xnum,
 #endif
     int maxel, maxcol;
 
-    for (int i = 0; i < mlen; i++)
+    for (int i = 0; i < rate; i++)
     {
         maxel = mtr[i][i];
         maxcol = i;
-        for (int j = i + 1; j < xnum; j++)
+        for (int j = i + 1; j < rate; j++)
             if (mtr[i][j] > maxel)
             {
                 maxcol = j;
@@ -280,7 +295,7 @@ void max_diag(matrix_t mtr, int mlen, int xnum,
             }
         if (maxcol != i)
         {
-            change_cols(mtr, mlen, i, maxcol);
+            change_cols(mtr, rate, i, maxcol);
             change_raws(ans, i, maxcol);
         }
     }
@@ -341,17 +356,17 @@ void triange_matrix(matrix_t mtr, int rate)
     // Далее:
     // diag - диагональ матрицы
     // raw - строка, в которой выполняются преобразования
-    for (int diag = rate - 1; diag > -1; diag--)
+    for (int diag = 0; diag < rate; diag++)
     {
-        for (int raw = diag - 1; raw > -1; raw--)
+        for (int raw = diag + 1; raw < rate; raw++)
         {
             int col;
             int k = mtr[raw][diag]/mtr[diag][diag];
 
-            for (col = rate - 1; col >= diag; col--)
+            for (col = 0; col < diag; col++)
                 mtr[raw][col] = 0.0;
 
-            for (; col > -1; col--)
+            for (; col <= rate; col++)
                 mtr[raw][col] -= k * mtr[diag][col];
         }
     }
@@ -366,10 +381,10 @@ void count_answer(matrix_t mtr, int rate, matrix_t ans)
 #ifdef  JOURNAL
     LOG_IN;
 #endif
-    for (int i = 0; i < rate; i++)
+    for (int i = rate - 1; i > -1; i--)
     {
-        ans[i][0] = mtr[i][rate];
-        for (int j = 0; j < i; j++)
+        ans[i][0] = mtr[i][rate];// mtr[i][rate] - элемент столбца свободных членов
+        for (int j = rate - 1; j > i; j--)
             ans[i][0] -= mtr[i][j] * ans[j][0];
         ans[i][0] /= mtr[i][i];
     }

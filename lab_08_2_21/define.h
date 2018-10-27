@@ -2,7 +2,6 @@
 #ifndef __DEFINE_H__
 #define __DEFINE_H__
 
-#define JOURNAL
 #define db      printf("db\n")
 #define EPS     1e-3
 

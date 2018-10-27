@@ -5,12 +5,18 @@ OBJ := main.o action.o aplog.o matrix.o
 TOBJ := test.o
 FTOBJ := func_tests.o matrix.o aplog.o
 
+
+ifeq ($(mod),j)
+	CFL += -DJOURNAL
+endif
+
+func_tests: func_tests.exe
+	./$<
 func_tests.exe: app.exe $(FTOBJ)
-	gcc -o $@ $(FTOBJ)
+	$(CC) -o $@ $(FTOBJ) $(LFL)
 
 app.exe: $(OBJ)
 	$(CC) -o $@ $^ $(LFL)
-	pwd
 
 test.exe: $(TOBJ)
 	$(CC) -o $@ $^ $(LFL)

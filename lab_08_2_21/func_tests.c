@@ -6,6 +6,22 @@
 #include "define.h"
 
 #define db  printf("db\n")
+#undef  JOURNAL
+
+int ntests = 2;
+char *tests[] = {
+    "./app.exe a ./tests/in_11 ./tests/in_12 out",
+    "./app.exe m ./tests/in_21 ./tests/in_22 out",
+    "./app.exe o ./tests/in_3 out",
+};
+char *tests_output[] = {
+    "./tests/out_1",
+    "./tests/out_2",
+    "./tests/out_3",
+};
+
+
+
 
 
 matrix_t lazy_get_mtr(char *fnam, int *len, int *wid)
@@ -27,6 +43,8 @@ matrix_t lazy_get_mtr(char *fnam, int *len, int *wid)
     for (int i = 0; i < *len; i++)
         for (int j = 0; j < *wid; j++)
             fscanf(f, "%lf", result[i] + j);
+
+    fclose(f);
 
     return result;
 }
@@ -62,19 +80,36 @@ int mtr_eq(matrix_t mtr1, int m1len, int m1wid,
 
 int main()
 {
-    S_LOG;
+
 
     int reclen, recwid;
     int anslen, answid;
+    
+    for (int i = 0; i < ntests; i++)
+    {
+        printf("test :%s\n", tests[i]);
 
-    system("./app.exe a ./tests/in_11 ./tests/in_12 out");
+        system(tests[i]);
+        matrix_t rec = lazy_get_mtr("out", &reclen, &recwid);
 
-    matrix_t rec = lazy_get_mtr("out", &reclen, &recwid);
-    matrix_t ans = lazy_get_mtr("./tests/out_1", &anslen, &answid);
+        for (int i = 0; i < reclen; i++)
+        {
+            for (int j = 0; j < recwid; j++)
+                printf("%lf ", rec[i][j]);
+            printf("\n");
+        }
+        matrix_t ans = lazy_get_mtr(tests_output[i], &anslen, &answid);
+        /*
+        for (int i = 0; i < anslen; i++)
+        {
+            for (int j = 0; j < answid; j++)
+                printf("%lf ", ans[i][j]);
+            printf("\n");
+        }
+        */
+        printf("Test %d result : %s\n", i, !mtr_eq(rec, reclen, recwid, ans, anslen, answid) ? "SUCCESS" : "FAIL");
+    }
 
-    printf("Test 1 passet : %s\n", !mtr_eq(rec, reclen, recwid, ans, anslen, answid) ? "SUCCESS" : "FAIL");
-
-    E_LOG;
 
     return 0;
 }

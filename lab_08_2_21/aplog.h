@@ -41,6 +41,7 @@ extern  int indent;
 
 #define     PM(fstr, mtr, len, wid) for (int i = 0; i < len; i++)\
                                     {\
+                                        val_pindent("    ");\
                                         for (int j = 0; j < wid; j++)\
                                             fprintf(_apl, #fstr, mtr[i][j]);\
                                         fprintf(_apl, "\n");\

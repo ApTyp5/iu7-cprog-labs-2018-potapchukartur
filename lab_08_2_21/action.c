@@ -34,9 +34,22 @@ int try_action(int ac, char *av[])
 
 
     mtr1 = get_mtr(av[2], &m1len, &m1wid, &rc);
+#ifdef  JOURNAL
+    PS(recieved mtr1:\n);
+    PM(%lf\40, mtr1, m1len, m1wid);
+#endif
 
+    
     if (strcmp(av[1], "o"))
+    {
         mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
+#ifdef  JOURNAL
+        PS(recieved mtr2:\n);
+        PM(%lf\40, mtr2, m2len, m2wid);
+#endif
+    }
+
+
 
     if (!rc)
         rc = do_action(*av[1],
@@ -45,9 +58,16 @@ int try_action(int ac, char *av[])
             &ans, &anslen, &answid);
 
     if (!rc)
+    {
+#ifdef  JOURNAL
+        PS(answer mtr:\n);
+        PM(%lf\40, ans, anslen, answid);
+#endif
+  
         rc = strcmp(av[1], "o") ? 
             put_mtr(ans, anslen, answid, av[4]) :
             put_mtr(ans, anslen, answid, av[3]);
+    }
 
 
 #ifdef  JOURNAL
