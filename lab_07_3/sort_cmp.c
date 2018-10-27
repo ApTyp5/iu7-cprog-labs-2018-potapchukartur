@@ -16,6 +16,8 @@
 #define        STEP            1000
 #define        NUMOFITER        1
 
+#define        SMM(llu)             llu = clock()
+#define        EMM(start_llu)       start_llu = clock() - start_llu
 
 #define        START_MEASURE        tm = clock();
 #define        END_MEASURE(T)        T = (clock() - tm);
@@ -56,7 +58,7 @@ int main(int argc, char **argv)
     */
 
 
-    test_qsort(inc_arr, 100000, 10000000, 100000, "qs_inc.inv");
+    test_qsort(inc_arr, 10000, 100000, 10000, "qs_inc.inv");
 
     return 0;
 } 
@@ -64,7 +66,7 @@ int main(int argc, char **argv)
 void test_qsort(int *create_arr(int), int size_min, int size_max,
     int step, char *fname)
 {
-    unsigned long long t;
+    unsigned long t;
     int *parr;
     FILE *f = fopen(fname, "w");
 
@@ -76,7 +78,7 @@ void test_qsort(int *create_arr(int), int size_min, int size_max,
         t = clock();
         qsort(parr, i, sizeof(int), int_comp);
         t = clock() - t;
-        fprintf(f, "%lld\n", t);
+        fprintf(f, "%lu\n", t);
     }
     
     fclose(f);
@@ -116,7 +118,6 @@ void compare_sorts(char *comment1, char *comment2,
 
 
 
-    size_t tacts = 0;
     size_t sum = 0;
 
     for (int i = size_min; i <= size_max; i += step)
@@ -124,6 +125,7 @@ void compare_sorts(char *comment1, char *comment2,
         printf("Iteration %d\n", i);
         int *pa;
         int *epa;
+        unsigned long long time;
            
         
         for (int j = 0; j < NUMOFITER; j++)
@@ -131,13 +133,15 @@ void compare_sorts(char *comment1, char *comment2,
             pa = create_arr(i);
             epa = pa + i;
 
-            START_MEASURE
+            //START_MEASURE
+            SMM(time);
 
             sort1(pa, epa - pa, sizeof(int), int_comp);
 
-            END_MEASURE(tacts)
+            //END_MEASURE(tacts)
+            EMM(time);
 
-            sum += tacts;
+            sum += time;
             
             free(pa);
         }
@@ -151,17 +155,19 @@ void compare_sorts(char *comment1, char *comment2,
         {
             pa = create_arr(i);
 
-            START_MEASURE
+            //START_MEASURE
+            SMM(time);
 
             sort2(pa, i, sizeof(int), int_comp);
 
-            END_MEASURE(tacts)
+            //END_MEASURE(tacts)
+            EMM(time);
 
-            sum += tacts;
+            sum += time;
             
             free(pa);
         }
-        fprintf(f2, "%10ld\n", (sum / NUMOFITER));
+        fprintf(f2, "%10d\n", (sum / NUMOFITER));
     }
 
     fclose(f1);
