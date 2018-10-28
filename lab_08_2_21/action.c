@@ -1,10 +1,8 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "matrix.h"
 #include "define.h"
-#include "aplog.h"
 
 int do_action(char act,
     matrix_t mtr1, int m1len, int m1wid,
@@ -14,9 +12,6 @@ int do_action(char act,
 // Проверка файлов
 int try_action(int ac, char *av[])
 {
-#ifdef  JOURNAL
-    LOG_IN;
-#endif
 
     int rc = HAPPY_END;
 
@@ -34,19 +29,11 @@ int try_action(int ac, char *av[])
 
 
     mtr1 = get_mtr(av[2], &m1len, &m1wid, &rc);
-#ifdef  JOURNAL
-    PS(recieved mtr1:\n);
-    PM(%lf\40, mtr1, m1len, m1wid);
-#endif
 
     
     if (strcmp(av[1], "o"))
     {
         mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
-#ifdef  JOURNAL
-        PS(recieved mtr2:\n);
-        PM(%lf\40, mtr2, m2len, m2wid);
-#endif
     }
 
 
@@ -59,10 +46,6 @@ int try_action(int ac, char *av[])
 
     if (!rc)
     {
-#ifdef  JOURNAL
-        PS(answer mtr:\n);
-        PM(%lf\40, ans, anslen, answid);
-#endif
   
         rc = strcmp(av[1], "o") ? 
             put_mtr(ans, anslen, answid, av[4]) :
@@ -70,10 +53,6 @@ int try_action(int ac, char *av[])
     }
 
 
-#ifdef  JOURNAL
-    PV(rc = %d\n, rc);
-    LOG_OUT;
-#endif
 
     free(ans);
     free(mtr1);
@@ -89,10 +68,6 @@ int do_action(char act,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-#ifdef  JOURNAL
-    LOG_IN; LOG_OUT;
-#endif
-
     switch (act)
     {
         case 'a':

@@ -3,6 +3,7 @@
 #define __MATRIX_H__
 
 typedef double **matrix_t;
+#include <stdio.h>
 
 
 matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc);
