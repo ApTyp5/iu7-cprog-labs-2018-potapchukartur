@@ -3,10 +3,13 @@
 #define __DEFINE_H__    
 
 #define     EOL                 '\n'
+typedef char *str_t;
+
 
 // YIELD CODES
 
 #define     REF_ONLY            1
+#define     EQ                  0
 #define     HAPPY_END           0
 #define     UNHAPPY_END         -2
 #define     FOPEN_ERROR         -3

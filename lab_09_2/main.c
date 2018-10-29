@@ -7,7 +7,15 @@ void show_prompt(int rc);
 
 int main(int ac, char **av)
 {
+    str_t fin, fout;
+    str_t ser, rep;
+
+    
     int rc = format_check(ac, av);
+    void prepare_args(ac, av, 
+
+    if (!rc)
+        rc = file_replace(fin, fout, ser, rep);
 
 
     show_prompt(rc);
