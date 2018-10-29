@@ -1,7 +1,7 @@
 
 CC := gcc
 CFL := -Wall -Werror
-OBJ := main.o mystring.o fileworks.o aplog.o
+OBJ := main.c
 
 
 
@@ -14,4 +14,5 @@ app.exe: $(OBJ)
 
 clean:
 	rm *.o *.exe .*~
+
 

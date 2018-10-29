@@ -1,22 +1,17 @@
 
-
 #ifndef __DEFINE_H__
-#define __DEFINE_H__
+#define __DEFINE_H__    
 
-typedef char *str_t;
-typedef FILE *file_t;
+#define     EOL                 '\n'
 
-#define BUFFSIZE    120
+// YIELD CODES
 
-
-// Yield codes
-
-
+#define     REF_ONLY            1
 #define     HAPPY_END           0
-#define     NON_HAPPY_END       -2
+#define     UNHAPPY_END         -2
 #define     FOPEN_ERROR         -3
-#define     ALLOCATION_ERROR    -4
-#define     FORMAT_ERROR        -5
+#define     FORMAT_ERROR        -4
+#define     WRONG_INPUT_DATA    -5
+#define     ALLOC_ERROR         -6
 
-#endif
-
+#endif // __DEFINE_H__
