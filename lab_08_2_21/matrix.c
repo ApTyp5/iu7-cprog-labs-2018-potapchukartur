@@ -1,4 +1,5 @@
 
+#include "debug.h"
 #include <assert.h>
 #include <stdlib.h>
 #include "define.h"
@@ -27,7 +28,8 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
         for (int i = 0; i < nonull_el; i++)
         {
             if (fscanf(f, "%d%d%lf", &raw, &col, &val) != 3 ||
-                raw > *mlen || col > *mwid)
+                0 >= raw || raw > *mlen || 
+                0 >= col || col > *mwid)
             {
                 *rc = WRONG_INPUT;
                 break;
@@ -148,7 +150,6 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
 
 int mtr_trans(matrix_t *mtr, int *len, int *wid)
 {
-
     matrix_t result = alloc_mtr(*wid, *len);
     if (!result)
         return ALLOC_ERROR;
@@ -200,6 +201,7 @@ void max_diag(matrix_t mtr, int rate,
 
     for (int i = 0; i < rate; i++)
     {
+
         maxel = mtr[i][i];
         maxcol = i;
         for (int j = i + 1; j < rate; j++)
@@ -213,6 +215,7 @@ void max_diag(matrix_t mtr, int rate,
             change_cols(mtr, rate, i, maxcol);
             change_raws(ans, i, maxcol);
         }
+
     }
 }
 
@@ -228,7 +231,9 @@ void change_raws(matrix_t mtr, int raw1, int raw2)
 void change_cols(matrix_t mtr, int len, int col1, int col2)
 {
     for (int i = 0; i < len; i++)
-        change_doubls(mtr[len] + col1, mtr[len] + col2);
+    {
+        change_doubls(mtr[i] + col1, mtr[i] + col2);
+    }
 }
 
 

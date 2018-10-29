@@ -3,9 +3,15 @@
 #include "mtests.h"
 #include "define.h"
 #include "matrix.h"
+#include "debug.h"
+#include "math.h"
+
 
 int main()
 {
+    setvbuf(stdout, NULL, _IONBF, 0);
+    phat();
+
     tst_epseq1();
     tst_epseq2();
 
@@ -49,17 +55,21 @@ int main()
 }
 
 /////ADD ONES/////
+
+void phat()
+{
+    printf("line\trecieved\texpected\tverdict\n");
+}
+
 int epseq(double el1, double el2)
 {
-    double ael1 = abs(el1);
-    double ael2 = abs(el2);
+    double ael1 = fabs(el1);
+    double ael2 = fabs(el2);
     double maxel = ael1 >= ael2 ? ael1 : ael2;
     if (maxel == 0.0)
         return HAPPY_END;
-    printf("abs(ael1 - ael2) < EPS * maxel = %d\n", abs(ael1 - ael2) < EPS * maxel);
-
     
-    if (abs(ael1 - ael2) < EPS * maxel)
+    if (fabs(ael1 - ael2) < EPS * maxel)
         return HAPPY_END;
 
     return BAD_END;
@@ -81,13 +91,24 @@ int mtr_eq(matrix_t mtr1, int m1len, int m1wid,
 int mtr_epseq(matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid)
 {
+    /*
+    piv(m1len);
+    piv(m1wid);
+    piv(m2len);
+    piv(m2wid);
+    */
+
     if (m1len != m2len || m1wid != m2wid)
         return BAD_END;
 
     for (int i = 0; i < m1len; i++)
         for (int j = 0; j < m1wid; j++)
+        {
+//            piv(i); piv(j); pdv(mtr1[i][j]); pdv(mtr2[i][j]);
+
             if (epseq(mtr1[i][j], mtr2[i][j]) == BAD_END)
                 return BAD_END;
+        }
 
     return HAPPY_END;
 }
@@ -201,8 +222,6 @@ void tst_mtr_epseq2()//NONEQ MTRS
     mtr1[1][1] = 1.3;
     mtr2[1][1] = 1.0;
 
-    printf("\n%d\n", epseq(mtr1[1][1], mtr2[1][1]));
-
 
     int res = mtr_epseq(mtr1, m1len, m1wid, mtr2, m2len, m2wid);
     int exp_res = BAD_END;
@@ -246,11 +265,13 @@ void tst_fopen_try2()//HAPPY_END
     STEST;
 
     int res = HAPPY_END;
-    FILE *f = fopen_try("ex", "w", &res);
+    FILE *f = fopen_try("ex.test", "w", &res);
+
     int exp_res = HAPPY_END;
 
     PVERD(res, exp_res);
     fclose(f);
+    system("rm ex.test");
 }
 
 void tst_get_mtr1()//WRONG_INPUT
@@ -328,12 +349,15 @@ void tst_put_mtr1()//FOPEN_ERROR
     mtr[1][1] = 1.1;
     mtr[2][2] = -2.2;
 
-    fopen("ex.test", "w");
+    FILE *f = fopen("ex.test", "w");
 
     int res = put_mtr(mtr, len, wid, "ex.test");
     int exp_res = FOPEN_ERROR;
+    fclose(f);
+
 
     PVERD(res, exp_res);
+    system("rm ex.test");
 }
 
 void tst_put_mtr2()//HAPPY_END
@@ -425,7 +449,7 @@ void tst_mtr_mult1()//WRONG_MULT_SIZES
     matrix_t ans;
 
 
-    int res = mtr_add(mtr1, m1len, m1wid,
+    int res = mtr_mult(mtr1, m1len, m1wid,
         mtr2, m2len, m2wid,
         &ans, &anslen, &answid);
 
@@ -468,7 +492,7 @@ void tst_mtr_mult2()//HAPPY_END
     int anslen, answid;
     matrix_t ans;
 
-    int res = mtr_add(mtr1, m1len, m1wid,
+    int res = mtr_mult(mtr1, m1len, m1wid,
         mtr2, m2len, m2wid,
         &ans, &anslen, &answid);
 
@@ -504,10 +528,13 @@ void tst_mtr_trans()//HAPPY_END
     exp_mtr[2][0] = -1.2;
     exp_mtr[2][1] = -2.2;
 
-    int res = mtr_eq(mtr1, m1len, m1wid,
-        exp_mtr, exp_len, exp_wid);
-    int exp_res = HAPPY_END;
+    int res = mtr_trans(&mtr1, &m1len, &m1wid);
 
+    if (!res)
+        res = mtr_eq(mtr1, m1len, m1wid,
+        exp_mtr, exp_len, exp_wid);
+
+    int exp_res = HAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -540,10 +567,10 @@ void tst_change_cols()//HAPPY_END
     change_cols(mtr, len, 0, 1);
 
     matrix_t ans = alloc_mtr(len, wid);
-    mtr[0][0] = 0.1;
-    mtr[0][1] = 0.0;
-    mtr[1][0] = 1.1;
-    mtr[1][1] = 1.0;
+    ans[0][0] = 0.1;
+    ans[0][1] = 0.0;
+    ans[1][0] = 1.1;
+    ans[1][1] = 1.0;
 
     int res = mtr_eq(mtr, len, wid, ans, len, wid);
     int exp_res = HAPPY_END;
@@ -566,10 +593,10 @@ void tst_change_raws()//HAPPY_END
     change_raws(mtr, 0, 1);
 
     matrix_t ans = alloc_mtr(len, wid);
-    mtr[0][0] = 1.0;
-    mtr[0][1] = 1.1;
-    mtr[1][0] = 0.0;
-    mtr[1][1] = 0.1;
+    ans[0][0] = 1.0;
+    ans[0][1] = 1.1;
+    ans[1][0] = 0.0;
+    ans[1][1] = 0.1;
 
     int res = mtr_eq(mtr, len, wid, ans, len, wid);
     int exp_res = HAPPY_END;
@@ -581,21 +608,30 @@ void tst_max_diag()//HAPPY_END
 {
     STEST;
 
-    int rate = 3;
+    int rate = 5;
     matrix_t mtr = alloc_mtr(rate, rate);
     matrix_t help = alloc_mtr(rate, 1);
+
+    for (int i = 0; i < rate; i++)
+        help[i][0] = i;
 
     // Заполняем поледний столбец матрицы тройками.
     // Так как остальная часть заполнена нулями, то
     // в итоге тройки должны оказаться на гл. диагонали
-    mtr[0][2] = 3.0;
-    mtr[1][2] = 3.0;
-    mtr[2][2] = 3.0;
+    mtr[0][3] = 1.0;
+    mtr[1][4] = 2.0;
+    mtr[2][0] = 3.0;
+    mtr[3][1] = 4.0;
+    mtr[4][2] = 5.0;
 
     max_diag(mtr, rate, help);
 
-    int res = (mtr[0][0] == 3.0 && mtr[1][1] == 3.0 &&
-        mtr[2][2] == 3.0) ? HAPPY_END : BAD_END;
+    int res = (mtr[0][0] == 1.0 && 
+        mtr[1][1] == 2.0 &&
+        mtr[2][2] == 3.0 &&
+        mtr[3][3] == 4.0 &&
+        mtr[4][4] == 5.0) ? HAPPY_END : BAD_END;
+
     int exp_res = HAPPY_END;
 
     PVERD(res, exp_res);

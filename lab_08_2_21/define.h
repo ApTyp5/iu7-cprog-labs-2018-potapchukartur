@@ -3,7 +3,7 @@
 #define __DEFINE_H__
 
 #define db      printf("db\n")
-#define EPS     1e-3
+#define EPS     1e-2
 
 // Yield codes
 

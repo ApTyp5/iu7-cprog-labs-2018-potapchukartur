@@ -2,13 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "matrix.h"
-#include "aplog.h"
 #include "define.h"
+#include "debug.h"
 
-#define db  printf("db\n")
-#undef  JOURNAL
 
-int ntests = 2;
+int ntests = 3;
 char *tests[] = {
     "./app.exe a ./tests/in_11 ./tests/in_12 out",
     "./app.exe m ./tests/in_21 ./tests/in_22 out",
@@ -91,23 +89,9 @@ int main()
 
         system(tests[i]);
         matrix_t rec = lazy_get_mtr("out", &reclen, &recwid);
-
-        for (int i = 0; i < reclen; i++)
-        {
-            for (int j = 0; j < recwid; j++)
-                printf("%lf ", rec[i][j]);
-            printf("\n");
-        }
         matrix_t ans = lazy_get_mtr(tests_output[i], &anslen, &answid);
-        /*
-        for (int i = 0; i < anslen; i++)
-        {
-            for (int j = 0; j < answid; j++)
-                printf("%lf ", ans[i][j]);
-            printf("\n");
-        }
-        */
-        printf("Test %d result : %s\n", i, !mtr_eq(rec, reclen, recwid, ans, anslen, answid) ? "SUCCESS" : "FAIL");
+
+        printf("Test %d result : %s\n\n", i, !mtr_eq(rec, reclen, recwid, ans, anslen, answid) ? "SUCCESS" : "FAIL");
     }
 
 
