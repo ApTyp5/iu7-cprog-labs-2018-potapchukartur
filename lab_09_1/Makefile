@@ -1,13 +1,18 @@
 
-F := -Wall -Werror
+CC := gcc
+CFL := -Wall -Werror
+OBJ := my_strrchr.o test.o
 
-run_mod_tests: test.exe
-	./test.exe
 
 
-test.exe:
-	gcc -o $@ my_strrchr.c test.c $(F)
 
+app.exe: $(OBJ)
+	$(CC) -o $@ $^ 
+
+%.o: %.c *.h
+	$(CC) -c $< $(CFL)
 
 clean:
-	rm *.exe *.o
+	rm *.o *.exe .*~
+
+

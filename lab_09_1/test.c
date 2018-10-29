@@ -1,75 +1,118 @@
-
 #include <string.h>
-#include <stdio.h>
+#include "mtests.h"
+#include "define.h"
+#include "debug.h"
 
-#define     TEST_STARTED    printf("%d --> '%s()': ", __LINE__, __func__)
 
 char *my_strrchr(const char *s, int c);
-char *endstr(const char *s);
-void endstr_test_1();
-void strrchr_test_1();
-void strrchr_test_2();
-void strrchr_test_3();
-void strrchr_test_4();
-
+void neg_test_1();
+void neg_test_2();
+void neg_test_3();
+void pos_test_1();
+void pos_test_2();
+void pos_test_3();
 
 
 int main()
 {
-    endstr_test_1();
-    strrchr_test_1();
-    strrchr_test_2();
-    strrchr_test_3();
+    setvbuf(stdout, NULL, _IONBF, 0);
 
-    return 0;
+    //neg_test_1();
+    //neg_test_2();
+    neg_test_3();
+
+    pos_test_1();
+    pos_test_2();
+    pos_test_3();
+
+    return HAPPY_END;
 }
 
-void cptr_verdict(char *ans, char *exp_ans)
+
+
+void neg_test_1()// Seg fault
 {
-    printf("%5s\t%5s\t%s\n", ans, exp_ans, ans == exp_ans ? "SUCCESS" : "CRACH");
+    STEST;
+
+    char *s = NULL;
+    int c = 5;
+
+    db;
+    void *exp_res = (void *)strrchr(s, c);
+    db;
+    void *res = (void *)my_strrchr(s, c);
+    db;
+
+    PVERD(%p, res, exp_res);
 }
 
-void endstr_test_1()
+void neg_test_2()// Seg fault
 {
-    TEST_STARTED;
+    STEST;
 
-    char *str = "abcde";
-    char *ans = endstr(str);
-    char *exp_ans = str + 5;
+    char *s = NULL;
+    int c = -5;
+    db;
+    void *exp_res = (void *)strrchr(s, c);
+    db;
+    void *res = (void *)my_strrchr(s, c);
+    db;
 
-    cptr_verdict(ans, exp_ans);
+    PVERD(%p, res, exp_res);
 }
 
-void strrchr_test_1()
+void neg_test_3()
 {
-    TEST_STARTED;
+    STEST;
 
-    char str[5] = {'a', 'b', 'c', 'd','\0'};
-    char *ans = my_strrchr(str, 'c');
-    char *exp_ans = strrchr(str, 'c');
+    char *s = "qwer";
+    int c = -5;
 
-    cptr_verdict(ans, exp_ans);
+    void *res = (void *)my_strrchr(s, c);
+    void *exp_res = (void *)strrchr(s, c);
+
+    PVERD(%p, res, exp_res);
 }
+
+void pos_test_1()
+{
+    STEST;
+
+    char *s = "qwer";
+    int c = 'w';
+
+    void *res = (void *)my_strrchr(s, c);
+    void *exp_res = (void *)strrchr(s, c);
+
+    PVERD(%p, res, exp_res);
+}
+
+void pos_test_2()
+{
+    STEST;
+
+    char *s = "qwer";
+    int c = 0;
+
+    void *res = (void *)my_strrchr(s, c);
+    void *exp_res = (void *)strrchr(s, c);
+
+    PVERD(%p, res, exp_res);
+}
+
+void pos_test_3()
+{
+    STEST;
+
+    char *s = "qwer";
+    int c = 't';
+
+    void *res = (void *)my_strrchr(s, c);
+    void *exp_res = (void *)strrchr(s, c);
+
+    PVERD(%p, res, exp_res);
+}
+
+
     
-void strrchr_test_2()
-{
-    TEST_STARTED;
 
-    char str[5] = {'a', 'b', 'c', 'd','\0'};
-    char *ans = my_strrchr(str, '\0');
-    char *exp_ans = strrchr(str, '\0');
-
-    cptr_verdict(ans, exp_ans);
-}
-
-
-void strrchr_test_3()
-{
-    TEST_STARTED;
-
-    char str[5] = {'a', 'b', 'c', 'd','\0'};
-    char *ans = my_strrchr(str, 'e');
-    char *exp_ans = strrchr(str, 'e');
-
-    cptr_verdict(ans, exp_ans);
-}
