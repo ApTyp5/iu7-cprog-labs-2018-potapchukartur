@@ -21,6 +21,7 @@ app.exe: $(OBJ)
 
 mod_tests: test.exe
 	./test.exe
+	rm ex.test
 
 test.exe: $(TOBJ)
 	$(CC) -o $@ $^ $(LFL)

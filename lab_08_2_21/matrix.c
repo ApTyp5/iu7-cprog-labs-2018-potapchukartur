@@ -252,17 +252,19 @@ void triange_matrix(matrix_t mtr, int rate)
     // Далее:
     // diag - диагональ матрицы
     // raw - строка, в которой выполняются преобразования
-    for (int diag = 0; diag < rate; diag++)
+    for (int diag = rate - 1; diag > -1; diag--)
     {
-        for (int raw = diag + 1; raw < rate; raw++)
+        for (int raw = diag - 1; raw > -1; raw--)
         {
             int col;
             int k = mtr[raw][diag]/mtr[diag][diag];
 
-            for (col = 0; col <= diag; col++)
+            mtr[raw][rate] -= k * mtr[diag][rate];
+
+            for (col = rate - 1; col >= diag; col--)
                 mtr[raw][col] = 0.0;
 
-            for (; col <= rate; col++)
+            for (; col > - 1; col--)
                 mtr[raw][col] -= k * mtr[diag][col];
         }
     }
@@ -271,11 +273,12 @@ void triange_matrix(matrix_t mtr, int rate)
 
 void count_answer(matrix_t mtr, int rate, matrix_t ans)
 {
-    for (int i = rate - 1; i > -1; i--)
+    for (int i = 0; i < rate; i++)
     {
         ans[i][0] = mtr[i][rate];// mtr[i][rate] - элемент столбца свободных членов
-        for (int j = rate - 1; j > i; j--)
+        for (int j = i - 1; j > -1; j--)
             ans[i][0] -= mtr[i][j] * ans[j][0];
+
         ans[i][0] /= mtr[i][i];
     }
 }
