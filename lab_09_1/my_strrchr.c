@@ -14,6 +14,10 @@ char *my_strrchr(const char *s, int c)
         if (*s == c)
             return (char *)s;
 
+    if (*start == c)
+        return (char *)start;
+
+
     return NULL;
 }
 
