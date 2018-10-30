@@ -1,2 +1,2 @@
-testting data: rumors says unihorns don't eat bamboo,
+testing data: rumors says unihorns don't eat bamboo,
 but nobody knows what do they can eat instead...

@@ -1,10 +1,15 @@
-#define "debug.h"
-#define "mtests.h"
-#define "define.h"
+#include <stdlib.h>
+#include "mod_tests.h"
+#include "fileworks.h"
+#include "mystring.h"
+#include "debug.h"
+#include "prepare.h"
+#include "mtests.h"
+#include "define.h"
 
 #define     EXECUTE     "app.exe"
 #define     TEST_DIR    "./tests"
-#define     TEST_DATA(fnam)     TEST_DIR"/"#fnam
+#define     TEST_DATA(fnam)    TEST_DIR"/"#fnam
 
 // unexisting file
 #define     UNEX_F      "unex.test"
@@ -14,10 +19,13 @@
 #define     OUTFILE     "out.txt"
 
 
+int format_check(int ac, char **av);
+void prepare_args(char *av[], str_t *fin, str_t *fout, str_t *ser, str_t *rep);
 
 
 int main()
 {
+    setvbuf(stdout, NULL, _IONBF, 0);
 
     fopen_try_test_1();// Файл возможно открыть/создать
     fopen_try_test_2();// Файл невозможно открыть/создать
@@ -26,7 +34,6 @@ int main()
     format_check_test_2();// -s или -r на первой или второй позиции
     format_check_test_3();// -s и -r стоят подряд
 
-    prepare_args_test();
 
 
     lazy_strcmp_test_1();// Строки равны
@@ -35,13 +42,18 @@ int main()
     lazy_strcmp_test_4();// Первая строка короче (меньше) второй
     lazy_strcmp_test_5();// Первая строка длинее (больше) второй
 
-    strncmp_test_1();// Строки равны
-    strncmp_test_2();// Первая строка больше второй
-    strncmp_test_3();// Первая строка меньше второй
-    strncmp_test_4();// Первая строка короче (меньше) второй
-    strncmp_test_5();// Первая строка длинее (больше) второй
+
+
+    prepare_args_test();
+
+    my_strncmp_test_1();// Строки равны
+    my_strncmp_test_2();// Первая строка больше второй
+    my_strncmp_test_3();// Первая строка меньше второй
+    my_strncmp_test_4();// Первая строка короче (меньше) второй
+    my_strncmp_test_5();// Первая строка длинее (больше) второй
 
     lazy_strcpy_test_1();
+    my_strdup_test_1();
 
     my_strreplace_test_1();// Проверка замена одного символа на несколько
     my_strreplace_test_2();// Проверка замены нескольких символов на один
@@ -51,6 +63,7 @@ int main()
     
 
 
+    my_getline_test_0();// В качестве буфера пересан нулево указатель
     my_getline_test_1();// Строка полностью помещается во входной буфер
     my_getline_test_2();// Строка меньше входного буфера
     my_getline_test_3();// Строка больше входногo буфера, причем не помещается только '\n'
@@ -60,13 +73,14 @@ int main()
 
 
 
+    file_cmp_test_0();// Эквивалентные файлы
     file_cmp_test_1();// Эквивалентные файлы
     file_cmp_test_2();// Не эквивалентные файлы
 
 
-
     file_replace_test_1();// Замена односимвольных строк, на многосимвольные
                           // в однострочном файле
+
                           
     file_replace_test_2();// Замена многосимвольных строк, на односимвольные
                           // в однострочном файле
@@ -119,7 +133,7 @@ void fopen_try_test_1()// Файл возможно открыть/создат�
     FILE *f = fopen_try(EX_F, "w", &res);
     fclose(f);
     
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
     system("rm "EX_F);
 }
 
@@ -131,9 +145,9 @@ void fopen_try_test_2()// Файл невозможно открыть/созд�
     int res = HAPPY_END;
     int exp_res = FOPEN_ERROR;
 
-    FILE *f = fopen_try(UNEX_F, "r", &res);
+    fopen_try(UNEX_F, "r", &res);
     
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
 }
 
 
@@ -143,7 +157,7 @@ void format_check_test_1()// мало аргументов
     STEST;
 
     int ac = 3;
-    char *av[] = NULL;
+    char **av = NULL;
 
     int res = format_check(ac, av);
     int exp_res = FORMAT_ERROR;
@@ -185,12 +199,12 @@ void prepare_args_test()
     str_t fin, fout;
     str_t ser, rep;
 
-    prepare_argc(av, &fin, &fout, &ser, &rep);
+    prepare_args(av, &fin, &fout, &ser, &rep);
 
-    int res = (my_strcmp(fin, "in") ||
-        my_strcmp(fout, "out") ||
-        my_strcmp(ser, "serach") ||
-        my_strcmp(rep, "replace"));
+    int res = (lazy_strcmp(fin, "in") ||
+        lazy_strcmp(fout, "out") ||
+        lazy_strcmp(ser, "serach") ||
+        lazy_strcmp(rep, "replace"));
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
@@ -241,7 +255,7 @@ void lazy_strcmp_test_4()// Первая строка короче (меньше
 {
     STEST;
 
-    char *str_1 = "qux";
+    char *str_1 = "quu";
     char *str_2 = "quux";
 
     int res = lazy_strcmp(str_1, str_2) < 0;
@@ -256,7 +270,7 @@ void lazy_strcmp_test_5()// Первая строка длинее (больше
     STEST;
 
     char *str_1 = "quuux";
-    char *str_2 = "quux";
+    char *str_2 = "quuu";
 
     int res = lazy_strcmp(str_1, str_2) > 0;
     int exp_res = 1;
@@ -264,7 +278,7 @@ void lazy_strcmp_test_5()// Первая строка длинее (больше
     PVERD(%d, res, exp_res);
 }
 
-void strncmp_test_1()// Строки равны
+void my_strncmp_test_1()// Строки равны
 {
     STEST;
 
@@ -272,14 +286,14 @@ void strncmp_test_1()// Строки равны
     char *str_2 = "quux";
     int len = 4;
 
-    int res = strncmp(str_1, str_2, len) > 0;
-    int exp_res = 1;
+    int res = my_strncmp(str_1, str_2, len) ;
+    int exp_res = EQ;
 
     PVERD(%d, res, exp_res);
 }
 
 
-void strncmp_test_2()// Первая строка больше второй
+void my_strncmp_test_2()// Первая строка больше второй
 {
     STEST;
 
@@ -287,13 +301,13 @@ void strncmp_test_2()// Первая строка больше второй
     char *str_2 = "quux";
     int len = 4;
 
-    int res = strncmp(str_1, str_2, len) > 0;
+    int res = my_strncmp(str_1, str_2, len) > 0;
     int exp_res = 1;
 
     PVERD(%d, res, exp_res);
 }
 
-void strncmp_test_3()// Первая строка меньше второй
+void my_strncmp_test_3()// Первая строка меньше второй
 {
     STEST;
 
@@ -301,7 +315,7 @@ void strncmp_test_3()// Первая строка меньше второй
     char *str_2 = "zuux";
     int len = 4;
 
-    int res = strncmp(str_1, str_2, len) > 0;
+    int res = my_strncmp(str_1, str_2, len) < 0;
     int exp_res = 1;
 
     PVERD(%d, res, exp_res);
@@ -309,7 +323,7 @@ void strncmp_test_3()// Первая строка меньше второй
 
 
 
-void strncmp_test_4()// Первая строка короче (меньше) второй
+void my_strncmp_test_4()// Первая строка короче (меньше) второй
 {
     STEST;
 
@@ -317,21 +331,21 @@ void strncmp_test_4()// Первая строка короче (меньше) в
     char *str_2 = "quux";
     int len1 = 3;
 
-    int res = strncmp(str_1, str_2, len1) > 0;
+    int res = my_strncmp(str_1, str_2, len1) > 0;
     int exp_res = 1;
 
     PVERD(%d, res, exp_res);
 }
 
-void strncmp_test_5()// Первая строка длинее (больше) второй
+void my_strncmp_test_5()// Первая строка длинее (больше) второй
 {
     STEST;
 
     char *str_1 = "quuux";
-    char *str_2 = "quux";
+    char *str_2 = "quuu";
     int len1 = 5;
 
-    int res = strncmp(str_1, str_2, len1) > 0;
+    int res = my_strncmp(str_1, str_2, len1) > 0;
     int exp_res = 1;
 
     PVERD(%d, res, exp_res);
@@ -355,10 +369,28 @@ void lazy_strcpy_test_1()
     int res = lazy_strcpy(what, where);
     
     int exp_res = !(res == whatlen);
-    res = strncmp(what, where, whatlen);
+    res = my_strncmp(what, where, whatlen);
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
 }
+
+void my_strdup_test_1()
+{
+    STEST;
+
+    char *str = "asdf";
+    char *ans = my_strdup(str);
+
+    int res = lazy_strcmp(str, ans);
+    int exp_res = EQ;
+
+    PVERD(%d, res, exp_res);
+}
+
+
+
+
+
 
 
 
@@ -373,10 +405,12 @@ void my_strreplace_test_1()// Проверка замена одного сим�
     char *ans = my_strreplace(str, ser, rep);
     char *exp_ans = "A twiQUUXter of twiQUUXtQUUX once twiQUUXted a twiQUUXt";
 
+
     int res = lazy_strcmp(ans, exp_ans);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res)
+    PVERD(%d, res, exp_res);
+
 }
 
 
@@ -394,7 +428,7 @@ void my_strreplace_test_2()// Проверка замены нескольких
     int res = lazy_strcmp(ans, exp_ans);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res)
+    PVERD(%d, res, exp_res);
 }
 
 void my_strreplace_test_3()// serach = NULL: строка дублируется
@@ -406,12 +440,11 @@ void my_strreplace_test_3()// serach = NULL: строка дублируется
     char *rep = "s";
 
     char *ans = my_strreplace(str, ser, rep);
-    char *exp_ans = "A twister of twists once twisted a twist";
 
-    int res = lazy_strcmp(ans, exp_ans);
-    int exp_res = HAPPY_END;
+    int res = ans == NULL;
+    int exp_res = TRUE;
 
-    PVERD(res, exp_res)
+    PVERD(%d, res, exp_res);
 }
 
 
@@ -420,16 +453,15 @@ void my_strreplace_test_4()// replace = NULL: входжения serach удал
     STEST;
 
     char *str = "A twister of twists once twisted a twist";
-    char *ser = "twi;
+    char *ser = "twi";
     char *rep = NULL;
 
     char *ans = my_strreplace(str, ser, rep);
-    char *exp_ans = "A ster of sts once sted a st";
 
-    int res = lazy_strcmp(ans, exp_ans);
-    int exp_res = HAPPY_END;
+    int res = ans == NULL;
+    int exp_res = TRUE;
 
-    PVERD(res, exp_res)
+    PVERD(%d, res, exp_res);
 }
 
 void my_strreplace_test_5()// source = NULL: возврат тоже NULL
@@ -437,16 +469,37 @@ void my_strreplace_test_5()// source = NULL: возврат тоже NULL
     STEST;
 
     char *str = NULL;
-    char *ser = "twi;
+    char *ser = "twi";
     char *rep = NULL;
 
     char *ans = my_strreplace(str, ser, rep);
-    char *exp_ans = NULL;
 
-    int res = lazy_strcmp(ans, exp_ans);
+    int res = ans == NULL;
+    int exp_res = TRUE;
+
+    PVERD(%d, res, exp_res);
+}
+
+void my_getline_test_0()// в качестве буфера передан указатель на NULL
+{
+    STEST;
+
+    FILE *f = tmpfile();
+    char *str = "aaaaaaaaaa";
+    int strlen = 10;
+    fprintf(f, "%s", str); // 10 'a'
+    rewind(f);
+
+    char *lptr = NULL;
+    size_t size;
+    ssize_t len = my_getline(&lptr, &size, f);
+
+
+    int res = (size != BSIZE || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res)
+    PVERD(%d, res, exp_res);
+    fclose(f);
 }
 
 
@@ -458,7 +511,7 @@ void my_getline_test_1()// Строка полностью помещается 
     FILE *f = tmpfile();
     char *str = "aaaaaaaaaa";
     int strlen = 10;
-    int strsize = 11
+    int strsize = 11;
     fprintf(f, "%s", str); // 10 'a'
     rewind(f);
 
@@ -469,7 +522,7 @@ void my_getline_test_1()// Строка полностью помещается 
     int res = (size != strsize || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
     fclose(f);
 }
 
@@ -481,7 +534,6 @@ void my_getline_test_2()// Строка меньше входного буфер
     FILE *f = tmpfile();
     char *str = "aaaaa";
     int strlen = 5;
-    int strsize = 6;
     fprintf(f, "%s", str);
     rewind(f);
 
@@ -489,10 +541,12 @@ void my_getline_test_2()// Строка меньше входного буфер
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
 
+    
+
     int res = (size != 11 || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
     fclose(f);
 }
 
@@ -503,18 +557,16 @@ void my_getline_test_3()// Строка больше входног буфера
     FILE *f = tmpfile();
     char *str = "aaaaaaaaaa\n";
     int strlen = 11;
-    int strsize = 12;
     fprintf(f, "%s", str);
     rewind(f);
 
     char *lptr = malloc(sizeof(char) * (10 + 1));
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
-
-    int res = (size != BSIZE || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+    int res = (size != BSIZE + 11 - 1 || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
     fclose(f);
 }
 
@@ -526,7 +578,6 @@ void my_getline_test_4()// Строка больше входного буфер
     FILE *f = tmpfile();
     char *str = "aaaaaaaaaabbbbbbbbbb";
     int strlen = 20;
-    int strsize = 21;
     fprintf(f, "%s", str);
     rewind(f);
 
@@ -534,10 +585,10 @@ void my_getline_test_4()// Строка больше входного буфер
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
 
-    int res = (size != BSIZE || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+    int res = (size != BSIZE + 11 - 1 || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
     fclose(f);
 }
 
@@ -550,19 +601,28 @@ void my_getline_test_5()// Строка больше входного буфер
     char *str = "aaaaaaaaaabbbbbbbbbb";
     for (int i = 0; i < 10; i++)
         fprintf(f, "%s", str);
-    int strlen = 21 * 5;
-    int strsize = strlen + 1;
+    int strlen = 20 * 10;
     rewind(f);
 
     char *lptr = malloc(sizeof(char) * (10 + 1));
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
 
-    int res = (size != 2 * BSIZE || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+    int res = (size != 2 * BSIZE + 11 - 2 || len != strlen);
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
     fclose(f);
+}
+
+void file_cmp_test_0()// Эквивалентные файлы
+{
+    STEST;
+
+    int res = file_cmp(TEST_DATA(1sQUXys.txt), TEST_DATA(1sQUXys-copy.txt));
+    int exp_res = HAPPY_END;
+
+    PVERD(%d, res, exp_res);
 }
 
 
@@ -573,7 +633,7 @@ void file_cmp_test_1()// Эквивалентные файлы
     int res = file_cmp(TEST_DATA(1says.txt), TEST_DATA(1says-copy.txt));
     int exp_res = HAPPY_END;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
 }
 
 
@@ -581,10 +641,10 @@ void file_cmp_test_2()// Не эквивалентные файлы
 {
     STEST;
 
-    int res = file_cmp(TEST_DATA(1says.txt), TEST_DATA(2says.txt));
-    int exp_res = HAPPY_END;
+    int res = file_cmp(TEST_DATA(1says.txt), TEST_DATA(1sQUXys.txt)) != EQ;
+    int exp_res = TRUE;
 
-    PVERD(res, exp_res);
+    PVERD(%d, res, exp_res);
 }
 
 
@@ -598,7 +658,7 @@ void file_replace_test_1()
     char *ser = "a";
     char *rep = "QUX";
 
-    int res = file_replace(TEST_DATA(1says.txt, OUTFILE, ser, rep);
+    int res = file_replace(TEST_DATA(1says.txt), OUTFILE, ser, rep);
 
     if (!res)
         res = file_cmp(TEST_DATA(1sQUXys.txt), OUTFILE);
@@ -617,11 +677,11 @@ void file_replace_test_2()
     char *ser = "QUX";
     char *rep = "a";
 
-    int res = file_replace(TEST_DATA(1sQUXys.txt), OUTFILE, ser, rep);
+    int res = file_replace( TEST_DATA(1sQUXys.txt), OUTFILE, ser, rep);
 
 
     if (!res)
-        res = file_cmp(TEST_DATA(1says.txt), OUTFILE);
+        res = file_cmp( TEST_DATA(1says.txt), OUTFILE);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
@@ -637,10 +697,10 @@ void file_replace_test_3()
     char *ser = "a";
     char *rep = "QUX";
 
-    int res = file_replace(TEST_DATA(2says.txt), OUTFILE, ser, rep);
+    int res = file_replace( TEST_DATA(2says.txt), OUTFILE, ser, rep);
 
     if (!res)
-        res = file_cmp(TEST_DATA(2sQUXys.txt), OUTFILE);
+        res = file_cmp( TEST_DATA(2sQUXys.txt), OUTFILE);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
@@ -655,10 +715,10 @@ void file_replace_test_4()
     char *ser = "QUX";
     char *rep = "a";
 
-    int res = file_replace(TEST_DATA(2sQUXys.txt), OUTFILE, ser, rep);
+    int res = file_replace( TEST_DATA(2sQUXys.txt), OUTFILE, ser, rep);
 
     if (!res)
-        res = file_cmp(TEST_DATA(2says.txt), OUTFILE);
+        res = file_cmp( TEST_DATA(2says.txt), OUTFILE);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
