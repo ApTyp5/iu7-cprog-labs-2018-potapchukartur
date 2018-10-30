@@ -6,7 +6,8 @@ OBJ := my_strrchr.o test.o
 
 
 
-app.exe: $(OBJ)
+
+test.exe: $(OBJ)
 	$(CC) -o $@ $^ 
 
 %.o: %.c *.h

@@ -37,7 +37,6 @@ void neg_test_1()// Seg fault
     char *s = NULL;
     int c = 5;
 
-    db;
     void *exp_res = (void *)strrchr(s, c);
     db;
     void *res = (void *)my_strrchr(s, c);
