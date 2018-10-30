@@ -3,12 +3,16 @@
 #define __DEFINE_H__    
 
 #define     EOL                 '\n'
+#define     BSIZE               120
 typedef char *str_t;
+
 
 
 // YIELD CODES
 
 #define     REF_ONLY            1
+#define     TRUE                1
+#define     FAULSE              0
 #define     EQ                  0
 #define     HAPPY_END           0
 #define     UNHAPPY_END         -2
