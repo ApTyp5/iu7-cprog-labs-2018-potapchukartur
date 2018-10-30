@@ -1,40 +1,35 @@
+
 CC := gcc
-OBJ := main.o inout.o action.o prompt.o aplog.o Ghauss.o
-TOBJ := test.o inout.o action.o prompt.o aplog.o Ghauss.o
-CFLAGS := -Wall -Werror -std=c99 -pedantic
-mod=rel
+CFL := -Wall -Werror -std=c99 -pedantic
+OBJ := main.o action.o matrix.o
+TOBJ := mod_tests.o matrix.o
+FTOBJ := func_tests.o matrix.o
 
 
-ifeq ($(mod),db)
-	LFLAGS:=-O0 -g3
+ifeq ($(mod),j)
+	CFL += -DJOURNAL
 endif
 
-ifeq ($(mod),rel)
-	CFLAGS := $(CFLAGS) -DNDEBUG
-endif
+func_tests: func_tests.exe
+	./$<
 
-
-
-test: app.exe
-	./app.exe o in_21 out
-	cat log
-	cat in_21
-	cat out
-	rm log
-
-func_test: app.exe
-	./func_test
+func_tests.exe: app.exe $(FTOBJ)
+	$(CC) -o $@ $(FTOBJ) $(LFL)
 
 app.exe: $(OBJ)
-	gcc -o $@ $^ $(LFLAGS)
+	$(CC) -o $@ $^ $(LFL)
+
+mod_tests: test.exe
+	./test.exe
+	rm ex.test
 
 test.exe: $(TOBJ)
-	gcc -o $@ $^ $(LFLAGS)
+	$(CC) -o $@ $^ $(LFL)
+
 
 %.o: %.c *.h
-	gcc -c $< $(CFLAGS)
+	$(CC) -c $< $(CFL)
+
 
 clean:
 	rm *.o *.exe .*~ 
-
-

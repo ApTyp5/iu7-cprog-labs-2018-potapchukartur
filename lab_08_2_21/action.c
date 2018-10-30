@@ -1,97 +1,100 @@
-
-#define db printf("db\n")
 #include <stdlib.h>
-#include "aplog.h"
+#include <stdio.h>
+#include <string.h>
+#include "matrix.h"
 #include "define.h"
-#include "inout.h"
-#include "action.h"
-#include "Ghauss.h"
 
+<<<<<<< HEAD
 
 
 int act(str_t action, matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
-{
-    PE;
-    switch (action[0])
-    {
-        case 'a':
-        return add(mtr1, m1len, m1wid,
-            mtr2, m2len, m2wid,
-            ans, anslen, answid);
+=======
+int do_action(char act,
+    matrix_t mtr1, int m1len, int m1wid,
+    matrix_t mtr2, int m2len, int m2wid,
+    matrix_t *ans, int *anslen, int *answid);
 
-        case 'm':
-        return mult(mtr1, m1len, m1wid,
-            mtr2, m2len, m2wid,
-            ans, anslen, answid);
-        case 'o':
-        return Ghauss(mtr1, m1len, m1wid,
-            ans, anslen, answid);
+// Проверка файлов
+int try_action(int ac, char *av[])
+>>>>>>> lab_08
+{
+
+    int rc = HAPPY_END;
+
+    matrix_t mtr1 = NULL;
+    int m1len = 0;
+    int m1wid = 0;
+
+    matrix_t mtr2 = NULL;
+    int m2len = 0;
+    int m2wid = 0;
+
+    matrix_t ans = NULL;
+    int anslen = 0;
+    int answid = 0;
+
+
+    mtr1 = get_mtr(av[2], &m1len, &m1wid, &rc);
+
+    
+    if (strcmp(av[1], "o"))
+    {
+        mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
     }
 
-    return HAPPY_END; 
+
+
+    if (!rc)
+        rc = do_action(*av[1],
+            mtr1, m1len, m1wid,
+            mtr2, m2len, m2wid,
+            &ans, &anslen, &answid);
+
+    if (!rc)
+    {
+  
+        rc = strcmp(av[1], "o") ? 
+            put_mtr(ans, anslen, answid, av[4]) :
+            put_mtr(ans, anslen, answid, av[3]);
+    }
+
+
+
+    free(ans);
+    free(mtr1);
+    free(mtr2);
+
+    return rc;
 }
 
 
-int add(matrix_t mtr1, int m1len, int m1wid,
+
+int do_action(char act,
+    matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-    /*
-    PE;
-    PIV("m1len = ", m1len);
-    PIV("m1wid = ", m1wid);
-    PIV("m2len = ", m2len);
-    PIV("m2wid = ", m2wid);
-    */
-
-
-    
-
-    if (!(m1len == m2len && m1wid == m2wid))
-        return WRONG_ADD_MTR_SIZES;
-
-    (*ans) = allocate_matrix(m1len, m1wid);
-    if (!(*ans))
-        return ALLOCATION_ERROR;
-
-    *anslen = m1len;
-    *answid = m1wid;
-
-    for (int i = 0; i < m1len; i++)
-        for (int j = 0; j < m1wid; j++)
-            (*ans)[i][j] = mtr1[i][j] + mtr2[i][j];
+    switch (act)
+    {
+        case 'a':
+            return mtr_add(mtr1, m1len, m1wid,
+                mtr2, m2len, m2wid,
+                ans, anslen, answid);
+        case 'm':
+            return mtr_mult(mtr1, m1len, m1wid, 
+                mtr2, m2len, m2wid, 
+                ans, anslen, answid);
+        case'o':
+            return mtr_ghauss(mtr1, m1len, m1wid,
+                ans, anslen, answid);
+    }
 
     return HAPPY_END;
 }
 
-int mult(matrix_t mtr1, int m1len, int m1wid,
-    matrix_t mtr2, int m2len, int m2wid,
-    matrix_t *ans, int *anslen, int *answid)
-{
-    PE;
-    
-    if (!(m1wid == m2len))
-        return WRONG_MULT_MTR_SIZES;
 
-    (*ans) = allocate_matrix(m1len, m2wid);
 
-    if (!(*ans))
-        return ALLOCATION_ERROR;
-
-    *anslen = m1len;
-    *answid = m2wid;
-
-    for (int i = 0; i < m1len; i++)
-        for (int j = 0; j < m2wid; j++)
-        {
-            double val = 0.0;
-            for (int k = 0; k < m1wid; k++)
-                val += mtr1[i][k] * mtr2[k][j];
-            (*ans)[i][j] = val;
-        }
-    return HAPPY_END;
-}
 
 
