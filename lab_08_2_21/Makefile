@@ -10,6 +10,8 @@ ifeq ($(mod),j)
 	CFL += -DJOURNAL
 endif
 
+
+
 func_tests: func_tests.exe
 	./$<
 
