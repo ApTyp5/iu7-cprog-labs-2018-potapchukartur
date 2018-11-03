@@ -11,9 +11,9 @@
 #define        SORT1_NAME        "binPastes"
 #define        SORT2_NAME        "qsort"
 
-#define        BEG            1000
-#define        END            50000
-#define        STEP            1000
+#define        BEG            100000
+#define        END            5000000
+#define        STEP           50000 
 #define        NUMOFITER        1
 
 #define        SMM(llu)             llu = clock()
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     */
 
 
-    test_qsort(inc_arr, 10000, 100000, 10000, "qs_inc.inv");
+    test_qsort(inc_arr, BEG, END, STEP, "qs_inc.inv");
 
     return 0;
 } 
@@ -69,6 +69,8 @@ void test_qsort(int *create_arr(int), int size_min, int size_max,
     unsigned long t;
     int *parr;
     FILE *f = fopen(fname, "w");
+
+    setvbuf(f, NULL, _IONBF, 0);
 
     for (int i = size_min; i <= size_max; i += step)
     {
@@ -167,7 +169,7 @@ void compare_sorts(char *comment1, char *comment2,
             
             free(pa);
         }
-        fprintf(f2, "%10d\n", (sum / NUMOFITER));
+        fprintf(f2, "%10ld\n", (sum / NUMOFITER));
     }
 
     fclose(f1);
