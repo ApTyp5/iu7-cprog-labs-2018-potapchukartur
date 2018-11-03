@@ -55,7 +55,7 @@ void show_prompt(int rc)
         case HAPPY_END:
             fprintf(stderr, "HE code recieved\n");
             break;
-        case BAD_END:
+        case UNHAPPY_END:
             fprintf(stderr, "BE code recieved\n");
             break;
         case WRONG_INPUT:

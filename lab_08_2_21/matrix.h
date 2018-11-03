@@ -26,6 +26,7 @@ void change_cols(matrix_t mtr, int len, int col1, int col2);
 void change_doubls(double *el1, double *el2);
 void triange_matrix(matrix_t mtr, int rate);
 void count_answer(matrix_t mtr, int rate, matrix_t ans);
+int check_diag(matrix_t, int);
 
 #endif
 

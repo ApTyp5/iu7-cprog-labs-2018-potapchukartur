@@ -1,4 +1,4 @@
-
+#include <math.h>
 #include "debug.h"
 #include <assert.h>
 #include <stdlib.h>
@@ -185,6 +185,10 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
         return ALLOC_ERROR;
 
     max_diag(mtr, len, *ans);
+
+    if (check_diag(mtr, len) == UNHAPPY_END)
+        return WRONG_INPUT;
+
     triange_matrix(mtr, xnum);
     count_answer(mtr, xnum, *ans);
 
@@ -192,7 +196,14 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
     return HAPPY_END;
 }
 
+int check_diag(matrix_t mtr, int rate)
+{
+    for (int i = 0; i < rate; i++)
+        if (mtr[i][i] == 0.0)
+            return UNHAPPY_END;
 
+    return HAPPY_END;
+} 
 
 void max_diag(matrix_t mtr, int rate,
     matrix_t ans)
@@ -205,7 +216,7 @@ void max_diag(matrix_t mtr, int rate,
         maxel = mtr[i][i];
         maxcol = i;
         for (int j = i + 1; j < rate; j++)
-            if (mtr[i][j] > maxel)
+            if (fabs(mtr[i][j]) > fabs(maxel))
             {
                 maxcol = j;
                 maxel = mtr[i][j];
@@ -215,7 +226,6 @@ void max_diag(matrix_t mtr, int rate,
             change_cols(mtr, rate, i, maxcol);
             change_raws(ans, i, maxcol);
         }
-
     }
 }
 
@@ -227,7 +237,6 @@ void change_raws(matrix_t mtr, int raw1, int raw2)
     mtr[raw2] = tmp;
 }
 
-
 void change_cols(matrix_t mtr, int len, int col1, int col2)
 {
     for (int i = 0; i < len; i++)
@@ -236,7 +245,6 @@ void change_cols(matrix_t mtr, int len, int col1, int col2)
     }
 }
 
-
 void change_doubls(double *el1, double *el2)
 {
     double tmp = *el1;
@@ -244,11 +252,9 @@ void change_doubls(double *el1, double *el2)
     *el2 = tmp;
 }
 
-
 void triange_matrix(matrix_t mtr, int rate)
 {
     // xnum + 1 - это ширина исходной матрицы
-    
     // Далее:
     // diag - диагональ матрицы
     // raw - строка, в которой выполняются преобразования
@@ -269,7 +275,6 @@ void triange_matrix(matrix_t mtr, int rate)
         }
     }
 }
-
 
 void count_answer(matrix_t mtr, int rate, matrix_t ans)
 {

@@ -9,7 +9,7 @@
 
 #define REF_ONLY            1
 #define HAPPY_END           0
-#define BAD_END             -3
+#define UNHAPPY_END         -3
 #define WRONG_INPUT         -4
 #define ALLOC_ERROR         -5
 #define WRONG_FORMAT        -6

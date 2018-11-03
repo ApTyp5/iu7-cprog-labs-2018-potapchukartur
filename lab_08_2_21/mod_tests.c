@@ -74,19 +74,19 @@ int epseq(double el1, double el2)
     if (fabs(ael1 - ael2) < EPS * maxel)
         return HAPPY_END;
 
-    return BAD_END;
+    return UNHAPPY_END;
 }
 
 int mtr_eq(matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid)
 {
     if (m1len != m2len || m1wid != m2wid)
-        return BAD_END;
+        return UNHAPPY_END;
 
     for (int i = 0; i < m1len; i++)
         for (int j = 0; j < m1wid; j++)
             if (mtr1[i][j] != mtr2[i][j])
-                return BAD_END;
+                return UNHAPPY_END;
     return HAPPY_END;
 }
 
@@ -101,15 +101,15 @@ int mtr_epseq(matrix_t mtr1, int m1len, int m1wid,
     */
 
     if (m1len != m2len || m1wid != m2wid)
-        return BAD_END;
+        return UNHAPPY_END;
 
     for (int i = 0; i < m1len; i++)
         for (int j = 0; j < m1wid; j++)
         {
 //            piv(i); piv(j); pdv(mtr1[i][j]); pdv(mtr2[i][j]);
 
-            if (epseq(mtr1[i][j], mtr2[i][j]) == BAD_END)
-                return BAD_END;
+            if (epseq(mtr1[i][j], mtr2[i][j]) == UNHAPPY_END)
+                return UNHAPPY_END;
         }
 
     return HAPPY_END;
@@ -136,7 +136,7 @@ void tst_epseq2()//NONEPSEQ DOUBLES
     double el2 = 9.0;
 
     int res = epseq(el1, el2);
-    int exp_res = BAD_END;
+    int exp_res = UNHAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -151,7 +151,7 @@ void tst_mtr_eq1()//WRONG_SIZES
     matrix_t mtr2 = alloc_mtr(m2len, m2wid);
 
     int res = mtr_eq(mtr1, m1len, m1wid, mtr2, m2len, m2wid);
-    int exp_res = BAD_END;
+    int exp_res = UNHAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -170,7 +170,7 @@ void tst_mtr_eq2()//NONEQ MTRS
     mtr2[1][1] = 1.1;
 
     int res = mtr_eq(mtr1, m1len, m1wid, mtr2, m2len, m2wid);
-    int exp_res = BAD_END;
+    int exp_res = UNHAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -205,7 +205,7 @@ void tst_mtr_epseq1()//WRONG_SIZES
     matrix_t mtr2 = alloc_mtr(m2len, m2wid);
 
     int res = mtr_epseq(mtr1, m1len, m1wid, mtr2, m2len, m2wid);
-    int exp_res = BAD_END;
+    int exp_res = UNHAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -226,7 +226,7 @@ void tst_mtr_epseq2()//NONEQ MTRS
 
 
     int res = mtr_epseq(mtr1, m1len, m1wid, mtr2, m2len, m2wid);
-    int exp_res = BAD_END;
+    int exp_res = UNHAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -550,7 +550,7 @@ void tst_change_doubls()//HAPPY_END
     change_doubls(&d1, &d2);
 
     int exp_res = HAPPY_END;
-    int res = (d2 == 5.5 && d1 == -254.398) ? HAPPY_END : BAD_END;
+    int res = (d2 == 5.5 && d1 == -254.398) ? HAPPY_END : UNHAPPY_END;
 
     PVERD(res, exp_res);
 }
@@ -632,7 +632,7 @@ void tst_max_diag()//HAPPY_END
         mtr[1][1] == 2.0 &&
         mtr[2][2] == 3.0 &&
         mtr[3][3] == 4.0 &&
-        mtr[4][4] == 5.0) ? HAPPY_END : BAD_END;
+        mtr[4][4] == 5.0) ? HAPPY_END : UNHAPPY_END;
 
     int exp_res = HAPPY_END;
 

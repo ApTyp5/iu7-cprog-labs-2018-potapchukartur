@@ -64,12 +64,12 @@ int mtr_eq(matrix_t mtr1, int m1len, int m1wid,
      matrix_t mtr2, int m2len, int m2wid)
 {
     if (m1len != m2len || m1wid != m2wid)
-        return BAD_END;
+        return UNHAPPY_END;
 
     for (int i = 0; i < m1len; i++)
         for (int j = 0; j < m1wid; j++)
             if (!double_eq(mtr1[i][j], mtr2[i][j]))
-                return BAD_END;
+                return UNHAPPY_END;
     return HAPPY_END;
 }
 
