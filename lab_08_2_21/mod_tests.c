@@ -1,11 +1,12 @@
 #include <stdlib.h>
+#include <math.h>
 #include <unistd.h>
 #include "mod_tests.h"
 #include "mtests.h"
 #include "define.h"
 #include "matrix.h"
 #include "debug.h"
-#include "math.h"
+#include "eq.h"
 
 
 int main()
@@ -64,60 +65,10 @@ int main()
 
 void phat()
 {
-    printf("line\trecieved\texpected\tverdict\n");
+    printf("line\tfunc\trecieved\texpected\tverdict\n");
 }
 
-int epseq(double el1, double el2)
-{
-    double ael1 = fabs(el1);
-    double ael2 = fabs(el2);
-    double maxel = ael1 >= ael2 ? ael1 : ael2;
-    if (maxel == 0.0)
-        return HAPPY_END;
-    
-    if (fabs(ael1 - ael2) < EPS * maxel)
-        return HAPPY_END;
 
-    return UNHAPPY_END;
-}
-
-int mtr_eq(matrix_t mtr1, int m1len, int m1wid,
-    matrix_t mtr2, int m2len, int m2wid)
-{
-    if (m1len != m2len || m1wid != m2wid)
-        return UNHAPPY_END;
-
-    for (int i = 0; i < m1len; i++)
-        for (int j = 0; j < m1wid; j++)
-            if (mtr1[i][j] != mtr2[i][j])
-                return UNHAPPY_END;
-    return HAPPY_END;
-}
-
-int mtr_epseq(matrix_t mtr1, int m1len, int m1wid,
-    matrix_t mtr2, int m2len, int m2wid)
-{
-    /*
-    piv(m1len);
-    piv(m1wid);
-    piv(m2len);
-    piv(m2wid);
-    */
-
-    if (m1len != m2len || m1wid != m2wid)
-        return UNHAPPY_END;
-
-    for (int i = 0; i < m1len; i++)
-        for (int j = 0; j < m1wid; j++)
-        {
-//            piv(i); piv(j); pdv(mtr1[i][j]); pdv(mtr2[i][j]);
-
-            if (epseq(mtr1[i][j], mtr2[i][j]) == UNHAPPY_END)
-                return UNHAPPY_END;
-        }
-
-    return HAPPY_END;
-}
 
 ////////TESTS//////////
 
@@ -401,7 +352,7 @@ void tst_get_classic_mtr3()//HAPPY_END
     fclose(f);
 
     int len, wid;
-    matrix_t mtr = get_mtr("ex.test", &len, &wid, &res);
+    matrix_t mtr = get_classic_mtr("ex.test", &len, &wid, &res);
 
     int exp_len = 2;
     int exp_wid = 3;
@@ -432,6 +383,7 @@ void tst_put_mtr1()//FOPEN_ERROR
 
     int res = put_mtr(mtr, len, wid, "ex.test");
     int exp_res = FOPEN_ERROR;
+
     fclose(f);
 
 

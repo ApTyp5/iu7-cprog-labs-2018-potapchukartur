@@ -2,7 +2,11 @@
 #ifndef __TESTS_H__
 #define __TESTS_H__
 
+#include "matrix.h"
+
 void phat();
+
+
 
 void tst_epseq1();
 void tst_epseq2();

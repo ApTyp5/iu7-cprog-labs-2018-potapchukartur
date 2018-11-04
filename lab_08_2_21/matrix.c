@@ -26,7 +26,7 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
     if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
         *rc = ALLOC_ERROR;
 
-    if (!*rc)
+    if (!(*rc))
         for (int i = 0; i < nonull_el; i++)
         {
             if (fscanf(f, "%d%d%lf", &raw, &col, &val) != 3 ||
@@ -39,7 +39,7 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
             mtr[raw - 1][col - 1] = val;
         }
 
-    if (fscanf(f, "%d%d%lf", &raw, &col, &val) == 3)
+    if (!(*rc) && fscanf(f, "%d%d%lf", &raw, &col, &val) == 3)
         *rc = WRONG_INPUT;
 
     if (f)
@@ -50,45 +50,23 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 
 matrix_t get_classic_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 {
-ps(into get_classic_mtr\n);
-
     matrix_t mtr = NULL;
-
-psv(fnam);
-
-
     FILE *f = fopen_try(fnam, "r", rc);
-
-piv(*rc);
-
-    if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
-        *rc = ALLOC_ERROR;
-piv(*rc);
 
     if (!(*rc) && (fscanf(f, "%d%d", mlen, mwid) != 2))
         *rc = WRONG_INPUT;
-piv(*rc);
-piv(*mlen);
-piv(*mwid);
+    if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
+        *rc = ALLOC_ERROR;
 
+    if (!(*rc))
+    {
+        for (int raw = 0; raw < *mlen; raw++)
+            for (int col = 0; col < *mwid; col++)
+                if (fscanf(f, "%lf", mtr[raw] + col) == UNHAPPY_END)
+                   *rc = WRONG_INPUT;
+    }
 
-    for (int raw = 0; raw < *mlen; raw++)
-        for (int col = 0; col < *mwid; col++)
-        {
-        db;
-
-            if (fscanf(f, "%lf", mtr[raw] + col) == UNHAPPY_END)
-               *rc = WRONG_INPUT;
-        }
-
-pmat(%lf\40, mtr, *mlen, *mwid);
-parr(%lf\40, *mtr, *mwid);
-parr(%lf\40, *(mtr + 1), *mwid);
-
-
-piv(*rc);
-ps(out of get_classic_mtr\n);
-   return mtr;
+    return mtr;
 } 
     
 
@@ -172,21 +150,20 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
     matrix_t mtr2, int m2len, int m2wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-
     if (m1wid != m2len)
         return WRONG_MULT_SIZES;
 
+    if (!((*ans) = alloc_mtr(m1len, m2wid)))
+        return ALLOC_ERROR;
+
     *anslen = m1len;
     *answid = m2wid;
-    *ans = alloc_mtr(m1len, m2wid);
-    if (!(*ans))
-        return ALLOC_ERROR;
 
     if (mtr_trans(&mtr2, &m2len, &m2wid) != HAPPY_END)
         return ALLOC_ERROR;
 
     // В дальнейшем в качестве размерностей будем 
-    // сипользовать m1len, m2len и m2wid, чтобы обращаться
+    // иcпользовать m1len, m2len и m2wid, чтобы обращаться
     // к размерностям не через разыменование
     
 
@@ -194,6 +171,7 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
         for (int j = 0; j < m2len; j++)
             for (int k = 0; k < m2wid; k++)
                 (*ans)[i][j] += mtr1[i][k] * mtr2[j][k];
+
     return HAPPY_END;
 }
 
@@ -222,6 +200,8 @@ int mtr_trans(matrix_t *mtr, int *len, int *wid)
 int mtr_ghauss(matrix_t mtr, int len, int wid,
     matrix_t *ans, int *anslen, int *answid)
 {
+    ps(mtr:\n);
+    pmat(%lf\40, mtr, len, wid);
     // xmum - кол-во неизвестных
     int xnum = wid - 1;
     if (len != xnum)
@@ -236,12 +216,13 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 
     max_diag(mtr, len, *ans);
 
-    if (check_diag(mtr, len) == UNHAPPY_END)
-        return WRONG_INPUT;
+    //if (check_diag(mtr, len) == UNHAPPY_END)
+    //    return WRONG_INPUT;
+    ps(mtr:\n);
+    pmat(%lf\40, mtr, len, wid);
 
     triange_matrix(mtr, xnum);
     count_answer(mtr, xnum, *ans);
-
 
     return HAPPY_END;
 }

@@ -17,13 +17,13 @@ comman=(
         )
 
 comment=(
-        "Addition       test 1"
-        "Addition       test 2"
-        "Addition       test 3"
+        "Addition test 1"
+        "Addition test 2"
+        "Addition test 3"
         "Multiplication test 1"
         "Multiplication test 2"
         "Multiplication test 3"
-        "Ghauss         test 1"
+        "Ghauss test 1"
         )
 
 outfiles=(
@@ -33,18 +33,17 @@ outfiles=(
          "out_m1"
          "out_m2"
          "out_m3"
-         "out_g1"
          )
 
 
-echo -e "Positive function tests:\n"
+echo -e "\n###--> Positive function tests <--###\n"
 
-for i in ${!comman[*]}
+for i in ${!outfiles[*]}
 do
-    ${comman[$i]}
+    ${comman[$i]} 2>/dev/null
     result=$?
 
-    $diffcom $outfile ${outfiles[$i]}
+    $diffcom $outfile $testdir/${outfiles[$i]}
     outcode=$?
 
 
@@ -56,14 +55,16 @@ do
     fi
 
 
-    echo "${comment[$i]}:"
+    echo "--> ${comment[$i]}:"
     echo "command: '${comman[$i]}'"
     echo "recieved code: $result"
     echo "verdict: $verdict"
     echo -e "\n"
 
-    exit 1
-
+    if (( $outcode != 0 ))
+    then
+        exit -1
+    fi
 done
          
 

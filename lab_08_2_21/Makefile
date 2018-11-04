@@ -2,8 +2,8 @@
 CC := gcc
 CFL := -Wall -Werror -std=c99 -pedantic
 OBJ := main.o action.o matrix.o
-TOBJ := mod_tests.o matrix.o  
-DOBJ := doubdiff.o matrix.o 
+TOBJ := mod_tests.o matrix.o eq.o 
+DOBJ := doubdiff.o matrix.o eq.o
 
 ifeq ($(mod),deb)
 	CFL += -g3 -O0

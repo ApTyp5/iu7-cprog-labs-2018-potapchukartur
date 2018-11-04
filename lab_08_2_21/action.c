@@ -3,6 +3,7 @@
 #include <string.h>
 #include "matrix.h"
 #include "define.h"
+#include "debug.h"
 
 int do_action(char act,
     matrix_t mtr1, int m1len, int m1wid,
@@ -23,7 +24,7 @@ int try_action(int ac, char *av[])
     int m2len = 0;
     int m2wid = 0;
 
-    matrix_t ans = NULL;
+    matrix_t ans  = NULL;
     int anslen = 0;
     int answid = 0;
 
@@ -35,8 +36,6 @@ int try_action(int ac, char *av[])
     {
         mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
     }
-
-
 
     if (!rc)
         rc = do_action(*av[1],
@@ -51,8 +50,6 @@ int try_action(int ac, char *av[])
             put_mtr(ans, anslen, answid, av[4]) :
             put_mtr(ans, anslen, answid, av[3]);
     }
-
-
 
     free(ans);
     free(mtr1);
