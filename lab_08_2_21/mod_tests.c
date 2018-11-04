@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <unistd.h>
-#include "tests.h"
+#include "mod_tests.h"
 #include "mtests.h"
 #include "define.h"
 #include "matrix.h"
@@ -30,6 +30,10 @@ int main()
     tst_get_mtr1();//WRONG_INPUT
     tst_get_mtr2();//WRONG_INPUT#2
     tst_get_mtr3();//HAPPY_END
+
+    tst_get_classic_mtr1();//WRONG_INPUT
+    tst_get_classic_mtr2();//WRONG_INPUT
+    tst_get_classic_mtr3();//HAPPY_END
     
     tst_put_mtr1();//FOPEN_ERROR
     tst_put_mtr2();//HAPPY_END
@@ -116,6 +120,7 @@ int mtr_epseq(matrix_t mtr1, int m1len, int m1wid,
 }
 
 ////////TESTS//////////
+
 void tst_epseq1()//EPSEQ DOUBLES
 {
     STEST;
@@ -342,6 +347,78 @@ void tst_get_mtr3()//HAPPY_END
     PVERD(res, exp_res);
     system("rm ex.test");
 }
+
+
+
+void tst_get_classic_mtr1()//WRONG_INPUT
+{
+    STEST;
+
+    int res = HAPPY_END;
+    int exp_res = FOPEN_ERROR;
+
+    int len, wid;
+    len = wid;
+
+    get_classic_mtr("unex", &len, &wid, &res);
+
+    PVERD(res, exp_res);
+}
+
+void tst_get_classic_mtr2()//WRONG_INPUT#2
+{
+    STEST;
+
+    int res = HAPPY_END;
+    int exp_res = WRONG_INPUT;
+
+    int len, wid;
+
+    FILE *f = fopen("ex.test", "w");
+    fprintf(f, "qwer");
+    fclose(f);
+
+    get_classic_mtr("ex.test", &len, &wid, &res);
+
+    PVERD(res, exp_res);
+
+    system("rm ex.test");
+}
+
+
+
+void tst_get_classic_mtr3()//HAPPY_END
+{
+    STEST;
+
+    int res = HAPPY_END;
+
+    FILE *f = fopen("ex.test", "w");
+    fprintf(f, "2 3\n"
+        "1.1 0.0 0.0\n"
+        "0.0 -2.2 -2.3\n");
+
+    fclose(f);
+
+    int len, wid;
+    matrix_t mtr = get_mtr("ex.test", &len, &wid, &res);
+
+    int exp_len = 2;
+    int exp_wid = 3;
+
+    matrix_t exp_mtr = alloc_mtr(exp_len, exp_wid);
+    exp_mtr[0][0] = 1.1;
+    exp_mtr[1][1] = -2.2;
+    exp_mtr[1][2] = -2.3;
+
+    res = mtr_epseq(mtr, len, wid, exp_mtr, exp_len, exp_wid);
+    int exp_res = HAPPY_END;
+
+    PVERD(res, exp_res);
+    system("rm ex.test");
+}
+
+
 
 void tst_put_mtr1()//FOPEN_ERROR
 {

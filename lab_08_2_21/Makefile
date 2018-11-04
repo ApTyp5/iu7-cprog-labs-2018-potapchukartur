@@ -2,36 +2,50 @@
 CC := gcc
 CFL := -Wall -Werror -std=c99 -pedantic
 OBJ := main.o action.o matrix.o
-TOBJ := mod_tests.o matrix.o
-FTOBJ := func_tests.o matrix.o
+TOBJ := mod_tests.o matrix.o  
+DOBJ := doubdiff.o matrix.o 
 
+ifeq ($(mod),deb)
+	CFL += -g3 -O0
+endif
 
-ifeq ($(mod),j)
-	CFL += -DJOURNAL
+ifeq ($(mod),rel)
+	CFL += -g0 -O3
 endif
 
 
 
-func_tests: func_tests.exe
-	./$<
+# RUNS
+run_neg_ftests: app.exe
+	./neg_func_tests.sh 2>/dev/null
 
-func_tests.exe: app.exe $(FTOBJ)
-	$(CC) -o $@ $(FTOBJ) $(LFL)
+run_pos_ftests: app.exe doubdiff.exe
+	./pos_func_tests.sh
 
-app.exe: $(OBJ)
-	$(CC) -o $@ $^ $(LFL)
-
-mod_tests: test.exe
+run_mtests: test.exe
 	./test.exe
 	rm ex.test
 
+
+# EXECUTABLE
+func_tests.exe: app.exe $(FTOBJ)
+	$(CC) -o $@ $(FTOBJ) 
+
+app.exe: $(OBJ)
+	$(CC) -o $@ $^ 
+
+doubdiff.exe: $(DOBJ)
+	$(CC) -o $@ $^ 
+
 test.exe: $(TOBJ)
-	$(CC) -o $@ $^ $(LFL)
+	$(CC) -o $@ $^ 
 
 
+# FRAME
 %.o: %.c *.h
 	$(CC) -c $< $(CFL)
 
 
+# CLEAN
 clean:
 	rm *.o *.exe .*~ 

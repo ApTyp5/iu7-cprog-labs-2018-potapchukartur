@@ -1,9 +1,11 @@
 #include "define.h"
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 int format_check(int ac, char *av[]);
 void show_prompt(int rc);
+void show_reference();
 int try_action(int ac, char *av[]);
 
 
@@ -19,6 +21,7 @@ int main(int ac, char *av[])
     show_prompt(rc);
 
     rc = rc == REF_ONLY ? HAPPY_END : rc;
+
     return rc;
 }
 
@@ -27,19 +30,13 @@ int main(int ac, char *av[])
 // действие h воспринимается только, когда ac = 2
 int format_check(int ac, char *av[])
 {
+    if (!((ac == 2 && !strcmp("h", av[1])) ||
+        (ac == 4 && !strcmp("o", av[1])) ||
+        (ac == 5 && !(strcmp("a", av[1]) && strcmp("m", av[1])))))
+        return FORMAT_ERROR;
 
-    if (ac == 2 || !strcmp(av[1], "h"))
+    if (!strcmp("h", av[1]))
         return REF_ONLY;
-    if (ac != 4 && ac != 5)
-        return WRONG_FORMAT;
-    if ((strcmp(av[1], "a") &&
-        strcmp(av[1], "m") &&
-        strcmp(av[1], "o")) != 0)
-        return WRONG_ACTION;
-    if (!strcmp(av[1], "o") && ac == 5)
-        return WRONG_FORMAT;
-    if (strcmp(av[1], "o") && ac == 4)
-        return WRONG_FORMAT;
 
     return HAPPY_END;
 }
@@ -49,32 +46,60 @@ void show_prompt(int rc)
 {
     switch(rc)
     {
+        case FORMAT_ERROR:
+            fprintf(stderr, "Format error!\n");
+
+        case REF_ONLY:
+            show_reference();
+            break;
+
         case FOPEN_ERROR:
-            fprintf(stderr, "Fopen_error code recieved\n");
+            perror("Fopen error!\n");
             break;
+
         case HAPPY_END:
-            fprintf(stderr, "HE code recieved\n");
+            fprintf(stderr, "Program successufully completed.\n");
             break;
+
         case UNHAPPY_END:
-            fprintf(stderr, "BE code recieved\n");
+            fprintf(stderr, "(unhappy end)\n");
             break;
-        case WRONG_INPUT:
-            fprintf(stderr, "WRONG_INTPUT code recieved\n");
-            break;
+
         case ALLOC_ERROR:
-            fprintf(stderr, "ALLOC_ERROR code recieved\n");
+            fprintf(stderr, "Allocation error caught.\n");
             break;
+
+        case WRONG_INPUT:
+            fprintf(stderr, "Files contain incorrect information.\n\n");
+            break;
+
         case WRONG_ADD_SIZES:
-            fprintf(stderr, "WRONG_ADD_SIZES code recieved\n");
+            fprintf(stderr, "Matrixes you want to add must be equval sizes.\n");
             break;
         case WRONG_MULT_SIZES:
-            fprintf(stderr, "WRONG_MULT_SIZES code recieved\n");
+            fprintf(stderr, "When you whant to multiplicate matrixes"
+                ", the number of colums in <fnam1> matrix must be equival"
+                " to the <fnam2> matrix's number of strings.\n");
             break;
         case WRONG_GHAUSS_SIZES:
-            fprintf(stderr, "WRONG_GHAUSS_SIZES code recieved\n");
+            fprintf(stderr, "The SLAE must be written as the k-matrix with"
+                " the column of free members next to it.\n");
             break;
             
     }
+}
+
+void show_reference()
+{
+    fprintf(stderr, "###--> REFERENCE <--###\n"
+        "Format of calling:\n"
+        "./app.exe <action> <fnam1> (<fnam2>) <outfile>\n\n"
+
+        "Permitted actions:\n"
+        "o - resolve the system of equations in 'fnam1' and put the answer to 'outfile' (do not specify the 'fnam2' while using this action\n"
+        "a - add matrix in 'fnam1' with matrix in 'fnam2' and write the answer to 'outfile'\n"
+        "m - multiplicate matrix in 'fnam1' with matrix in 'fnam2' ans write the answer to 'outfile\n"
+        "h - show reference (if you want t show the reference? do not spesify outher arguments after 'h'\n");
 }
 
 

@@ -2,13 +2,18 @@
 #ifndef __DEFINE_H__
 #define __DEFINE_H__
 
-#define db      printf("db\n")
 #define EPS     1e-2
+#define MAX(a, b)       (a) > (b) ? (a) : (b)
+
+
 
 // Yield codes
 
 #define REF_ONLY            1
+#define EQ                  1
+#define NON_EQ              0
 #define HAPPY_END           0
+#define FORMAT_ERROR        -2
 #define UNHAPPY_END         -3
 #define WRONG_INPUT         -4
 #define ALLOC_ERROR         -5

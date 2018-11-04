@@ -5,23 +5,25 @@
 #include "define.h"
 #include "matrix.h"
 
-#define db  printf("db\n")
 
 
 matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 {
-    int nonull_el;
     matrix_t mtr = NULL;
+    int nonull_el;
     int raw, col;
     double val;
 
-
     FILE *f = fopen_try(fnam, "r", rc);
 
-    if (!*rc && fscanf(f, "%d%d%d", mlen, mwid, &nonull_el) != 3)
+    if (!(*rc) && 
+        (fscanf(f, "%d%d%d", mlen, mwid, &nonull_el) != 3 ||
+         *mlen <= 0 || *mwid <= 0 || nonull_el <= 0 ||
+         nonull_el > (*mlen) * (*mwid)))
         *rc = WRONG_INPUT;
+    
 
-    if (!*rc && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
+    if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
         *rc = ALLOC_ERROR;
 
     if (!*rc)
@@ -34,14 +36,62 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
                 *rc = WRONG_INPUT;
                 break;
             }
-
             mtr[raw - 1][col - 1] = val;
         }
 
+    if (fscanf(f, "%d%d%lf", &raw, &col, &val) == 3)
+        *rc = WRONG_INPUT;
+
     if (f)
         fclose(f);
+
     return mtr;
 }
+
+matrix_t get_classic_mtr(char *fnam, int *mlen, int *mwid, int *rc)
+{
+ps(into get_classic_mtr\n);
+
+    matrix_t mtr = NULL;
+
+psv(fnam);
+
+
+    FILE *f = fopen_try(fnam, "r", rc);
+
+piv(*rc);
+
+    if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
+        *rc = ALLOC_ERROR;
+piv(*rc);
+
+    if (!(*rc) && (fscanf(f, "%d%d", mlen, mwid) != 2))
+        *rc = WRONG_INPUT;
+piv(*rc);
+piv(*mlen);
+piv(*mwid);
+
+
+    for (int raw = 0; raw < *mlen; raw++)
+        for (int col = 0; col < *mwid; col++)
+        {
+        db;
+
+            if (fscanf(f, "%lf", mtr[raw] + col) == UNHAPPY_END)
+               *rc = WRONG_INPUT;
+        }
+
+pmat(%lf\40, mtr, *mlen, *mwid);
+parr(%lf\40, *mtr, *mwid);
+parr(%lf\40, *(mtr + 1), *mwid);
+
+
+piv(*rc);
+ps(out of get_classic_mtr\n);
+   return mtr;
+} 
+    
+
 
 
 
@@ -205,26 +255,34 @@ int check_diag(matrix_t mtr, int rate)
     return HAPPY_END;
 } 
 
+// Переставляет столбцы матрицы так, чтобы
+// на главной диагонали находились максимально
+// возможные элементы
 void max_diag(matrix_t mtr, int rate,
     matrix_t ans)
 {
-    int maxel, maxcol;
+    double maxel;
+    int maxcol;
 
-    for (int i = 0; i < rate; i++)
+    // Вместо 'raw < rate - 1' можно напсать 'raw < rate'.
+    // Так будет логичнее, но итог будет одинаковый, так 
+    // как цикл после при 'raw = rate - 1' не выполнится
+    // ни разу
+    for (int raw = 0; raw < rate - 1; raw++)
     {
-
-        maxel = mtr[i][i];
-        maxcol = i;
-        for (int j = i + 1; j < rate; j++)
-            if (fabs(mtr[i][j]) > fabs(maxel))
+        // Иницилизируем максимльный элемент элементом на главной диагонали
+        maxel = mtr[raw][raw];
+        maxcol = raw;
+        for (int col = raw + 1; col < rate; col++)
+            if (fabs(mtr[raw][col]) > fabs(maxel))
             {
-                maxcol = j;
-                maxel = mtr[i][j];
+                maxcol = col;
+                maxel = mtr[raw][col];
             }
-        if (maxcol != i)
+        if (maxcol != raw)
         {
-            change_cols(mtr, rate, i, maxcol);
-            change_raws(ans, i, maxcol);
+            change_cols(mtr, rate, raw, maxcol);
+            change_raws(ans, raw, maxcol);
         }
     }
 }

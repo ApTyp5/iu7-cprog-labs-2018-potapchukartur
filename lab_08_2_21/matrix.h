@@ -27,6 +27,8 @@ void change_doubls(double *el1, double *el2);
 void triange_matrix(matrix_t mtr, int rate);
 void count_answer(matrix_t mtr, int rate, matrix_t ans);
 int check_diag(matrix_t, int);
+matrix_t get_classic_mtr(char *fnam, int *mlen, int *mwid, int *rc);
+
 
 #endif
 
