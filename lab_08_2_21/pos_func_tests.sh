@@ -33,6 +33,7 @@ outfiles=(
          "out_m1"
          "out_m2"
          "out_m3"
+         "out_g1"
          )
 
 

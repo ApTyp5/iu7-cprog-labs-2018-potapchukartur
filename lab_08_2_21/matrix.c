@@ -200,8 +200,6 @@ int mtr_trans(matrix_t *mtr, int *len, int *wid)
 int mtr_ghauss(matrix_t mtr, int len, int wid,
     matrix_t *ans, int *anslen, int *answid)
 {
-    ps(mtr:\n);
-    pmat(%lf\40, mtr, len, wid);
     // xmum - кол-во неизвестных
     int xnum = wid - 1;
     if (len != xnum)
@@ -215,26 +213,12 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
         return ALLOC_ERROR;
 
     max_diag(mtr, len, *ans);
-
-    //if (check_diag(mtr, len) == UNHAPPY_END)
-    //    return WRONG_INPUT;
-    ps(mtr:\n);
-    pmat(%lf\40, mtr, len, wid);
-
     triange_matrix(mtr, xnum);
     count_answer(mtr, xnum, *ans);
 
     return HAPPY_END;
 }
 
-int check_diag(matrix_t mtr, int rate)
-{
-    for (int i = 0; i < rate; i++)
-        if (mtr[i][i] == 0.0)
-            return UNHAPPY_END;
-
-    return HAPPY_END;
-} 
 
 // Переставляет столбцы матрицы так, чтобы
 // на главной диагонали находились максимально
@@ -247,7 +231,7 @@ void max_diag(matrix_t mtr, int rate,
 
     // Вместо 'raw < rate - 1' можно напсать 'raw < rate'.
     // Так будет логичнее, но итог будет одинаковый, так 
-    // как цикл после при 'raw = rate - 1' не выполнится
+    // как внутренний цикл при 'raw = rate - 1' не выполнится
     // ни разу
     for (int raw = 0; raw < rate - 1; raw++)
     {
@@ -291,6 +275,7 @@ void change_doubls(double *el1, double *el2)
     *el2 = tmp;
 }
 
+// Приводим матрицу к верхнетреугольному виду
 void triange_matrix(matrix_t mtr, int rate)
 {
     // xnum + 1 - это ширина исходной матрицы
@@ -302,14 +287,14 @@ void triange_matrix(matrix_t mtr, int rate)
         for (int raw = diag - 1; raw > -1; raw--)
         {
             int col;
-            int k = mtr[raw][diag]/mtr[diag][diag];
+            double k = mtr[raw][diag]/mtr[diag][diag];
 
             mtr[raw][rate] -= k * mtr[diag][rate];
 
             for (col = rate - 1; col >= diag; col--)
                 mtr[raw][col] = 0.0;
 
-            for (; col > - 1; col--)
+            for (; col > -1; col--)
                 mtr[raw][col] -= k * mtr[diag][col];
         }
     }
@@ -317,13 +302,15 @@ void triange_matrix(matrix_t mtr, int rate)
 
 void count_answer(matrix_t mtr, int rate, matrix_t ans)
 {
+    double *ans_ptr = (double *)(ans + rate);
+
     for (int i = 0; i < rate; i++)
     {
-        ans[i][0] = mtr[i][rate];// mtr[i][rate] - элемент столбца свободных членов
+        ans_ptr[i] = mtr[i][rate];// mtr[i][rate] - элемент столбца свободных членов
         for (int j = i - 1; j > -1; j--)
-            ans[i][0] -= mtr[i][j] * ans[j][0];
+            ans_ptr[i] -= mtr[i][j] * ans_ptr[j];
 
-        ans[i][0] /= mtr[i][i];
+        ans_ptr[i] /= mtr[i][i];
     }
 }
 

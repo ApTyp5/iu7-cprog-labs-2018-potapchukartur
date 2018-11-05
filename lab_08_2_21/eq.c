@@ -1,6 +1,7 @@
 #include <math.h>
 #include "define.h"
 #include "matrix.h"
+#include "debug.h"
 
 
 
@@ -37,21 +38,12 @@ int mtr_eq(matrix_t mtr1, int m1len, int m1wid,
 int mtr_epseq(matrix_t mtr1, int m1len, int m1wid,
               matrix_t mtr2, int m2len, int m2wid)
 {
-    /*
-    piv(m1len);
-    piv(m1wid);
-    piv(m2len);
-    piv(m2wid);
-    */
-
     if (m1len != m2len || m1wid != m2wid)
         return UNHAPPY_END;
 
     for (int i = 0; i < m1len; i++)
         for (int j = 0; j < m1wid; j++)
         {
-//            piv(i); piv(j); pdv(mtr1[i][j]); pdv(mtr2[i][j]);
-
             if (epseq(mtr1[i][j], mtr2[i][j]) == UNHAPPY_END)
                 return UNHAPPY_END;
         }
