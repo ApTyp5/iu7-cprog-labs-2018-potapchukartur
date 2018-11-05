@@ -220,10 +220,20 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 }
 
 
+void max_diag(matrix_t mtr, int rate, matrix_t ans)
+{
+    max_diag_down(mtr, rate, ans);
+    if (mtr[rate - 1][rate - 1] == 0.0)
+        max_diag_up(mtr, rate, ans);
+}
+
+
+
 // Переставляет столбцы матрицы так, чтобы
 // на главной диагонали находились максимально
-// возможные элементы
-void max_diag(matrix_t mtr, int rate,
+// возможные элементы своеру вниз (последний элемент
+// диагонали не будет затронут)
+void max_diag_down(matrix_t mtr, int rate,
     matrix_t ans)
 {
     double maxel;
@@ -251,6 +261,42 @@ void max_diag(matrix_t mtr, int rate,
         }
     }
 }
+
+
+// Переставляет столбцы матрицы так, чтобы
+// на главной диагонали находились максимально
+// возможные элементы снизу вверх (первый 
+// диагональный элемент не будет затронут)
+void max_diag_up(matrix_t mtr, int rate,
+    matrix_t ans)
+{
+    double maxel;
+    int maxcol;
+
+    // Вместо 'raw < 0' можно напсать 'raw < -1'.
+    // Так будет логичнее, но итог будет одинаковый, так 
+    // как внутренний цикл при 'raw = 0' не выполнится
+    // ни разу
+    for (int raw = rate - 1; raw > 0; raw--)
+    {
+        // Иницилизируем максимльный элемент элементом на главной диагонали
+        maxel = mtr[raw][raw];
+        maxcol = raw;
+        for (int col = raw - 1; col > -1; col--)
+            if (fabs(mtr[raw][col]) > fabs(maxel))
+            {
+                maxcol = col;
+                maxel = mtr[raw][col];
+            }
+        if (maxcol != raw)
+        {
+            change_cols(mtr, rate, raw, maxcol);
+            change_raws(ans, raw, maxcol);
+        }
+    }
+}
+
+
 
 void change_raws(matrix_t mtr, int raw1, int raw2)
 {
