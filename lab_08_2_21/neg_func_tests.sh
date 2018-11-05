@@ -1,14 +1,27 @@
 #!/bin/bash
 
-testdir=./tests
+testdir=./neg_tests
 execute=./app.exe
 
 comman=("$execute 123" 
-         "$execute q $testdir/in_11 $testdir/in_12 out"
-         "$execute a $testdir/in_3 out"
+         "$execute q $testdir/in_a11 $testdir/in_a12 out"
+         "$execute a $testdir/in_g3 out"
          "$execute h 123 123 123"
-         "$execute m $testdir/in_3 out"
-         "$execute o $testdir/in_11 $testdir/in_12 out"
+         "$execute m $testdir/in_g3 out"
+         "$execute o $testdir/in_a11 $testdir/in_a12 out"
+
+         "$execute a $testdir/in_a11 $testdir/in_a12 out"
+         "$execute m $testdir/in_m11 $testdir/in_m12 out"
+         "$execute o $testdir/in_g1 out"
+         "$execute o $testdir/in_g2 out"
+         "$execute o $testdir/in_g3 out"
+         "$execute o $testdir/in_any1 out"
+         "$execute o $testdir/in_any2 out"
+         "$execute o $testdir/in_any3 out"
+         "$execute o $testdir/in_any4 out"
+         "$execute o $testdir/in_any5 out"
+         "$execute o $testdir/in_any6 out"
+
          )
 
 for i in ${!comman[*]}

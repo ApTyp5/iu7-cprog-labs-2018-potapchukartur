@@ -1,6 +1,6 @@
 #!/bin/bash
 
-testdir=./tests
+testdir=./pos_tests
 execute=./app.exe
 outfile=./out
 diffcom=./doubdiff.exe

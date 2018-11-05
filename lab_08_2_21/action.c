@@ -36,6 +36,9 @@ int try_action(int ac, char *av[])
     {
         mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
     }
+    else if (!rc)
+        rc = check_file_for_zero_cols_and_raws(av[2]) == TRUE ? HAPPY_END : WRONG_INPUT;
+
 
     if (!rc)
         rc = do_action(*av[1],

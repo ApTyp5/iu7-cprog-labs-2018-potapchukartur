@@ -10,8 +10,8 @@
 // Yield codes
 
 #define REF_ONLY            1
-#define EQ                  1
-#define NON_EQ              0
+#define TRUE                1
+#define FALSE               0
 #define HAPPY_END           0
 #define FORMAT_ERROR        -2
 #define UNHAPPY_END         -3

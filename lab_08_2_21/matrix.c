@@ -10,6 +10,7 @@
 matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 {
     matrix_t mtr = NULL;
+
     int nonull_el;
     int raw, col;
     double val;
@@ -26,12 +27,14 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
     if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
         *rc = ALLOC_ERROR;
 
+    
     if (!(*rc))
         for (int i = 0; i < nonull_el; i++)
         {
             if (fscanf(f, "%d%d%lf", &raw, &col, &val) != 3 ||
                 0 >= raw || raw > *mlen || 
-                0 >= col || col > *mwid)
+                0 >= col || col > *mwid ||
+                val == 0.0)
             {
                 *rc = WRONG_INPUT;
                 break;
@@ -47,6 +50,58 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 
     return mtr;
 }
+
+int check_file_for_zero_cols_and_raws(char *fnam)
+{
+    int rc = HAPPY_END;
+    FILE *f = fopen_try(fnam, "r", &rc);
+    int len, wid, nonull_el;
+    int raw, col;
+    int *col_controll = NULL;
+    int *raw_controll = NULL;
+    double val;
+
+
+
+    if (!rc && 
+        (fscanf(f, "%d%d%d", &len, &wid, &nonull_el) != 3))
+        rc = WRONG_INPUT;
+    
+
+    if (!rc && (
+        (col_controll = alloc_arr(len)) == NULL ||
+        (raw_controll = alloc_arr(wid)) == NULL))
+        rc = ALLOC_ERROR;
+    if (!rc)
+    {
+        for (int i = 0; i < nonull_el; i++)
+        {
+            fscanf(f, "%d%d%lf", &raw, &col, &val);
+            col_controll[col - 1] = TRUE;
+            raw_controll[raw - 1] = TRUE;
+        }
+    }
+
+    if (!rc)
+    {
+        rc = TRUE;
+
+        // Свободный член не учитываем
+        for (int j = 0; j < wid - 1; j++)
+            rc *= col_controll[j];
+
+        for (int i = 0; i < len; i++)
+            rc *= raw_controll[i];
+    }
+
+    return rc;
+}
+
+    
+
+
+
+
 
 matrix_t get_classic_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 {
@@ -93,6 +148,19 @@ matrix_t alloc_mtr(int len, int wid)
     return result;
 }
 
+int *alloc_arr(int len)
+{
+
+   int *result = malloc(len * sizeof(int));
+
+    if (!result)
+       return NULL;
+
+    for (int i = 0; i < len; i++)
+        result[i] = FALSE;
+
+    return result;
+}
 
 
 FILE *fopen_try(char *fnam, char *mod, int *rc)
