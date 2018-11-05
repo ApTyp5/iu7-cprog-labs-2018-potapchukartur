@@ -22,6 +22,8 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 void max_diag(matrix_t mtr, int rate, matrix_t ans);
 void max_diag_down(matrix_t mtr, int rate, matrix_t ans);
 void max_diag_up(matrix_t mtr, int rate, matrix_t ans);
+void max_single_el_in_diag(matrix_t mtr, int rate, int di_el, 
+                           matrix_t ans);
 void change_raws(matrix_t mtr, int raw1, int raw2);
 void change_cols(matrix_t mtr, int len, int col1, int col2);
 void change_doubls(double *el1, double *el2);

@@ -225,7 +225,48 @@ void max_diag(matrix_t mtr, int rate, matrix_t ans)
     max_diag_down(mtr, rate, ans);
     if (mtr[rate - 1][rate - 1] == 0.0)
         max_diag_up(mtr, rate, ans);
+    if (mtr[0][0] == 0.0)
+        max_single_el_in_diag(mtr, rate, 0, ans);
+
 }
+
+
+void max_single_el_in_diag(matrix_t mtr, int rate, int di_el, 
+                           matrix_t ans)
+{
+    int i;
+    int maxelnum;
+    double max_sum;
+    double local_sum;
+
+
+    // Гарантируется, что в ьатрице нет нулевой строки/столбца
+    for (i = 0; i < rate; i++)
+        if (mtr[di_el][i] != 0.0 && 
+            mtr[i][di_el] != 0.0)
+        {
+            maxelnum = i;
+            max_sum = fabs(mtr[di_el][i]) + fabs(mtr[i][di_el]);
+            break;
+        }
+
+    for (; i < rate; i++)
+        if (mtr[di_el][i] != 0.0 && 
+            mtr[i][di_el] != 0.0 &&
+            (local_sum = fabs(mtr[di_el][i]) + fabs(mtr[i][di_el])) > max_sum)
+        {
+            maxelnum = i;
+            max_sum = local_sum;
+            break;
+        }
+
+    change_cols(mtr, rate, di_el, maxelnum);
+    change_raws(ans, di_el, maxelnum);
+}
+
+
+
+
 
 
 
