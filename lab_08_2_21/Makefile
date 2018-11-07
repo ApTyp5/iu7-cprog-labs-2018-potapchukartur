@@ -22,7 +22,7 @@ run_neg_ftests: app.exe
 run_pos_ftests: app.exe doubdiff.exe
 	./pos_func_tests.sh
 
-run_mtests: test.exe
+run_mod_tests: test.exe
 	./test.exe
 	rm ex.test
 

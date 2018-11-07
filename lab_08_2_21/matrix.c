@@ -181,7 +181,9 @@ int put_mtr(matrix_t mtr, int len, int wid, char *fnam)
     if (!rc)
         for (int i = 0; i < len; i++)
             for (int j = 0; j < wid; j++)
+            {
                 fprintf(f, "%lf%s", mtr[i][j], (j + 1) % wid ? " " : "\n");
+            }
 
     if (f)
         rc = fclose(f);
@@ -280,7 +282,7 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
     if (!(*ans))
         return ALLOC_ERROR;
 
-    max_diag(mtr, len, *ans);
+    col_method_max_diag(mtr, len, *ans);
     triange_matrix(mtr, xnum);
     count_answer(mtr, xnum, *ans);
 
@@ -288,14 +290,21 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
 }
 
 
-void max_diag(matrix_t mtr, int rate, matrix_t ans)
+void col_method_max_diag(matrix_t mtr, int rate, matrix_t ans)
 {
-    max_diag_down(mtr, rate, ans);
+    // индекс i массива ниже сопоставлен с ответом хi-ым, которую мы ищем 
+    // val_pos[i] - номер указателя, в котором ответ хi-ый xранится
+    int *ans_pos = malloc(sizeof(int) * rate);
+    for (int i = 0; i < rate; i++)
+        ans_pos[i] = i;
+
+    col_method_max_diag_down(mtr, rate, ans, ans_pos);
+
     if (mtr[rate - 1][rate - 1] == 0.0)
-        max_diag_up(mtr, rate, ans);
+        col_method_max_diag_up(mtr, rate, ans, ans_pos);
+
     if (mtr[0][0] == 0.0)
         max_single_el_in_diag(mtr, rate, 0, ans);
-
 }
 
 
@@ -306,7 +315,6 @@ void max_single_el_in_diag(matrix_t mtr, int rate, int di_el,
     int maxelnum;
     double max_sum;
     double local_sum;
-
 
     // Гарантируется, что в ьатрице нет нулевой строки/столбца
     for (i = 0; i < rate; i++)
@@ -329,7 +337,7 @@ void max_single_el_in_diag(matrix_t mtr, int rate, int di_el,
         }
 
     change_cols(mtr, rate, di_el, maxelnum);
-    change_raws(ans, di_el, maxelnum);
+    change_ptrs(ans + di_el, ans + maxelnum);
 }
 
 
@@ -342,8 +350,8 @@ void max_single_el_in_diag(matrix_t mtr, int rate, int di_el,
 // на главной диагонали находились максимально
 // возможные элементы своеру вниз (последний элемент
 // диагонали не будет затронут)
-void max_diag_down(matrix_t mtr, int rate,
-    matrix_t ans)
+void col_method_max_diag_down(matrix_t mtr, int rate,
+    matrix_t ans, int *ans_pos)
 {
     double maxel;
     int maxcol;
@@ -366,7 +374,9 @@ void max_diag_down(matrix_t mtr, int rate,
         if (maxcol != raw)
         {
             change_cols(mtr, rate, raw, maxcol);
-            change_raws(ans, raw, maxcol);
+            // val_pos объявлен в col_method_max_diag
+            change_ptrs(ans + ans_pos[raw] , ans + ans_pos[maxcol]);
+            change_ints(ans_pos + raw, ans_pos + maxcol);
         }
     }
 }
@@ -376,8 +386,8 @@ void max_diag_down(matrix_t mtr, int rate,
 // на главной диагонали находились максимально
 // возможные элементы снизу вверх (первый 
 // диагональный элемент не будет затронут)
-void max_diag_up(matrix_t mtr, int rate,
-    matrix_t ans)
+void col_method_max_diag_up(matrix_t mtr, int rate,
+    matrix_t ans, int *ans_pos)
 {
     double maxel;
     int maxcol;
@@ -400,19 +410,26 @@ void max_diag_up(matrix_t mtr, int rate,
         if (maxcol != raw)
         {
             change_cols(mtr, rate, raw, maxcol);
-            change_raws(ans, raw, maxcol);
+            change_ptrs(ans + ans_pos[raw], ans + ans_pos[maxcol]);
+            change_ints(ans_pos + raw, ans_pos + maxcol);
         }
     }
 }
 
 
 
-void change_raws(matrix_t mtr, int raw1, int raw2)
+void change_ints(int *int1, int *int2)
 {
+    int tmp = *int1;
+    *int1 = *int2;
+    *int2 = tmp;
+}
 
-    double *tmp = mtr[raw1];
-    mtr[raw1] = mtr[raw2];
-    mtr[raw2] = tmp;
+void change_ptrs(double **ptr1, double **ptr2)
+{
+    double *tmp = *ptr1;
+    *ptr1 = *ptr2;
+    *ptr2 = tmp;
 }
 
 void change_cols(matrix_t mtr, int len, int col1, int col2)
@@ -459,13 +476,13 @@ void count_answer(matrix_t mtr, int rate, matrix_t ans)
 {
     double *ans_ptr = (double *)(ans + rate);
 
-    for (int i = 0; i < rate; i++)
+    for (int raw = 0; raw < rate; raw++)
     {
-        ans_ptr[i] = mtr[i][rate];// mtr[i][rate] - элемент столбца свободных членов
-        for (int j = i - 1; j > -1; j--)
-            ans_ptr[i] -= mtr[i][j] * ans_ptr[j];
+        ans_ptr[raw] = mtr[raw][rate];// mtr[raw][rate] - элемент столбца свободных членов
+        for (int col = raw - 1; col > -1; col--)
+            ans_ptr[raw] -= mtr[raw][col] * ans_ptr[col];
 
-        ans_ptr[i] /= mtr[i][i];
+        ans_ptr[raw] /= mtr[raw][raw];
     }
 }
 

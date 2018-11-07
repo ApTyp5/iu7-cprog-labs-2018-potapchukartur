@@ -42,7 +42,7 @@
 // P.S. в fstr передавать строку, не заключенную в вдойные кавычки с 
 // синтаксисом первого аргумента семейства функций printf
 #define     parr(fstr, arr, len)       for (int i = 0; i < len; i++)   \
-                                             printf(#fstr" ", (arr)[i]); \
+                                             printf(#fstr" ", arr[i]); \
                                          printf("\n")
 
 // Печать матрицы 'mat' размерности 'len' на 'wid'
@@ -52,4 +52,4 @@
                                                 printf(#ftype"%s", (mat)[i][j],   \
                                                     (j + 1) % wid ? " " : "\n")
 
-#endif // __DEB_H__ 
+#endif // __DEB_H__

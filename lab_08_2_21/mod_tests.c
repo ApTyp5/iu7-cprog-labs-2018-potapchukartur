@@ -50,7 +50,10 @@ int main()
     tst_change_doubls();//HAPPY_END
     tst_change_cols();//HAPPY_END
     tst_change_raws();//HAPPR_END
-    tst_max_diag();//HAPPY_END
+    tst_max_diag1();//HAPPY_END
+    tst_max_diag2();
+
+
 //    tst_triange_matrix();//HAPPY_END
 //   tst_count_answer();//HAPPY_END
 
@@ -635,7 +638,7 @@ void tst_change_raws()//HAPPY_END
     PVERD(res, exp_res);
 }
 
-void tst_max_diag()//HAPPY_END
+void tst_max_diag1()
 {
     STEST;
 
@@ -646,9 +649,6 @@ void tst_max_diag()//HAPPY_END
     for (int i = 0; i < rate; i++)
         help[i][0] = i;
 
-    // Заполняем поледний столбец матрицы тройками.
-    // Так как остальная часть заполнена нулями, то
-    // в итоге тройки должны оказаться на гл. диагонали
     mtr[0][3] = 1.0;
     mtr[1][4] = 2.0;
     mtr[2][0] = 3.0;
@@ -669,7 +669,37 @@ void tst_max_diag()//HAPPY_END
 }
 
 
+void tst_max_diag2()
+{
+    STEST;
 
+    int rate = 5;
+    matrix_t mtr = alloc_mtr(rate, rate);
+    matrix_t help = alloc_mtr(rate, 1);
+
+    for (int i = 0; i < rate; i++)
+        help[i][0] = i;
+
+    mtr[0][3] = 1.0;
+    mtr[1][4] = 2.0;
+    mtr[2][0] = 3.0;
+    mtr[3][1] = 4.0;
+    mtr[3][2] = -1.0;
+    mtr[4][1] = -1.0;
+
+    max_diag(mtr, rate, help);
+
+    int res = (
+        mtr[0][0] == 1.0 && 
+        mtr[1][1] == 2.0 &&
+        mtr[2][2] == 3.0 &&
+        mtr[3][3] == -1.0 &&
+        mtr[4][4] == -1.0) ? HAPPY_END : UNHAPPY_END;
+
+    int exp_res = HAPPY_END;
+
+    PVERD(res, exp_res);
+}
 
 
 

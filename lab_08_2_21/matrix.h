@@ -19,12 +19,13 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
 int mtr_trans(matrix_t *mtr, int *len, int *wid);
 int mtr_ghauss(matrix_t mtr, int len, int wid,
     matrix_t *ans, int *anslen, int *answid);
-void max_diag(matrix_t mtr, int rate, matrix_t ans);
-void max_diag_down(matrix_t mtr, int rate, matrix_t ans);
-void max_diag_up(matrix_t mtr, int rate, matrix_t ans);
+void col_method_max_diag(matrix_t mtr, int rate, matrix_t ans);
+void col_method_max_diag_down(matrix_t mtr, int rate, matrix_t ans, int *ans_pos);
+void col_method_max_diag_up(matrix_t mtr, int rate, matrix_t ans, int *ans_pos);
 void max_single_el_in_diag(matrix_t mtr, int rate, int di_el, 
                            matrix_t ans);
-void change_raws(matrix_t mtr, int raw1, int raw2);
+void change_ptrs(double **ptr1, double **ptr2);
+void change_ints(int *int1, int *int2);
 void change_cols(matrix_t mtr, int len, int col1, int col2);
 void change_doubls(double *el1, double *el2);
 void triange_matrix(matrix_t mtr, int rate);

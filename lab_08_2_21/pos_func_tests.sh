@@ -14,6 +14,8 @@ comman=(
         "$execute m $testdir/in_m21 $testdir/in_m22 $outfile" 
         "$execute m $testdir/in_m31 $testdir/in_m32 $outfile" 
         "$execute o $testdir/in_g1 $outfile"
+        "$execute o $testdir/in_g2 $outfile"
+        "$execute o $testdir/in_g3 $outfile"
         )
 
 comment=(
@@ -24,6 +26,8 @@ comment=(
         "Multiplication test 2"
         "Multiplication test 3"
         "Ghauss test 1"
+        "Ghauss test 2"
+        "Ghauss test 3"
         )
 
 outfiles=(
@@ -34,6 +38,8 @@ outfiles=(
          "out_m2"
          "out_m3"
          "out_g1"
+         "out_g2"
+         "out_g3"
          )
 
 
