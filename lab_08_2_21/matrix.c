@@ -62,7 +62,6 @@ int check_file_for_zero_cols_and_raws(char *fnam)
     double val;
 
 
-
     if (!rc && 
         (fscanf(f, "%d%d%d", &len, &wid, &nonull_el) != 3))
         rc = WRONG_INPUT;
@@ -304,19 +303,19 @@ void col_method_max_diag(matrix_t mtr, int rate, matrix_t ans)
         col_method_max_diag_up(mtr, rate, ans, ans_pos);
 
     if (mtr[0][0] == 0.0)
-        max_single_el_in_diag(mtr, rate, 0, ans);
+        max_single_el_in_diag(mtr, rate, 0, ans, ans_pos);
 }
 
 
 void max_single_el_in_diag(matrix_t mtr, int rate, int di_el, 
-                           matrix_t ans)
+                           matrix_t ans, int *ans_pos)
 {
     int i;
     int maxelnum;
     double max_sum;
     double local_sum;
 
-    // Гарантируется, что в ьатрице нет нулевой строки/столбца
+    // Гарантируется, что в mатрице нет нулевой строки/столбца
     for (i = 0; i < rate; i++)
         if (mtr[di_el][i] != 0.0 && 
             mtr[i][di_el] != 0.0)
@@ -337,7 +336,9 @@ void max_single_el_in_diag(matrix_t mtr, int rate, int di_el,
         }
 
     change_cols(mtr, rate, di_el, maxelnum);
-    change_ptrs(ans + di_el, ans + maxelnum);
+    change_ptrs(ans + ans_pos[di_el], 
+            ans + ans_pos[maxelnum]);
+// На этот раз элемента не меняем, так как он горантированно последний
 }
 
 

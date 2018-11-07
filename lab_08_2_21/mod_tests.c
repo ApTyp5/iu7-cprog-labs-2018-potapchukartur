@@ -49,9 +49,9 @@ int main()
     tst_mtr_trans();//HAPPY_END
     tst_change_doubls();//HAPPY_END
     tst_change_cols();//HAPPY_END
-    tst_change_raws();//HAPPR_END
-    tst_max_diag1();//HAPPY_END
-    tst_max_diag2();
+    tst_change_ptrs();//HAPPY_END
+    tst_col_method_max_diag1();//HAPPY_END
+    tst_col_method_max_diag2();
 
 
 //    tst_triange_matrix();//HAPPY_END
@@ -613,7 +613,7 @@ void tst_change_cols()//HAPPY_END
 }
 
 
-void tst_change_raws()//HAPPY_END
+void tst_change_ptrs()//HAPPY_END
 {
     STEST;
 
@@ -624,7 +624,7 @@ void tst_change_raws()//HAPPY_END
     mtr[1][0] = 1.0;
     mtr[1][1] = 1.1;
 
-    change_raws(mtr, 0, 1);
+    change_ptrs(mtr, (mtr + 1));
 
     matrix_t ans = alloc_mtr(len, wid);
     ans[0][0] = 1.0;
@@ -638,7 +638,7 @@ void tst_change_raws()//HAPPY_END
     PVERD(res, exp_res);
 }
 
-void tst_max_diag1()
+void tst_col_method_max_diag1()
 {
     STEST;
 
@@ -655,7 +655,7 @@ void tst_max_diag1()
     mtr[3][1] = 4.0;
     mtr[4][2] = 5.0;
 
-    max_diag(mtr, rate, help);
+    col_method_max_diag(mtr, rate, help);
 
     int res = (mtr[0][0] == 1.0 && 
         mtr[1][1] == 2.0 &&
@@ -669,7 +669,7 @@ void tst_max_diag1()
 }
 
 
-void tst_max_diag2()
+void tst_col_method_max_diag2()
 {
     STEST;
 
@@ -687,7 +687,7 @@ void tst_max_diag2()
     mtr[3][2] = -1.0;
     mtr[4][1] = -1.0;
 
-    max_diag(mtr, rate, help);
+    col_method_max_diag(mtr, rate, help);
 
     int res = (
         mtr[0][0] == 1.0 && 

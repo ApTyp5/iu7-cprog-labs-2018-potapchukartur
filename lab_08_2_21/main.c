@@ -70,7 +70,7 @@ void show_prompt(int rc)
             break;
 
         case WRONG_INPUT:
-            fprintf(stderr, "Files contain incorrect information.\n\n");
+            fprintf(stderr, "Files contain incorrect information or there are too much data in file.\n\n");
             break;
 
         case WRONG_ADD_SIZES:
@@ -85,7 +85,9 @@ void show_prompt(int rc)
             fprintf(stderr, "The SLAE must be written as the k-matrix with"
                 " the column of free members next to it.\n");
             break;
-            
+        case REC_ZERO_COLS_OR_RAWS:
+            fprintf(stderr, "When you want to solve SLAE, do not put zero strings or columns into input files.\n");
+            break;
     }
 }
 

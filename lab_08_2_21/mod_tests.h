@@ -33,9 +33,9 @@ void tst_mtr_mult2();//HAPPY_END
 void tst_mtr_trans();//HAPPY_END
 void tst_change_doubls();//HAPPY_END
 void tst_change_cols();//HAPPY_END
-void tst_change_raws();//HAPPR_END
-void tst_max_diag1();//HAPPY_END
-void tst_max_diag2();//HAPPY_END
+void tst_change_ptrs();//HAPPR_END
+void tst_col_method_max_diag1();//HAPPY_END
+void tst_col_method_max_diag2();//HAPPY_END
 
 //    tst_triange_matrix();//HAPPY_END
 //   tst_count_answer();//HAPPY_END
