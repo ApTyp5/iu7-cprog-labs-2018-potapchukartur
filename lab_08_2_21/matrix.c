@@ -55,6 +55,7 @@ int check_file_for_zero_cols_and_raws(char *fnam)
 {
     int rc = HAPPY_END;
     FILE *f = fopen_try(fnam, "r", &rc);
+
     int len, wid, nonull_el;
     int raw, col;
     int *col_controll = NULL;
@@ -68,9 +69,10 @@ int check_file_for_zero_cols_and_raws(char *fnam)
     
 
     if (!rc && (
-        (col_controll = alloc_arr(len)) == NULL ||
-        (raw_controll = alloc_arr(wid)) == NULL))
+        (col_controll = alloc_arr(wid)) == NULL ||
+        (raw_controll = alloc_arr(len)) == NULL))
         rc = ALLOC_ERROR;
+
     if (!rc)
     {
         for (int i = 0; i < nonull_el; i++)
@@ -92,6 +94,10 @@ int check_file_for_zero_cols_and_raws(char *fnam)
         for (int i = 0; i < len; i++)
             rc *= raw_controll[i];
     }
+
+    free(col_controll);
+    free(raw_controll);
+    fclose(f);
 
     return rc;
 }
@@ -240,6 +246,7 @@ int mtr_mult(matrix_t mtr1, int m1len, int m1wid,
         for (int j = 0; j < m2len; j++)
             for (int k = 0; k < m2wid; k++)
                 (*ans)[i][j] += mtr1[i][k] * mtr2[j][k];
+    free(mtr2);
 
     return HAPPY_END;
 }
@@ -259,8 +266,8 @@ int mtr_trans(matrix_t *mtr, int *len, int *wid)
     *len = *wid;
     *wid = tmp;
 
-    free(*mtr);
     *mtr = result;
+
     return HAPPY_END;
 }
 
@@ -304,6 +311,8 @@ void col_method_max_diag(matrix_t mtr, int rate, matrix_t ans)
 
     if (mtr[0][0] == 0.0)
         max_single_el_in_diag(mtr, rate, 0, ans, ans_pos);
+
+    free(ans_pos);
 }
 
 
