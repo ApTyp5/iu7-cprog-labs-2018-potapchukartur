@@ -66,11 +66,11 @@ void show_prompt(int rc)
             break;
 
         case ALLOC_ERROR:
-            fprintf(stderr, "Allocation error caught.\n");
+            fprintf(stderr, "Allocation error recieved.\n");
             break;
 
         case WRONG_INPUT:
-            fprintf(stderr, "Files contain incorrect information or there are too much data in file.\n\n");
+            fprintf(stderr, "Files contain incorrect information or there are too much data in file.\n");
             break;
 
         case WRONG_ADD_SIZES:
@@ -82,11 +82,10 @@ void show_prompt(int rc)
                 " to the <fnam2> matrix's number of strings.\n");
             break;
         case WRONG_GHAUSS_SIZES:
-            fprintf(stderr, "The SLAE must be written as the k-matrix with"
-                " the column of free members next to it.\n");
+            fprintf(stderr, "The SLAE size must be (k) raws and (k + 1) column\n");
             break;
         case REC_ZERO_COLS_OR_RAWS:
-            fprintf(stderr, "When you want to solve SLAE, do not put zero strings or columns into input files.\n");
+            fprintf(stderr, "Input file contain zero raw(s) of/and column(s).\n");
             break;
     }
 }

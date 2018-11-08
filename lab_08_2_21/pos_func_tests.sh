@@ -16,6 +16,7 @@ comman=(
         "$execute o $testdir/in_g1 $outfile"
         "$execute o $testdir/in_g2 $outfile"
         "$execute o $testdir/in_g3 $outfile"
+        "$execute o $testdir/in_g4 $outfile"
         )
 
 comment=(
@@ -28,6 +29,7 @@ comment=(
         "Ghauss test 1"
         "Ghauss test 2"
         "Ghauss test 3"
+        "Ghauss test 4"
         )
 
 outfiles=(
@@ -40,6 +42,7 @@ outfiles=(
          "out_g1"
          "out_g2"
          "out_g3"
+         "out_g4"
          )
 
 
@@ -56,16 +59,16 @@ do
 
     if (( $outcode == 0 ))
     then 
-        verdict=SUCCESS
+        verdict="\e[32mSUCCESS\e[0m"
     else
-        verdict=FAIL
+        verdict="\e[31mFAIL\e[0m"
     fi
 
 
     echo "--> ${comment[$i]}:"
-    echo "command: '${comman[$i]}'"
+    echo -e "command: '\e[36m${comman[$i]}\e[0m'"
     echo "recieved code: $result"
-    echo "verdict: $verdict"
+    echo -e "verdict: $verdict"
     echo -e "\n"
 
     if (( $outcode != 0 ))
