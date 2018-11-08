@@ -38,12 +38,13 @@ void my_strreplace_test_5();// source = NULL: возврат тоже NULL
     
 
 
-void my_getline_test_0();// В качестве буфера пересан нулево указатель
-void my_getline_test_1();// Строка полностью помещается во входной буфер
-void my_getline_test_2();// Строка меньше входного буфера
-void my_getline_test_3();// Строка больше входногo буфера, причем не помещается только '\n'
+void my_getline_test_1();// В качестве буфера пересан нулево указатель
+void my_getline_test_2();// Строка полностью помещается во входной буфер
+void my_getline_test_3();// Строка меньше входного буфера
 void my_getline_test_4();// Строка больше входного буфера, требуется 1 realloc
 void my_getline_test_5();// Строка больше входного буфера, требуется несколько realloc
+void my_getline_test_6();// Требуется несколько realloc, начальный буффер NULL, size = 0
+void my_getline_test_7();// Требуется несколько realloc, начальный буффер NULL, size != 0
 
 
 

@@ -1,4 +1,6 @@
+#define     _GNU_SOURCE
 #include <stdlib.h>
+#include <stdio.h>
 #include "mod_tests.h"
 #include "fileworks.h"
 #include "mystring.h"
@@ -6,6 +8,7 @@
 #include "prepare.h"
 #include "mtests.h"
 #include "define.h"
+
 
 #define     EXECUTE     "app.exe"
 #define     TEST_DIR    "./tests"
@@ -26,7 +29,7 @@ void prepare_args(char *av[], str_t *fin, str_t *fout, str_t *ser, str_t *rep);
 int main()
 {
     setvbuf(stdout, NULL, _IONBF, 0);
-
+/*
     fopen_try_test_1();// Файл возможно открыть/создать
     fopen_try_test_2();// Файл невозможно открыть/создать
 
@@ -63,14 +66,17 @@ int main()
     
 
 
-    my_getline_test_0();// В качестве буфера пересан нулево указатель
-    my_getline_test_1();// Строка полностью помещается во входной буфер
-    my_getline_test_2();// Строка меньше входного буфера
-    my_getline_test_3();// Строка больше входногo буфера, причем не помещается только '\n'
+    my_getline_test_1();// В качестве буфера пересан нулево указатель
+    my_getline_test_2();// Строка полностью помещается во входной буфер
+    my_getline_test_3();// Строка меньше входного буфера
     my_getline_test_4();// Строка больше входного буфера, требуется 1 realloc
     my_getline_test_5();// Строка больше входного буфера, требуется несколько realloc
+*/
+    my_getline_test_6();// Требуется несколько realloc, входной буффер NULL, size = 0
+    my_getline_test_7();// Требуется несколько realloc, входной буффер NULL, size != 0
 
 
+/*
 
 
     file_cmp_test_0();// Эквивалентные файлы
@@ -91,6 +97,7 @@ int main()
     file_replace_test_4();// Замена однострочного вхождения 
                           // в многострочном файле
 
+*/
 
 /*
     neg_func_test_1();// Мало аргументов
@@ -480,94 +487,130 @@ void my_strreplace_test_5()// source = NULL: возврат тоже NULL
     PVERD(%d, res, exp_res);
 }
 
-void my_getline_test_0()// в качестве буфера передан указатель на NULL
+void my_getline_test_1()// в качестве буфера передан указатель на NULL, size равен нулю
 {
     STEST;
 
     FILE *f = tmpfile();
     char *str = "aaaaaaaaaa";
-    int strlen = 10;
     fprintf(f, "%s", str); // 10 'a'
     rewind(f);
 
     char *lptr = NULL;
-    size_t size;
+    size_t size = 0;
     ssize_t len = my_getline(&lptr, &size, f);
 
+    rewind(f);
+    char *exp_lptr = NULL;
+    size_t exp_size = 0;
+    ssize_t exp_len = getline(&exp_lptr, &exp_size, f);
 
-    int res = (size != BSIZE || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
     fclose(f);
+
+    ps(in tst getline 1:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    piv(lazy_strcmp(exp_lptr, lptr));
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+
 }
 
 
 
-void my_getline_test_1()// Строка полностью помещается во входной буфер
+void my_getline_test_2()// Строка полностью помещается во входной буфер
 {
     STEST;
 
     FILE *f = tmpfile();
     char *str = "aaaaaaaaaa";
-    int strlen = 10;
-    int strsize = 11;
     fprintf(f, "%s", str); // 10 'a'
     rewind(f);
 
     char *lptr = malloc(sizeof(char) * (10 + 1));
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
+    rewind(f);
 
-    int res = (size != strsize || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+    char *exp_lptr = malloc(sizeof(char) * (10 + 1));
+    size_t exp_size = 11;
+    ssize_t exp_len = getline(&exp_lptr, &exp_size, f);
+
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
     fclose(f);
+
+    ps(in tst getline 2:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    piv(lazy_strcmp(exp_lptr, lptr));
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+
 }
 
 
-void my_getline_test_2()// Строка меньше входного буфера
+void my_getline_test_3()// Строка меньше входного буфера
 {
     STEST;
 
     FILE *f = tmpfile();
     char *str = "aaaaa";
-    int strlen = 5;
     fprintf(f, "%s", str);
     rewind(f);
 
     char *lptr = malloc(sizeof(char) * (10 + 1));
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
-
-    
-
-    int res = (size != 11 || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
-    int exp_res = HAPPY_END;
-
-    PVERD(%d, res, exp_res);
-    fclose(f);
-}
-
-void my_getline_test_3()// Строка больше входног буфера, причем не помещается только '\n'
-{
-    STEST;
-
-    FILE *f = tmpfile();
-    char *str = "aaaaaaaaaa\n";
-    int strlen = 11;
-    fprintf(f, "%s", str);
     rewind(f);
 
-    char *lptr = malloc(sizeof(char) * (10 + 1));
-    size_t size = 11;
-    ssize_t len = my_getline(&lptr, &size, f);
-    int res = (size != BSIZE + 11 - 1 || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+    char *exp_lptr = malloc(sizeof(char) * (10 + 1));
+    size_t exp_size = 11;
+    ssize_t exp_len = getline(&exp_lptr, &exp_size, f);
+
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
     fclose(f);
+
+    ps(in tst getline 3:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    piv(lazy_strcmp(exp_lptr, lptr));
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+
 }
 
 
@@ -577,19 +620,40 @@ void my_getline_test_4()// Строка больше входного буфер
 
     FILE *f = tmpfile();
     char *str = "aaaaaaaaaabbbbbbbbbb";
-    int strlen = 20;
     fprintf(f, "%s", str);
     rewind(f);
 
     char *lptr = malloc(sizeof(char) * (10 + 1));
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
+    rewind(f);
 
-    int res = (size != BSIZE + 11 - 1 || len != strlen || lazy_strcmp(str, lptr) != HAPPY_END);
+    char *exp_lptr = malloc(sizeof(char) * (10 + 1));
+    size_t exp_size = 11;
+    ssize_t exp_len = getline(&lptr, &size, f);
+
+
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr) != HAPPY_END);
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
     fclose(f);
+
+    ps(in tst getline 4:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    piv(lazy_strcmp(exp_lptr, lptr));
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+
 }
 
 
@@ -601,19 +665,129 @@ void my_getline_test_5()// Строка больше входного буфер
     char *str = "aaaaaaaaaabbbbbbbbbb";
     for (int i = 0; i < 10; i++)
         fprintf(f, "%s", str);
-    int strlen = 20 * 10;
+
     rewind(f);
 
     char *lptr = malloc(sizeof(char) * (10 + 1));
     size_t size = 11;
     ssize_t len = my_getline(&lptr, &size, f);
 
-    int res = (size != 2 * BSIZE + 11 - 2 || len != strlen);
+    rewind(f);
+
+    char *exp_lptr = malloc(sizeof(char) * (10 + 1));
+    size_t exp_size = 11;
+    ssize_t exp_len = getline(&lptr, &size, f);
+
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr));
     int exp_res = HAPPY_END;
 
     PVERD(%d, res, exp_res);
     fclose(f);
+
+    ps(in tst getline 5:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    piv(lazy_strcmp(exp_lptr, lptr));
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+
 }
+
+
+void my_getline_test_6()//  требуется несколько realloc, входной буффер NULL, size = 0
+{
+    STEST;
+
+    FILE *f = tmpfile();
+    char *str = "aaaaaaaaaabbbbbbbbbb";
+    for (int i = 0; i < 10; i++)
+        fprintf(f, "%s", str);
+
+    rewind(f);
+
+    char *lptr = NULL;
+    size_t size = 0;
+    ssize_t len = my_getline(&lptr, &size, f);
+
+    rewind(f);
+
+    char *exp_lptr = NULL;
+    size_t exp_size = 0;
+    ssize_t exp_len = getline(&lptr, &size, f);
+
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr));
+    int exp_res = HAPPY_END;
+
+    PVERD(%d, res, exp_res);
+    fclose(f);
+
+    ps(in tst getline 5:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+}
+
+void my_getline_test_7()//  требуется несколько realloc, входной буффер NULL, size != 0
+{
+    STEST;
+
+    FILE *f = tmpfile();
+    char *str = "aaaaaaaaaabbbbbbbbbb";
+    for (int i = 0; i < 10; i++)
+        fprintf(f, "%s", str);
+
+    rewind(f);
+
+    char *lptr = NULL;
+    size_t size = 15;
+    ssize_t len = my_getline(&lptr, &size, f);
+
+    rewind(f);
+
+    char *exp_lptr = NULL;
+    size_t exp_size = 15;
+    ssize_t exp_len = getline(&lptr, &size, f);
+
+
+    int res = (size != exp_size || len != exp_len || lazy_strcmp(exp_lptr, lptr));
+    int exp_res = HAPPY_END;
+
+    PVERD(%d, res, exp_res);
+    fclose(f);
+
+    ps(in tst getline 5:\n);
+    pv(size = %ld\n, size);
+    pv(len = %ld\n, len);
+    psv(lptr);
+    ps(\n);
+    pv(exp_size = %ld\n, exp_size);
+    pv(exp_len = %ld\n, exp_len);
+    psv(exp_lptr);
+    ps(\n);
+    pv(exp_lptr = %p\n, (void *)exp_lptr);
+    ps(\n);
+
+}
+
+
+
+
 
 void file_cmp_test_0()// Эквивалентные файлы
 {
