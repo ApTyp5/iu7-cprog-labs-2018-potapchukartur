@@ -21,6 +21,7 @@ comman=("$execute 123"
          "$execute o $testdir/in_any4 out"
          "$execute o $testdir/in_any5 out"
          "$execute o $testdir/in_any6 out"
+         "$execute a $testdir/in_any7 $testdir/in_any7 out"
 
          )
 

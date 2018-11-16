@@ -10,6 +10,7 @@
 matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 {
     matrix_t mtr = NULL;
+    matrix_t boolmtr = NULL;
 
     int nonull_el;
     int raw, col;
@@ -27,6 +28,9 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
     if (!(*rc) && (mtr = alloc_mtr(*mlen, *mwid)) == NULL)
         *rc = ALLOC_ERROR;
 
+    if (!(*rc) && (boolmtr = alloc_mtr(*mlen, *mwid)) == NULL)
+        *rc = ALLOC_ERROR;
+
     
     if (!(*rc))
         for (int i = 0; i < nonull_el; i++)
@@ -34,12 +38,13 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
             if (fscanf(f, "%d%d%lf", &raw, &col, &val) != 3 ||
                 0 >= raw || raw > *mlen || 
                 0 >= col || col > *mwid ||
-                val == 0.0)
+                val == 0.0 || boolmtr[raw - 1][col - 1] != 0)
             {
                 *rc = WRONG_INPUT;
                 break;
             }
             mtr[raw - 1][col - 1] = val;
+            boolmtr[raw - 1][col - 1] = 1;
         }
 
     if (!(*rc) && fscanf(f, "%d%d%lf", &raw, &col, &val) == 3)
@@ -134,7 +139,11 @@ matrix_t get_classic_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 
 
 
-
+/*  Выделяет место под матрицу int  */
+/************************************/
+// Вход: длина, ширина
+// Выход: указатель на матрицу
+// Внимание: матрица заполняется нулями
 matrix_t alloc_mtr(int len, int wid)
 {
 
