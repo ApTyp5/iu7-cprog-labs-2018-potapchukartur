@@ -29,27 +29,16 @@ int try_action(int ac, char *av[])
     int answid = 0;
 
 
-    // Проверяем матрицу в файле 2
-    rc = check_file_for_zero_cols_and_raws(av[2]) == TRUE ?
-         HAPPY_END : REC_ZERO_COLS_OR_RAWS;
+    mtr1 = get_mtr(av[2], &m1len, &m1wid, &rc);
 
-    // Считываем матрицу
-    if (!rc)
-    {
-        mtr1 = get_mtr(av[2], &m1len, &m1wid, &rc);
-    }
-
-    // Проверяем матрицу в файле 2
-    if (!rc && strcmp(av[1], "o"))
-    {
-        rc = check_file_for_zero_cols_and_raws(av[3]) ?
-             HAPPY_END : REC_ZERO_COLS_OR_RAWS;
-    }
-
-    // Считываем матрицу 2
     if (!rc && strcmp(av[1], "o"))
     {
         mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
+    }
+    else
+    {
+        rc = check_file_for_zero_cols_and_raws(av[2]) ?
+            HAPPY_END : REC_ZERO_COLS_OR_RAWS;
     }
 
 
@@ -91,12 +80,11 @@ int do_action(char act,
             return mtr_mult(mtr1, m1len, m1wid, 
                 mtr2, m2len, m2wid, 
                 ans, anslen, answid);
-        case'o':
-            return mtr_ghauss(mtr1, m1len, m1wid,
-                ans, anslen, answid);
     }
-
-    return HAPPY_END;
+    
+    //  case 'o':
+    return mtr_ghauss(mtr1, m1len, m1wid,
+        ans, anslen, answid);
 }
 
 

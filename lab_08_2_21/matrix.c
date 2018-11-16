@@ -20,7 +20,7 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
 
     if (!(*rc) && 
         (fscanf(f, "%d%d%d", mlen, mwid, &nonull_el) != 3 ||
-         *mlen <= 0 || *mwid <= 0 || nonull_el <= 0 ||
+         *mlen <= 0 || *mwid <= 0 || nonull_el < 0 ||
          nonull_el > (*mlen) * (*mwid)))
         *rc = WRONG_INPUT;
     
@@ -294,6 +294,7 @@ int mtr_ghauss(matrix_t mtr, int len, int wid,
     *answid = 1;
 
     *ans = alloc_mtr(xnum, 1);
+
     if (!(*ans))
         return ALLOC_ERROR;
 
