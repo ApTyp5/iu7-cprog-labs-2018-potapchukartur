@@ -30,14 +30,15 @@ int try_action(int ac, char *av[])
 
 
     mtr1 = get_mtr(av[2], &m1len, &m1wid, &rc);
+    rc = check_file_for_zero_cols_and_raws(av[2]) == TRUE ? HAPPY_END : REC_ZERO_COLS_OR_RAWS;
 
     
-    if (strcmp(av[1], "o"))
+    if (!rc && strcmp(av[1], "o"))
     {
         mtr2 = get_mtr(av[3], &m2len, &m2wid, &rc);
+        rc = check_file_for_zero_cols_and_raws(av[3]) ?
+             HAPPY_END : REC_ZERO_COLS_OR_RAWS;
     }
-    else if (!rc)
-        rc = check_file_for_zero_cols_and_raws(av[2]) == TRUE ? HAPPY_END : REC_ZERO_COLS_OR_RAWS;
 
 
     if (!rc)
