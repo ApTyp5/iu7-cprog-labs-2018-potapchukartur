@@ -53,6 +53,9 @@ matrix_t get_mtr(char *fnam, int *mlen, int *mwid, int *rc)
     if (f)
         fclose(f);
 
+    free(boolmtr);
+
+
     return mtr;
 }
 
