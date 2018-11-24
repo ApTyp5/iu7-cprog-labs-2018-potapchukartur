@@ -7,14 +7,13 @@ ifeq ($(mod),db)
 	CFL += -O0 -g3 -DNDEBUG
 endif
 
-run: rk1.exe
+run: build
 
-rk1.exe: $(OBJ)
-	$(CC) -o $@ $^
+build: $(OBJ)
+	$(CC) -o rk1.exe $^
 
 %.o: %.c *.h
 	$(CC) $(CFL) -c $<
-	
 
 clean:
 	rm *o *.exe

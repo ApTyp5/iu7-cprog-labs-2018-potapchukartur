@@ -8,7 +8,7 @@ mtr_t mtr_create(int len, int wid);
 
 void mtr_free(mtr_t mtr);
 
-int mtr_readMM(mtr_t *mtr, char *fnam);
+int mtr_readMM(mtr_t *mtr, char *fnam, int *len, int *wid);
 
 
 #endif

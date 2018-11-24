@@ -21,9 +21,9 @@ struct list_node
 
 
 
-list_node *convert_mtr_to_listm(mtr_t mtr, int len, int wid);
+list_node **convert_mtr_to_lista(mtr_t mtr, int len, int wid);
 
-list_node *last_in_raw(list_node *raw);
+list_node **behind_last_in_raw(list_node *raw, int *len_of_raw);
 
 #endif
 

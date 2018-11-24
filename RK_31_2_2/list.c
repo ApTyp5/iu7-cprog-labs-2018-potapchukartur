@@ -9,6 +9,8 @@
 list_node **convert_mtr_to_lista(mtr_t mtr, int len, int wid)
 {
     list_node **lista = malloc(sizeof(list_node) * len); // LIST A
+    int tmp;
+
 
     if (!lista)
         return NULL;
@@ -22,11 +24,11 @@ list_node **convert_mtr_to_lista(mtr_t mtr, int len, int wid)
         {
             if (mtr[i][j] != 0)
             {
-                list_node *last = last_in_raw(lista[i]);
-                if ((last->next = malloc(sizeof(list_node))) != NULL)
+                list_node **last = behind_last_in_raw(lista[i], &tmp); // указ на NULL
+                if (((*last)->next = malloc(sizeof(list_node))) != NULL)
                 {
-                    last->next->col = j;
-                    last->next->val = i;
+                    (*last)->next->col = j;
+                    (*last)->next->val = i;
                 }
                 else
                 {
@@ -43,13 +45,22 @@ list_node **convert_mtr_to_lista(mtr_t mtr, int len, int wid)
 
 
 
-list_node *last_in_raw(list_node *raw)
+list_node **behind_last_in_raw(list_node *now, int *len_of_raw)
 {
-    list_node *now = raw;
-    while (now->next != NULL)
-        now = now->next;
+    *len_of_raw = 0;
 
-    return now;
+    list_node **end_ptr = malloc(sizeof(list_node *));
+    if (!end_ptr)
+        return NULL;
+
+
+    while (now != NULL)
+    {
+        *len_of_raw += 1;
+        now = now->next;
+    }
+
+    return end_ptr = &now;
 }
 
 

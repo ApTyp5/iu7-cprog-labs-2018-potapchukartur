@@ -26,7 +26,7 @@ void mtr_free(mtr_t mtr)
 
 
 // Пока без проверок
-int mtr_readMM(mtr_t *mtr, char *fnam)
+int mtr_readMM(mtr_t *mtr, char *fnam, int *len, int *wid)
 {
     int rc = ALL_GOOD;
 
@@ -35,11 +35,11 @@ int mtr_readMM(mtr_t *mtr, char *fnam)
     if (rc != ALL_GOOD)
         return rc;
 
-    int len, wid, nonull;
+    int nonull;
 
-    fscanf(f, "%d%d%d", &len, &wid, &nonull);
+    fscanf(f, "%d%d%d", len, wid, &nonull);
 
-    if ((*mtr = mtr_create(len, wid)) == NULL)
+    if ((*mtr = mtr_create(*len, *wid)) == NULL)
         return ALLOC_ERROR;
 
     for (int i = 0; i < nonull; i++)
