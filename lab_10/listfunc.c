@@ -32,6 +32,8 @@ int add_front(node_t **head, void *data)
 
 void *pop_front(node_t **head)
 {
+    if (head == NULL || *head == NULL)
+        return NULL;
     void *data_ptr = (*head)->data;
     node_t *need_to_free = *head;
 
@@ -88,7 +90,7 @@ void remove_duplicates(node_t **head,
     node_t *cur = malloc(sizeof(node_t));
     node_t *prev = malloc(sizeof(node_t));
 
-    if (!cur && !prev)
+    if (!cur || !prev)
         return ;
 
     while (comparator((*head)->data, (*head)->next->data) == EQ)
@@ -141,7 +143,7 @@ void front_back_split(node_t *head, node_t **back)
     *back = head;
 
     int len = llen(head);
-    int num_of_steps = len & 1 + len >> 1; // len%2 + len/2
+    int num_of_steps = (len & 1) + (len >> 1); // len%2 + len/2
 
 
     for (int i = 0; i < num_of_steps; i++)
