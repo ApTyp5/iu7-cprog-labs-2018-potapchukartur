@@ -43,7 +43,14 @@ void remove_duplicates_test2();
 // pos test
 void remove_duplicates_test3();
 
- 
+//neg test
+void list_extend_test1();
+// *head == NULL
+void list_extend_test2();
+// pos test
+void list_extend_test3();
+
+
 
 
 

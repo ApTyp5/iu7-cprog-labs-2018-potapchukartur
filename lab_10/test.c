@@ -25,6 +25,11 @@ int main()
     remove_duplicates_test1();
     remove_duplicates_test2();
     remove_duplicates_test3();
+
+    list_extend_test1();
+    list_extend_test2();
+    list_extend_test3();
+
     return HAPPY_END;
 }
 
@@ -269,6 +274,102 @@ void remove_duplicates_test3()
 
     free_list(head);
 }
+    
+
+// neg test
+void list_extend_test1()
+{
+    node_t **head = NULL;
+    node_t **add = NULL;
+
+    massert(list_extend(head, add) == WRONG_DATA_REC);
+}
+
+
+
+
+// *head == NULL
+void list_extend_test2()
+{
+    node_t *head = NULL;
+    node_t *add = NULL;
+
+    int num[2];
+
+    num[0] = 5;
+    num[1] = 10;
+
+    assert(!add_front(&add, num));
+    assert(!add_front(&add, num + 1));
+
+    massert(list_extend(&head, &add) == HAPPY_END);
+    massert(add == NULL);
+
+    node_t *iter = head;
+
+    for (int i = 2; i > 0; i--)
+    {
+        massert(*(int *)(iter->data) == 5 * i);
+        iter = iter->next;
+    }
+
+    free_list(head);
+}
+
+
+ // pos_test
+void list_extend_test3()
+{
+    node_t *head = NULL;
+    node_t *add = NULL;
+
+    int harr[5];
+    
+    for (int i = 0; i < 5; i++)
+    {
+        harr[i] = i;
+        assert(!add_front(&head, harr + i));
+    }
+
+    
+    int adarr[5];
+
+    for (int i = 0; i < 5; i++)
+    {
+        adarr[i] = i;
+        assert(!add_front(&add, adarr + i));
+    }
+
+
+    massert(list_extend(&head, &add) == HAPPY_END);
+    massert(llen(head) == 10);
+    massert(add == NULL);
+
+    node_t *iter = head;
+
+    for (int j = 0; j < 2; j++)
+    {
+        for (int i = 4; i > -1; i--)
+        {
+            massert(*(int *)(iter->data) == i);
+            iter = iter->next;
+        }
+    }
+
+
+    free_list(head);
+}   
+
+
+
+
+
+        
+
+
+
+
+    
     
 
 

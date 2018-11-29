@@ -115,7 +115,6 @@ void remove_duplicates(node_t **head,
         }
         cur = cur->next;
     }
-
 }
 
 
@@ -196,31 +195,36 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
         cur_b = cur_b->next;
     }
 
-    while (cur_a)
-    {
-        if ((add_front(&result, cur_a->data)) == ALLOC_ERROR)
-        {
-            free_list(result);
-            return NULL;
-        }
-        cur_a = cur_a->next;
-    }
-
-    while (cur_b)
-    {
-        if ((add_front(&result, cur_b->data)) == ALLOC_ERROR)
-        {
-            free_list(result);
-            return NULL;
-        }
-        cur_b = cur_b->next;
-    }
+    if (list_extend(&result, head_a) != HAPPY_END ||
+        list_extend(&result, head_b) != HAPPY_END )
+        return NULL;
 
     return result;
 }
 
+int list_extend(node_t **head, node_t **added)
+{
+    if (head == NULL || added == NULL)
+        return WRONG_DATA_REC;
 
-int list_extend();
+
+    if (*head == NULL)
+        *head = *added;
+    else
+    {
+        node_t *iter = *head;
+
+        while (iter->next != NULL)
+            iter = iter->next;
+
+        iter->next = *added;
+    }
+
+    *added = NULL;
+
+    return HAPPY_END;
+}
+
 
 
 int comp_add_front();
@@ -242,6 +246,20 @@ void free_list(node_t *head)
     }
 }
 
+
+
+void pint_list(node_t *head)
+{
+    printf("[ ");
+
+    while (head)
+    {
+        printf("%d, ", *(int *)(head->data));
+        head = head->next;
+    }
+
+    printf("]\n");
+}
 
 
 
