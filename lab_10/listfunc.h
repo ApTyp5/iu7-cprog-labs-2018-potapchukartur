@@ -49,6 +49,9 @@ int list_front_reversed_extend(node_t **, node_t **);
 
 void pint_list(node_t *);
 
+node_t *reverse(node_t *);
+
+
 
 #endif
 

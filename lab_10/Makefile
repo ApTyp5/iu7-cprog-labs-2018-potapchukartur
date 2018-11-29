@@ -29,5 +29,5 @@ test.exe: test.o $(OBJ)
 	$(CC) $(CFL) -c $<
 
 clean:
-	$(RM) -f *.o *.exe
+	$(RM) *.o *.exe
 	

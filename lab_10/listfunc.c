@@ -220,9 +220,21 @@ int list_front_reversed_extend(node_t **head, node_t **added)
 }
 
 
+node_t *reverse(node_t *head)
+{
+    if (head->next == NULL)
+        return head;
 
-int comp_add_front();
+    node_t *result = reverse(head);
+    node_t *tmp = result;
+    
+    while (tmp->next != NULL)
+        tmp = tmp->next;
 
+    tmp->next = head;
+
+    return result;
+}
 
 
 
