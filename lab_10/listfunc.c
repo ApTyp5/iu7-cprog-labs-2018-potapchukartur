@@ -195,6 +195,8 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
         list_front_reversed_extend(&result, head_b) != HAPPY_END)
         return NULL;
 
+    result = reverse(result);
+
     return result;
 }
 
