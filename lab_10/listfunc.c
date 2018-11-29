@@ -31,7 +31,7 @@ int add_front(node_t **head, void *data)
 }
 
 
-
+// possed
 void *pop_front(node_t **head)
 {
     if (head == NULL || *head == NULL)
@@ -47,7 +47,7 @@ void *pop_front(node_t **head)
 }
 
 
-
+// passed
 node_t *find(node_t *head, const void *data,
     int comparator(const void *, const void *))
 {
@@ -86,39 +86,37 @@ void remove_duplicates(node_t **head,
     if (head == NULL)
         return;
 
-    if (*head == NULL)
-        return;
-
-    node_t *cur = malloc(sizeof(node_t));
-    node_t *prev = malloc(sizeof(node_t));
-
-    if (!cur || !prev)
-        return;
-
-    while (comparator((*head)->data, (*head)->next->data) == EQ)
+    while (1)
     {
-        pop_front(head);
+        if ((*head) == NULL ||
+            (*head)->next == NULL)
+            return;
+
+        if ((*comparator)((*head)->data, (*head)->next->data) == EQ)
+            pop_front(head);
+        else
+            break;
     }
 
-    prev = *head;
-    cur = (*head)->next;
+    node_t *cur = (*head)->next;
 
-    while (cur != NULL)
+    if (cur == NULL)
+        return;
+
+    while (cur->next != NULL)
     {
-        prev = cur;
-        cur = cur->next;
+        node_t *next = cur->next;
 
-        while (cur != NULL && comparator(cur->data, prev->data) == EQ)
+        if ((*comparator)(cur->data, next->data) == EQ)
         {
-            pop_nonfront(cur, prev);
-            cur = prev->next;
+            cur->next = next->next;
+            free(next);
+            continue;
         }
+        cur = cur->next;
     }
 
-    free(cur);
-    free(prev);
 }
-
 
 
 int llen(node_t *head)
@@ -136,6 +134,7 @@ int llen(node_t *head)
 
 
 
+// passed (with mem errors)
 void front_back_split(node_t *head, node_t **back)
 {
     if (!back && !head)
@@ -220,17 +219,14 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
 
 void free_list(node_t *head)
 {
-    if (head == NULL)
-        return;
-
-    node_t *prev = head;
-    head = head->next;
-
-    while (head)
+    while (1)
     {
-        free(prev);
-        prev = head;
-        head = head->next;
+        if (head == NULL)
+            return;
+
+        node_t *tmp = head->next;
+        free(head);
+        head = tmp;
     }
 }
 

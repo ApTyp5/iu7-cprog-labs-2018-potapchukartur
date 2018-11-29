@@ -7,9 +7,20 @@ ifeq ($(mod),db)
 	CFL += -O0 -g3
 endif
 
+ifeq ($(testing),valgrind)
+	TFL += valgrind --leak-check=full 
+endif
+
+ifeq ($(testing),drmem)
+	TFL += drmem
+endif   
+
 app.exe: nothing.o
 
-test.exe: mtests.o $(OBJ)
+run_mtests: test.exe
+	$(TFL) ./$<
+
+test.exe: test.o $(OBJ)
 	$(CC) $(LFL) -o $@ $^
 
 

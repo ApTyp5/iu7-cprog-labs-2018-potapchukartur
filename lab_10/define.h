@@ -2,6 +2,10 @@
 #ifndef __DEFINE_H__
 #define __DEFINE_H__
 
+// Logic codes
+#define     TRUE            1
+#define     FALSE           0
+
 // Compare codes
 #define     EQ  0
 

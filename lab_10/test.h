@@ -36,7 +36,14 @@ void front_back_split_test2();
 // pos test
 void front_back_split_test3();
 
+// neitral test
+void remove_duplicates_test1();
+// neg test
+void remove_duplicates_test2();
+// pos test
+void remove_duplicates_test3();
 
+ 
 
 
 
