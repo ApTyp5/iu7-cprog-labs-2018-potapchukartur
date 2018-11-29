@@ -16,6 +16,7 @@ ifeq ($(testing),drmem)
 endif   
 
 app.exe: nothing.o
+	$(CC) -o $@ $^
 
 run_mtests: test.exe
 	$(TFL) ./$<
