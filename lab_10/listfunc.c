@@ -172,7 +172,7 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
     node_t *cur_a = *head_a;
     node_t *cur_b = *head_b;
 
-    node_t *result;
+    node_t *result = NULL;
 
     while (cur_a && cur_b)
     {
@@ -201,6 +201,7 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
 
     return result;
 }
+
 
 int list_extend(node_t **head, node_t **added)
 {
