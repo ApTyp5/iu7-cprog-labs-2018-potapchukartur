@@ -27,6 +27,19 @@ void pop_front_test2();
 // pos test
 void pop_front_test3();
 
+// head == NULL
+void front_back_split_test1();
+
+// back == NULL
+void front_back_split_test2();
+
+// pos test
+void front_back_split_test3();
+
+
+
+
+
 #endif
 
 

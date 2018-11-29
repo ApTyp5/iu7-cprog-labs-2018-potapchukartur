@@ -7,8 +7,10 @@
 // ADD node in FRONT
 int add_front(node_t **head, void *data)
 {
-    if (head == NULL) // *head может быть == NULL,
-                      // тогда ф-я "создает" список
+    // *head может быть == NULL, 
+    // тогда ф-я "создает" список
+
+    if (head == NULL)                          
         return WRONG_DATA_REC;
 
     if (data == NULL)
@@ -82,16 +84,16 @@ void remove_duplicates(node_t **head,
     int comparator(const void *, const void *))
 {
     if (head == NULL)
-        return ;
+        return;
 
     if (*head == NULL)
-        return ;
+        return;
 
     node_t *cur = malloc(sizeof(node_t));
     node_t *prev = malloc(sizeof(node_t));
 
     if (!cur || !prev)
-        return ;
+        return;
 
     while (comparator((*head)->data, (*head)->next->data) == EQ)
     {
@@ -111,7 +113,6 @@ void remove_duplicates(node_t **head,
             pop_nonfront(cur, prev);
             cur = prev->next;
         }
-
     }
 
     free(cur);
@@ -138,17 +139,29 @@ int llen(node_t *head)
 void front_back_split(node_t *head, node_t **back)
 {
     if (!back && !head)
-        return ;
+        return;
 
     *back = head;
 
     int len = llen(head);
+    if (len <= 1)
+        return;
+
     int num_of_steps = (len & 1) + (len >> 1); // len%2 + len/2
 
 
-    for (int i = 0; i < num_of_steps; i++)
+    for (int i = 0; i < num_of_steps - 1; i++)
         *back = (*back)->next;
+
+    node_t *el = *back;
+    
+    *back = (*back)->next;
+
+    el->next = NULL;
 }
+
+
+    
 
 
 
@@ -179,7 +192,6 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
             return NULL;
         }
         cur_b = cur_b->next;
-
     }
 
     while (cur_a)
@@ -208,10 +220,13 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
 
 void free_list(node_t *head)
 {
+    if (head == NULL)
+        return;
+
     node_t *prev = head;
     head = head->next;
 
-    while (prev)
+    while (head)
     {
         free(prev);
         prev = head;
