@@ -223,6 +223,9 @@ int list_front_reversed_extend(node_t **head, node_t **added)
 
 node_t *reverse(node_t *head)
 {
+    if (head == NULL)
+        return NULL;
+
     if (head->next == NULL)
         return head;
 
