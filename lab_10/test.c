@@ -336,7 +336,7 @@ void list_front_reversed_extend_test3()
     
     int adarr[5];
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 4; i >= 0; i--)
     {
         adarr[i] = i;
         assert(!add_front(&add, adarr + i));
@@ -364,8 +364,25 @@ void list_front_reversed_extend_test3()
 
 
 
-// pos test
+//neg test
 void sorted_merge_test1()
+{
+    node_t **head_a = NULL;
+    node_t **head_b = NULL;
+
+    sorted_merge(head_a, head_b, int_comp);
+
+    int no_crashing;
+
+
+    massert(no_crashing = TRUE);
+}
+
+
+
+
+// pos test
+void sorted_merge_test2()
 {
     int anum[5];
     node_t *head_a = NULL;
@@ -396,7 +413,55 @@ void sorted_merge_test1()
     result = sorted_merge(&head_a, &head_b, int_comp);
 
     massert(llen(result) == 15);
+    massert(head_a == NULL);
+    massert(head_b == NULL);
 }
+
+// First massive is empty
+void sorted_merge_test3()
+{
+    node_t *head_a = NULL;
+    node_t *head_b = NULL;
+    node_t *result = NULL;
+
+    int num[5];
+    for (int i = 0; i < 5; i++)
+    {
+        num[i] = i;
+        add_front(&head_b, num + i);
+    }
+
+    result = sorted_merge(&head_a, &head_b, int_comp);
+
+    massert(llen(result) == 5);
+    massert(head_b == NULL);
+
+    node_t *iter = result;
+
+    for (int i = 0; i < 5; i++)
+    {
+        massert(*(int *)(iter->data) == 5 - 1 - i);
+        iter = iter->next;
+    }
+
+    free_list(result);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

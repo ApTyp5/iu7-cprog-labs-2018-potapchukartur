@@ -175,7 +175,7 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
     {
         if (comparator((*head_a)->data, (*head_b)->data) > 0)
         {
-            if ((add_front(&result, pop_front(head_a))) == ALLOC_ERROR)
+            if ((add_front(&result, pop_front(head_b))) == ALLOC_ERROR)
             {
                 free_list(result);
                 return NULL;
@@ -183,7 +183,7 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
             continue;
         }
 
-        if ((add_front(&result, pop_front(head_b))) == ALLOC_ERROR)
+        if ((add_front(&result, pop_front(head_a))) == ALLOC_ERROR)
         {
             free_list(result);
             return NULL;
