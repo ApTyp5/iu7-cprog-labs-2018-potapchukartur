@@ -26,9 +26,11 @@ int main()
     remove_duplicates_test2();
     remove_duplicates_test3();
 
-    list_extend_test1();
-    list_extend_test2();
-    list_extend_test3();
+    list_front_reversed_extend_test1();
+    list_front_reversed_extend_test2();
+    list_front_reversed_extend_test3();
+
+    sorted_merge_test1();
 
     return HAPPY_END;
 }
@@ -277,19 +279,19 @@ void remove_duplicates_test3()
     
 
 // neg test
-void list_extend_test1()
+void list_front_reversed_extend_test1()
 {
     node_t **head = NULL;
     node_t **add = NULL;
 
-    massert(list_extend(head, add) == WRONG_DATA_REC);
+    massert(list_front_reversed_extend(head, add) == WRONG_DATA_REC);
 }
 
 
 
 
 // *head == NULL
-void list_extend_test2()
+void list_front_reversed_extend_test2()
 {
     node_t *head = NULL;
     node_t *add = NULL;
@@ -302,12 +304,12 @@ void list_extend_test2()
     assert(!add_front(&add, num));
     assert(!add_front(&add, num + 1));
 
-    massert(list_extend(&head, &add) == HAPPY_END);
+    massert(list_front_reversed_extend(&head, &add) == HAPPY_END);
     massert(add == NULL);
 
     node_t *iter = head;
 
-    for (int i = 2; i > 0; i--)
+    for (int i = 1; i < 3; i++)
     {
         massert(*(int *)(iter->data) == 5 * i);
         iter = iter->next;
@@ -318,7 +320,7 @@ void list_extend_test2()
 
 
  // pos_test
-void list_extend_test3()
+void list_front_reversed_extend_test3()
 {
     node_t *head = NULL;
     node_t *add = NULL;
@@ -341,7 +343,7 @@ void list_extend_test3()
     }
 
 
-    massert(list_extend(&head, &add) == HAPPY_END);
+    massert(list_front_reversed_extend(&head, &add) == HAPPY_END);
     massert(llen(head) == 10);
     massert(add == NULL);
 
@@ -362,17 +364,39 @@ void list_extend_test3()
 
 
 
+// pos test
+void sorted_merge_test1()
+{
+    int anum[5];
+    node_t *head_a = NULL;
 
+    for (int i = 0; i < 5; i++)
+    {
+        anum[i] = i;
+        assert(!add_front(&head_a, anum + i));
+    }
 
-        
+    int bnum[10];
+    node_t *head_b = NULL;
 
+    for (int j = 0; j < 5; j++)
+    {
+        bnum[j] = j - 5;
+        assert(!add_front(&head_b, bnum + j));
+    }
 
+    for (int j = 0; j < 5; j++)
+    {
+        bnum[j + 5] = j + 5;
+        assert(!add_front(&head_b, bnum + j + 5));
+    }
 
+    node_t *result = NULL;
 
-    
-    
+    result = sorted_merge(&head_a, &head_b, int_comp);
 
-
+    massert(llen(result) == 15);
+}
 
 
 

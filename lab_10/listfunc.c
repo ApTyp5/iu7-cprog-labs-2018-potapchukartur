@@ -169,59 +169,52 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
     if (head_a == NULL || head_b == NULL)
         return NULL;
 
-    node_t *cur_a = *head_a;
-    node_t *cur_b = *head_b;
 
     node_t *result = NULL;
 
-    while (cur_a && cur_b)
+    while (*head_a && *head_b)
     {
-        if (comparator(cur_a->data, cur_b->data) < 0)
+        if (comparator((*head_a)->data, (*head_b)->data) > 0)
         {
-            if ((add_front(&result, cur_a->data)) == ALLOC_ERROR)
+            if ((add_front(&result, pop_front(head_a))) == ALLOC_ERROR)
             {
                 free_list(result);
                 return NULL;
             }
-            cur_a = cur_a->next;
             continue;
         }
 
-        if ((add_front(&result, cur_b->data)) == ALLOC_ERROR)
+        if ((add_front(&result, pop_front(head_b))) == ALLOC_ERROR)
         {
             free_list(result);
             return NULL;
         }
-        cur_b = cur_b->next;
     }
 
-    if (list_extend(&result, head_a) != HAPPY_END ||
-        list_extend(&result, head_b) != HAPPY_END )
+    if (list_front_reversed_extend(&result, head_a) != HAPPY_END ||
+        list_front_reversed_extend(&result, head_b) != HAPPY_END)
         return NULL;
 
     return result;
 }
 
 
-int list_extend(node_t **head, node_t **added)
+int list_front_reversed_extend(node_t **head, node_t **added)
 {
     if (head == NULL || added == NULL)
         return WRONG_DATA_REC;
 
-
-    if (*head == NULL)
-        *head = *added;
+    if (*added == NULL)
+    {
+        return HAPPY_END;
+    }
     else
     {
-        node_t *iter = *head;
-
-        while (iter->next != NULL)
-            iter = iter->next;
-
-        iter->next = *added;
+        while (*added != NULL)
+        {
+            add_front(head, pop_front(added));
+        }
     }
-
-    *added = NULL;
 
     return HAPPY_END;
 }

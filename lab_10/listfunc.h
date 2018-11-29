@@ -45,7 +45,7 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
 
 void free_list(node_t *head);
 
-int list_extend(node_t **, node_t **);
+int list_front_reversed_extend(node_t **, node_t **);
 
 void pint_list(node_t *);
 

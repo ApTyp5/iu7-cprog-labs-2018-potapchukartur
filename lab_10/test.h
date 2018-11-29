@@ -44,14 +44,14 @@ void remove_duplicates_test2();
 void remove_duplicates_test3();
 
 //neg test
-void list_extend_test1();
+void list_front_reversed_extend_test1();
 // *head == NULL
-void list_extend_test2();
+void list_front_reversed_extend_test2();
 // pos test
-void list_extend_test3();
+void list_front_reversed_extend_test3();
 
-
-
+// pos test
+void sorted_merge_test1();
 
 
 #endif
