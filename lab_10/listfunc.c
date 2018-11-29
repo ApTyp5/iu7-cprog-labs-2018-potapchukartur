@@ -169,7 +169,6 @@ node_t *sorted_merge(node_t **head_a, node_t **head_b,
     if (head_a == NULL || head_b == NULL)
         return NULL;
 
-
     node_t *result = NULL;
 
     while (*head_a && *head_b)
@@ -227,13 +226,14 @@ node_t *reverse(node_t *head)
     if (head->next == NULL)
         return head;
 
-    node_t *result = reverse(head);
+    node_t *result = reverse(head->next);
     node_t *tmp = result;
     
     while (tmp->next != NULL)
         tmp = tmp->next;
 
     tmp->next = head;
+    head->next = NULL;
 
     return result;
 }
