@@ -13,9 +13,24 @@ int my_snprintf(char *restrict s, size_t n, const char *restrict fstr, ...)
         {
             fstr++;
 
-            char c = fstr;
+            char c = *fstr;
             switch (c)
             {
+                case 's':
+                    while (
+
+                    break;
+
+                case 'i':
+
+                    break;
+                    
+                case 'x':
+
+                    break;
+
+                default:
+                    return count;
             }
         }
         else
@@ -29,9 +44,5 @@ int my_snprintf(char *restrict s, size_t n, const char *restrict fstr, ...)
     return count;
 }
 
-
-int my_strncpy(char *what, char *where, int *n_where)
-{
-}
 
 
