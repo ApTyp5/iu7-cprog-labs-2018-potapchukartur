@@ -15,6 +15,7 @@
 #define     UNHAPPY_END     -2
 #define     WRONG_DATA_REC  -3
 #define     ALLOC_ERROR     -4
+#define     WRONG_DATA      -5  
 
 
 #endif

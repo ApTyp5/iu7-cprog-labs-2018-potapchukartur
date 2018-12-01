@@ -4,15 +4,16 @@
 
 #include "listfunc.h"
 
+
 typedef struct hashtable hash_t;
 
 
 struct hashtable
 {
-    int maxnum;
     int curnum;
+    int hashnum;
 
-    **node_t table;
+    node_t *table;
 };
 
 
@@ -43,11 +44,6 @@ int ht_add(hash_t *ht, void *data);
  * \brief Проверка наличия элемента в хэш-таблице
  */
 int ht_has_data(hash_t *ht, void *data);
-
-/**
- * \brief Удаление элемента из хэш-таблицы
- */
-int ht_del(hash_t *ht, void *data);
 
 // static ht_resize
 
