@@ -10,10 +10,10 @@ typedef struct hashtable hash_t;
 
 struct hashtable
 {
-    int curnum;
-    int hashnum;
+    int size; // кол-во эл-тов
+    int hashnum; // число, по которому находится хэш, также число возможных хешей
 
-    node_t *table;
+    node_t **table;
 };
 
 
@@ -24,8 +24,6 @@ struct hashtable
  * соотв. структуру иначе.
  */
 hash_t *ht_create();
-
-//double ht_occup_koeff(hash_t ht);
 
 /**
  * \brief Добавление хэша указателя на *data в таблицу
@@ -38,13 +36,27 @@ hash_t *ht_create();
  * авторасширение можно, включив соотв. флаги при
  * компиляции (сморит в define.h)
  */
-int ht_add(hash_t *ht, void *data);
+int ht_add(hash_t **ht, void *data);
 
 /**
  * \brief Проверка наличия элемента в хэш-таблице
+ *
+ * Если при поиске нужного элемента затрачивается больше
+ * установленного числа шагов (в нашем случае пяти),
+ * то таблица расширяется
  */
-int ht_has_data(hash_t *ht, void *data);
+int ht_has_data(hash_t **ht, void *data);
 
-// static ht_resize
+/**
+ * \brief Вывод структуры хэш-таблицы
+ *
+ * Используется для отладочной печати
+ */
+void ht_print(hash_t *ht, char *name);
+
+
+/// Освобождение памяти из-под таблицы
+void ht_free(hash_t **ht);
+
 
 #endif

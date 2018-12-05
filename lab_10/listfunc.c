@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "listfunc.h"
-#include "define.h"
+#include "headers/listfunc.h"
+#include "headers/define.h"
 
 
 // ADD node in FRONT

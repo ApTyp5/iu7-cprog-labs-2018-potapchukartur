@@ -7,7 +7,8 @@
 #define     FALSE           0
 
 // Compare codes
-#define     EQ  0
+#define     EQ              0
+#define     NOT_EQ          -1
 
 // Yield codes
 #define     ALL_GOOD        0
