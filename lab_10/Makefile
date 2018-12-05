@@ -1,6 +1,6 @@
 CC := gcc
 CFL := -Wall -Werror 
-OBJ := listfunc.o hashtable.o main.o
+OBJ := listfunc.o hashtable.o 
 
 
 ifeq ($(mod),db)
@@ -15,7 +15,7 @@ ifeq ($(testing),drmem)
 	TFL += drmem
 endif   
 
-app.exe: $(OBJ)
+app.exe: main.o $(OBJ)
 	$(CC) -o $@ $^
 
 run_mtests: test.exe

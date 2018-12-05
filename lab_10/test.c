@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <assert.h>
-#include "massert.h"
-#include "test.h"
-#include "define.h"
-#include "listfunc.h"
+#include "headers/massert.h"
+#include "headers/test.h"
+#include "headers/define.h"
+#include "headers/listfunc.h"
 
 
 int main()
