@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "headers/mtests.h"
-#include "headers/test.h"
-#include "headers/my_snprintf.h"
-#include "headers/define.h"
-#include "headers/massert.h"
+#include "mtests.h"
+#include "test.h"
+#include "my_snprintf.h"
+#include "define.h"
+#include "massert.h"
 
 #define N 10 
 

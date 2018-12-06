@@ -7,6 +7,8 @@ ifeq ($(mod),db)
 	CFL += -O0 -g3
 endif
 
+app.exe: $(OBJ)
+
 
 test.exe: $(OBJ) test.o
 	$(CC) $(LFL) -o $@ $^
