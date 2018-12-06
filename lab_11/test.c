@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "headers/mtests.h"
 #include "headers/test.h"
@@ -45,7 +46,12 @@ int int_to_str_common_test()
 
     char *cptr = int_to_str(integ, 10);
 
-    return strcmp(cptr, "43");
+    
+    int result = strcmp(cptr, "43");
+
+    free(cptr);
+
+    return result;
 }
 
 
@@ -55,7 +61,11 @@ int hex_int_to_str_common_test()
 
     char *cptr = int_to_str(integ, 16);
 
-    return strcmp(cptr, "2B");
+    int result = strcmp(cptr, "43");
+
+    free(cptr);
+
+    return result;
 }
 
 
