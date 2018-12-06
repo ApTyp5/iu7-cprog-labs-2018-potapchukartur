@@ -1,9 +1,18 @@
 CC = gcc
-OBJ  = main.c
-$(CFL) = -Wall -Werror -std=c99 -pedantic
+OBJ  = my_snprintf.o
+CFL = -Wall -Werror -std=c99 -pedantic
 
 
+ifeq ($(mod),db)
+	CFL += -O0 -g3
+endif
 
 
-%.o: %.c *.h
+test.exe: $(OBJ) test.o
+	$(CC) $(LFL) -o $@ $^
+
+%.o: %.c 
 	$(CC) $(CFL) -c $< 
+
+clean:
+	$(RM) *.o *.exe
