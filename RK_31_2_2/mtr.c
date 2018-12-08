@@ -47,7 +47,7 @@ int mtr_readMM(mtr_t *mtr, char *fnam, int *len, int *wid)
         int raw, col, val;
         fscanf(f, "%d%d%d", &raw, &col, &val);
 
-        (*mtr)[raw][col] = val;
+        (*mtr)[raw - 1][col - 1] = val;
     }
 
     return rc;
