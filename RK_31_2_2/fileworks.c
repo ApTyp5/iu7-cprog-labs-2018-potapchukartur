@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "fileworks.h"
-#include "define.h"
+#include "headers/fileworks.h"
+#include "headers/define.h"
 
 
 

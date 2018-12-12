@@ -1,56 +1,28 @@
 #include <stdio.h>
-#include "define.h"
-#include "mtr.h"
-#include "list.h"
+#include "headers/define.h"
+#include "headers/mtr.h"
+#include "headers/list.h"
 
 
-void exersize_9(list_node **, int, int);
 
-void pmtr(mtr_t mtr, int len, int wid)
-{
-    for (int i = 0; i < len; i++)
-        for (int j = 0; j < wid; j++)
-            printf("%d%s", mtr[i][j], (j + 1) % len ? " " : "\n");
-}
+void exersize_9(list_node **, int);
 
-void plista(list_node **larr, int len, int wid)
-{
-    for (int i = 0; i < len; i++)
-    {
-        list_node *raw = larr[i];
-
-        for (int j = 0; j < wid; j++)
-        {
-            if (raw && j == raw->col)
-            {
-                printf("%d ", raw->val);
-                raw = raw->next;
-            }
-            else
-                printf("0 ");
-        }
-    }
-}
 
 int main(int ac, char **av)
 {
     int rc = ALL_GOOD;
     int len, wid;
-
-
     mtr_t mtr = NULL;
 
     rc = mtr_readMM(&mtr, av[1], &len, &wid);
-pmtr(mtr, len, wid);
-printf("\n");
-
     list_node **lista = convert_mtr_to_lista(mtr, len, wid);
-plista(lista, len, wid);
 
-    exersize_9(lista, len, wid);
+
+    exersize_9(lista, len);
+
 
     mtr_free(mtr);
-    // Освоб мас списк 
+    list_free(lista, len);
     
     return rc;
 }
@@ -59,9 +31,53 @@ plista(lista, len, wid);
 
 
 
-void exersize_9(list_node **lista, int len, int wid)
+void exersize_9(list_node **lista, int len)
 {
-    return;
+    int max_friendly = friend_research(lista, len, max);
+    int min_friendly = friend_research(lista, len, min);
+
+    int is_min_friend_max = is_friend(lista, len, min_friendly,
+                                                  max_friendly);
+    int is_max_friend_min = is_friend(lista, len, max_friendly,
+                                                  min_friendly);
+
+    min_friendly++;
+    max_friendly++;
+
+    printf("Номер человека с максимальным кол-вом друзей: %d\n",
+        max_friendly);
+
+    printf("Номер человека с минимальным кол-вом друзей: %d\n",
+        min_friendly);
+
+    printf("\n");
+
+    if (max_friendly == min_friendly)
+    {
+        if (is_max_friend_min || is_min_friend_max)
+            printf("Этот человек дружит с самим собой.\n");
+        else
+            printf("Этот человек не желает дружить с собой.\n");
+
+        return;
+    }
+
+    if (is_min_friend_max & is_max_friend_min)
+    {
+        printf("Эти люди дружат друг с другом.\n");
+    }
+    else if (is_min_friend_max)
+    {
+        printf("Человек %d дружит с %d. Не взаимно.\n",
+            min_friendly, max_friendly);
+    }
+    else if (is_max_friend_min)
+    {
+        printf("Человек %d дружит с %d. Не взаимно.\n",
+            max_friendly, min_friendly);
+    }
+    else
+        printf("Эти люди не дружат друг с другом.\n");
 }
 
 

@@ -7,4 +7,7 @@
 #define FOPEN_ERROR -3 
 #define ALLOC_ERROR -4
 
+#define NO          0
+#define YES         1
+
 #endif

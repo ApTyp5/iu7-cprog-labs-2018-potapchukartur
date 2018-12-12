@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fileworks.h"
-#include "mtr.h"
-#include "define.h"
+#include "headers/fileworks.h"
+#include "headers/mtr.h"
+#include "headers/define.h"
 
 
 
