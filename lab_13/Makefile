@@ -1,20 +1,18 @@
 CC := gcc
 CLF := -Wall -Werror
+OBJ := main.o mess.o stat.o
+
+
+ifeq ($(mod),db)
+	CFL += -O0 -g3
+endif
 
 
 
 
 
 
-
-
-app.exe: main.o
-	$(CC) -o $@ $^
-
-test.exe: main.o
-	$(CC) -o $@ $^
-
-ftest: main.o
+app.exe: $(OBJ)
 	$(CC) -o $@ $^
 
 %.o: %.c
