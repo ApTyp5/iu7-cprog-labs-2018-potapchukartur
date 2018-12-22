@@ -6,6 +6,8 @@
 #define     NON_EQ                  0
 
 #define     BFSIZE                  11
+#define     DECIMAL                 10
+#define     HEXADEMICAL             16
 
 
 #define     HAPPY_END               0

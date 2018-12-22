@@ -78,10 +78,10 @@ static char *retrievef(va_list vlist, char c)
             result = va_arg(vlist, char *);
             break;
         case 'd':
-            result = int_to_str(va_arg(vlist, int), 10);
+            result = int_to_str(va_arg(vlist, int), DECIMAL);
             break;
         case 'x':
-            result = int_to_str(va_arg(vlist, int), 16);
+            result = int_to_str(va_arg(vlist, int), HEXADEMICAL);
             break;
     }
 
