@@ -11,13 +11,15 @@ int proc(FILE *f)
     LIST_HEAD(head);
     wea_t *iter;
     int year = -1;
-    int maxtemp = -100;
+    int maxtemp = -273;
     int mintemp = 100;
 
     while (( rc = weather_fread(&head, f) ) == HAPPY_END);
 
     if (rc == EOF)
     {
+        printf("Год | разница между температурами (Вариант E)\n");
+
         list_for_each_entry(iter, &head, list)
         {
             if (iter->year != year)
@@ -31,7 +33,7 @@ int proc(FILE *f)
                 printf("%d ", iter->year);
                 year = iter->year;
 
-                maxtemp = -100;
+                maxtemp = -273;
                 mintemp =  100;
 
             }

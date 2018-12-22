@@ -2,14 +2,17 @@
 #include "headers/define.h"
 #include "headers/fworks.h"
 #include "headers/weather.h"
+#include "headers/addones.h"
 
 
 
 int main(int ac, char *av[])
 {
     FILE *f = NULL;
+    int rc = format_error(ac, av);
 
-    int rc = fopen_try(&f, av[2], "r");
+    if (!rc)
+        rc = fopen_try(&f, av[2], "r");
 
     if (!rc)
     {
@@ -19,8 +22,12 @@ int main(int ac, char *av[])
             fclose(f);
     }
 
+    show_prompt(rc);
+
     return 0;
 }
+
+
 
 
 
