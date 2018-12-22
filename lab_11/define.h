@@ -5,6 +5,8 @@
 #define     EQ                      1
 #define     NON_EQ                  0
 
+#define     BFSIZE                  11
+
 
 #define     HAPPY_END               0
 #define     ALL_GOOD                0

@@ -42,11 +42,10 @@ int main()
 
 int int_to_str_common_test()
 {
-    int integ = 43; // 2 * 16^1 + 11 * 16^0
+    int integ = 43; 
 
     char *cptr = int_to_str(integ, 10);
 
-    
     int result = strcmp(cptr, "43");
 
     free(cptr);
@@ -57,11 +56,11 @@ int int_to_str_common_test()
 
 int hex_int_to_str_common_test()
 {
-    int integ = 43; // 2 * 16^1 + 11 * 16^0
+    int integ = 43; // 2 * 16^1 + 11 * 16^0 == 2B in hex
 
     char *cptr = int_to_str(integ, 16);
 
-    int result = strcmp(cptr, "43");
+    int result = strcmp(cptr, "2B");
 
     free(cptr);
 
@@ -74,9 +73,7 @@ void snprintf_test1()
 {
     STEST;
 
-
     int res = (snprintf(NULL, 0, "asdf") == my_snprintf(NULL, 0, "asdf"));
-    
     int exp_res = EQ;
 
     PVERD(%d, res, exp_res);
@@ -89,7 +86,6 @@ void snprintf_test2()
 
     char buf1[N];
     char buf2[N];
-
 
     int res = (snprintf(buf1, N, "asdf\n") == my_snprintf(buf2, N, "asdf\n"));
     
@@ -147,8 +143,16 @@ void snprintf_test5()
 
     char *test_str = "%d%d%d%d";
 
-    int res = (snprintf(buf1, N, test_str, 1, 22, 333, 444) == 
-            my_snprintf(buf2, N, test_str, 1, 22, 333, 444));
+    int rand_num1 = 1;
+    int rand_num2 = 22;
+    int rand_num3 = 333;
+    int rand_num4 = 444;
+
+
+    int res = (snprintf(buf1, N, test_str, rand_num1, rand_num2
+                                         , rand_num3, rand_num4) == 
+            my_snprintf(buf2, N, test_str, rand_num1, rand_num2
+                                         , rand_num3, rand_num4));
     
     int exp_res = EQ;
 
@@ -206,10 +210,17 @@ void snprintf_test8()
     char buf1[N];
     char buf2[N];
 
+    int rand_num1 = 1;
+    int rand_num2 = 22;
+    int rand_num3 = 333;
+    int rand_num4 = 444;
+
     char *test_str = "%d%d%d%d";
 
-    int res = (snprintf(buf1, N, test_str, 1, 22, 333, 444) == 
-            my_snprintf(buf2, N, test_str, 1, 22, 333, 444));
+    int res = (snprintf(buf1, N, test_str, rand_num1, rand_num2,
+                                           rand_num3, rand_num4) == 
+            my_snprintf(buf2, N, test_str, rand_num1, rand_num2,
+                                           rand_num3, rand_num4));
     
     int exp_res = EQ;
 

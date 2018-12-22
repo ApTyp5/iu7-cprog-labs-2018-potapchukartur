@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <stdlib.h>
+#include "define.h"
 
 
 #define START_SIZE 20
@@ -22,33 +23,27 @@ int my_snprintf(char *restrict s, size_t n, const char *restrict fstr, ...)
         if (*fstr == '%')
         {
             char c = *++fstr;
-            
+
             if (c == 'h') // Учитываем модификатор
             {
                 c = *++fstr;
             }
 
             str_arg = retrievef(vlist, c);
-
             int add = my_snprintf(s, n, str_arg);
 
             n -= add;
-
             s += add;
-
             count += add;
 
             if (c != 's')
                 free(str_arg);
 
             str_arg = NULL;
-
             fstr++;
 
             continue;
         }
-
-
 
         if (n > 1)
         {
@@ -96,8 +91,7 @@ static char *retrievef(va_list vlist, char c)
 
 char *int_to_str(int integ, int basis)
 {
-    int bfsize = 11;
-    char *buf = malloc(bfsize);
+    char *buf = malloc(BFSIZE);
 
     int n = 0;
 
@@ -105,14 +99,14 @@ char *int_to_str(int integ, int basis)
     {
         int next = integ % basis;
 
-        buf[bfsize - 1 - n] = next < 10 ? next + '0' : 'A' + next % 10;
+        buf[BFSIZE - 1 - n] = next < 10 ? next + '0' : 'A' + next % 10;
         n++;
         integ = integ / basis;
     }
 
     for (int i = 0; i < n; i++)
     {
-        buf[i] = buf[bfsize - n + i];
+        buf[i] = buf[BFSIZE - n + i];
     }
 
     buf[n] = 0;
