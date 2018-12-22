@@ -143,16 +143,16 @@ void snprintf_test5()
 
     char *test_str = "%d%d%d%d";
 
-    int rand_num1 = 1;
-    int rand_num2 = 22;
-    int rand_num3 = 333;
-    int rand_num4 = 444;
+    int any_num1 = 1;
+    int any_num2 = 22;
+    int any_num3 = 333;
+    int any_num4 = 444;
 
 
-    int res = (snprintf(buf1, N, test_str, rand_num1, rand_num2
-                                         , rand_num3, rand_num4) == 
-            my_snprintf(buf2, N, test_str, rand_num1, rand_num2
-                                         , rand_num3, rand_num4));
+    int res = (snprintf(buf1, N, test_str, any_num1, any_num2
+                                         , any_num3, any_num4) == 
+            my_snprintf(buf2, N, test_str, any_num1, any_num2
+                                         , any_num3, any_num4));
     
     int exp_res = EQ;
 
@@ -210,17 +210,17 @@ void snprintf_test8()
     char buf1[N];
     char buf2[N];
 
-    int rand_num1 = 1;
-    int rand_num2 = 22;
-    int rand_num3 = 333;
-    int rand_num4 = 444;
+    int any_num1 = 1;
+    int any_num2 = 22;
+    int any_num3 = 333;
+    int any_num4 = 444;
 
     char *test_str = "%d%d%d%d";
 
-    int res = (snprintf(buf1, N, test_str, rand_num1, rand_num2,
-                                           rand_num3, rand_num4) == 
-            my_snprintf(buf2, N, test_str, rand_num1, rand_num2,
-                                           rand_num3, rand_num4));
+    int res = (snprintf(buf1, N, test_str, any_num1, any_num2,
+                                           any_num3, any_num4) == 
+            my_snprintf(buf2, N, test_str, any_num1, any_num2,
+                                           any_num3, any_num4));
     
     int exp_res = EQ;
 
