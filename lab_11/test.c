@@ -16,8 +16,6 @@
 
 int main()
 {
-//    char buf1[N];
-//    char buf2[N];
 
     /* Проверка переводов чисел */
     massert(int_to_str_common_test() == EQ);
@@ -26,15 +24,12 @@ int main()
 
     snprintf_test1();
     snprintf_test2();
-//    snprintf_test3();
     snprintf_test4();
     snprintf_test5();
-//    snprintf_test6();
     snprintf_test7();
     snprintf_test8();
     snprintf_test9();
     snprintf_test10();
-//    snprintf_test11();
 
     return HAPPY_END;
 }
@@ -94,24 +89,6 @@ void snprintf_test2()
     PVERD(%d, res, exp_res);
 }   
 
-/*
-// Последний символ обрубается
-void snprintf_test3()
-{
-    STEST;
-
-    char buf1[N];
-    char buf2[N];
-
-
-    int res = (snprintf(buf1, N, "asdf-qwer-") == my_snprintf(buf2, N, "asdf-qwer-"));
-    
-    int exp_res = EQ;
-
-    PVERD(%d, res, exp_res);
-}
-*/
-
 
 // Простейший случай с числами
 void snprintf_test4()
@@ -158,28 +135,6 @@ void snprintf_test5()
 
     PVERD(%d, res, exp_res);
 }
-
-/*
-// Числа должны обрубиться
-void snprintf_test6()
-{
-    STEST;
-
-    char buf1[N];
-    char buf2[N];
-
-    char *test_str = "%d%d%d%d";
-
-    int res = (snprintf(buf1, N, test_str, 1, 22, 333, 4444) == 
-            my_snprintf(buf2, N, test_str, 1, 22, 333, 4444));
-    
-    int exp_res = EQ;
-
-    PVERD(%d, res, exp_res);
-}
-*/
-
-
 
 
 // Простейший случай с шестнадцатеричными числами
@@ -264,22 +219,3 @@ void snprintf_test10()
     PVERD(%d, res, exp_res);
 }
 
-/*
-// Буфера не хватает
-void snprintf_test11()
-{
-    STEST;
-
-    char buf1[N];
-    char buf2[N];
-
-    char *test_str = "%s %s";
-
-    int res = (snprintf(buf1, N, test_str, "one", "string") == 
-            my_snprintf(buf2, N, test_str, "one", "string"));
-    
-    int exp_res = EQ;
-
-    PVERD(%d, res, exp_res);
-}
-*/
