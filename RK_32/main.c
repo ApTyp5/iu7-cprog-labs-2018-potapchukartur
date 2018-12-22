@@ -4,8 +4,6 @@
 #include "headers/weather.h"
 
 
-static void show_prompt(int rc);
-
 
 int main(int ac, char *av[])
 {
@@ -23,4 +21,6 @@ int main(int ac, char *av[])
 
     return 0;
 }
+
+
 

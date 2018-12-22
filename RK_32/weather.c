@@ -18,23 +18,22 @@ int proc(FILE *f)
 
     if (rc == EOF)
     {
-        int maxtemp = -100;
-        int mintemp = 100;
-
         list_for_each_entry(iter, &head, list)
         {
             if (iter->year != year)
             {
                 if (year != -1)
                 {
-                    printf("%d", maxtemp - mintemp);
+                    printf("%d.%d\n", (maxtemp - mintemp) / 10,
+                            (maxtemp - mintemp) % 10);
                 }
 
                 printf("%d ", iter->year);
                 year = iter->year;
 
                 maxtemp = -100;
-                mintemp = 100;
+                mintemp =  100;
+
             }
 
             if (iter->dtemp > maxtemp)
@@ -44,6 +43,8 @@ int proc(FILE *f)
         }
 
     }
+    printf("%d.%d\n", (maxtemp - mintemp) / 10,
+                      (maxtemp - mintemp) % 10);
 
     weather_free(&head);
     return rc;
