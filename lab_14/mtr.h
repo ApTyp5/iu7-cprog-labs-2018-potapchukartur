@@ -2,7 +2,7 @@
 #define __MTR_H__
 
 typedef struct mtr mtr_t;
-typedef int mtr_el;
+#define mtr_el  int
 
 #define HAPPY_END       0
 #define ALLOCATION_E    -1
@@ -19,7 +19,7 @@ typedef int mtr_el;
  * \return указатель на матрицу, если выделение памяти
  * прошло успешно, NULL иначе
  *
- * \warn матрица не инициализируется
+ * Матрица инициализируется нулями
  */
 mtr_t *mtr_create(int len, int wid);
 
@@ -55,7 +55,7 @@ int mtr_set(mtr_t *mtr, int raw, int col, mtr_el val);
  * индексы матрицы считаются с 0
  *
  * \return 0, если извлечение прошло успешено,
- * -1, если была попытка выйти за границы матрицы
+ * -2, если была попытка выйти за границы матрицы
  *
  * \warning при неинициализированной матрице 
  * результат не определён
