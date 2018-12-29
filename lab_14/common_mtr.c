@@ -78,7 +78,7 @@ static int can_be_added(mtr_t *mtr1, mtr_t *mtr2)
 
 int mtr_add(mtr_t *mtr1, mtr_t *mtr2, mtr_t **result)
 {
-    if (can_be_added == NO)
+    if (can_be_added(mtr1, mtr2) == NO)
         return BAD_ADD_SIZE;
 
     mtr_t *out = mtr_create(mtr1->len, mtr1->wid);
@@ -99,6 +99,7 @@ static int can_be_multed(mtr_t *mtr1, mtr_t *mtr2)
 {
     if (mtr1->wid != mtr2->len)
         return NO;
+    return YES;
 }
 
 static void minit(mtr_t *mtr, mtr_el val)
@@ -110,7 +111,7 @@ static void minit(mtr_t *mtr, mtr_el val)
 
 int mtr_mult(mtr_t *mtr1, mtr_t *mtr2, mtr_t **result)
 {
-    if (can_be_multed == NO)
+    if (can_be_multed(mtr1, mtr2) == NO)
         return BAD_MUL_SIZE;
 
     mtr_t *out = mtr_create(mtr1->len, mtr2->wid);
