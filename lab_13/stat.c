@@ -9,6 +9,15 @@
 static void fpdata(int i, long int *dtemp, long int *dnum,
                           long int *ntemp, long int *nnum);
 
+static void plist(struct list_head *head)
+{
+    wea_t *iter;
+    list_for_each_entry(iter, head, list)
+    {
+        printf("%d %d %d %d %d\n", iter->year, iter->mon, iter->day, iter->dtemp, iter->ntemp);
+    }
+}
+
 
 
 int stat(FILE *f, char *fnam)
@@ -17,53 +26,36 @@ int stat(FILE *f, char *fnam)
 
     while (wea_read(&head, f) == HAPPY_END);
 
-    FILE *fo = fopen("qwer", "w");
-    wea_t *iter;
+//    plist(&head);
 
-    for (int i = 0; i < MONTHS; i++)
+    FILE *fo = fopen(INVESTIGATION_NAME, "w");
+    wea_t *iter = list_entry(head.next, wea_t, list);
+
+
+    unsigned int cur_year = iter->year;
+    unsigned int temp = iter->dtemp + iter->ntemp;
+    unsigned int num = 1;
+
+    list_for_each_entry(iter, head.next, list)
     {
-        long int dtemp[DAYS];
-        long int dnum[DAYS];
-
-        long int ntemp[DAYS];
-        long int nnum[DAYS];
-
-        list_for_each_entry(iter, &head, list)
+        if (iter->year != cur_year)
         {
-            if (iter->mon == i + 1)
-            {
-                dtemp[iter->day - 1] += iter->dtemp;
-                dnum[iter->day - 1] += 1;
-
-                ntemp[iter->day - 1] += iter->ntemp;
-                nnum[iter->day - 1] += 1;
-            }
+            fprintf(fo, "%d %lf\n", cur_year, temp / num / 10.0 / 2.0);
+            cur_year = iter->year;
+            temp = 0;
+            num = 0;
         }
 
-        fpdata(i, dtemp, dnum, ntemp, nnum);
-
-        // TODO: вывод графика
+        temp += iter->dtemp + iter->ntemp;
+        num += 1;
     }
+
+    fclose(fo);
+
+    wea_free(&head);
 
     return HAPPY_END;
 }
-
-static void fpdata(int i, long int *dtemp, long int *dnum,
-                          long int *ntemp, long int *nnum)
-{
-    char buf[20];
-    snprintf(buf, 20, "%s/month_%d", INVDIR, i + 1);
-
-    FILE *f = fopen(buf, "w");
-
-    for (int i = 0; i < DAYS; i++)
-    {
-        fprintf(f, "%ld %ld\n", (dtemp[i]), dnum[i]);
-//        fprintf(f, "%lf\n", (double) (dtemp[i]) / (double) (dnum[i]));
-    }
-}
-
-
 
 
 int wea_read(struct list_head *head, FILE *f)
@@ -77,6 +69,9 @@ int wea_read(struct list_head *head, FILE *f)
 
     if (rc != 5)
         return FILE_FORMAT_ERROR;
+
+    if (! (6 <= mon && mon <= 8))
+        return HAPPY_END;
 
     wea_t *next = malloc(sizeof(wea_t));
     if (!next)
@@ -92,6 +87,20 @@ int wea_read(struct list_head *head, FILE *f)
 
     return HAPPY_END;
 }
+
+
+
+void wea_free(struct list_head *head)
+{
+    wea_t *iter;
+    wea_t *n;
+
+    list_for_each_entry_safe(iter, n, head, list)
+    {
+        free(iter);
+    }
+}
+
 
 
 

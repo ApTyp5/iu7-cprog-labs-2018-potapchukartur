@@ -18,7 +18,7 @@ struct weather
 
 int stat(FILE *f, char *fnam);
 wea_t *wea_init();
-void wea_free(wea_t *weather);
+void wea_free(struct list_head *head);
 int wea_read(struct list_head *head, FILE *f);
 
 

@@ -4,7 +4,7 @@
 
 #define     MONTHS          12
 #define     DAYS            31
-#define     INVDIR          "invest"
+#define     INVESTIGATION_NAME  "inv.txt"
 
 
 // Yield codes
