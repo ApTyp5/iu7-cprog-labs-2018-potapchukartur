@@ -15,7 +15,7 @@ struct mtr
 
 static void minit(mtr_t *mtr, mtr_el val);
 
-mtr_t *create(int len, int wid)
+mtr_t *mtr_create(int len, int wid)
 {
     mtr_t *result = malloc(sizeof(mtr_t));
     if (!result)

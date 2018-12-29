@@ -43,12 +43,12 @@ int main()
 
 void neg_set_test()
 {
-    STEST();
+    STEST;
 
     int len = 5;
     int wid = 5;
 
-    mtr_t *mtrcreate(len, wid);
+    mtr_t *mtr = mtr_create(len, wid);
 
     int out_of_range_len = 6;
     int normal_wid = 4;
@@ -63,15 +63,15 @@ void neg_set_test()
 
 void pos_set_test()
 {
-    STEST();
+    STEST;
 
     int len = 6;
     int wid = 7;
 
-    mtr_t *mtrcreate(len, wid);
+    mtr_t *mtr = mtr_create(len, wid);
 
     int normal_wid = 4;
-    int normal_wid = 3;
+    int normal_len = 3;
     mtr_el val = 3;
 
     int res = mtr_set(mtr, normal_len, normal_wid, val);
@@ -83,12 +83,12 @@ void pos_set_test()
 
 void neg_get_test()
 {
-    STEST();
+    STEST;
 
     int len = 6;
     int wid = 7;
 
-    mtr_t *mtrcreate(len, wid);
+    mtr_t *mtr = mtr_create(len, wid);
 
     int normal_len = 4;
     int out_of_range_wid = 10;
@@ -104,12 +104,12 @@ void neg_get_test()
 
 void pos_get_test()
 {
-    STEST();
+    STEST;
 
     int len = 6;
     int wid = 7;
 
-    mtr_t *mtrcreate(len, wid);
+    mtr_t *mtr = mtr_create(len, wid);
 
     int normal_len = 4;
     int normal_wid = 3;
@@ -117,7 +117,7 @@ void pos_get_test()
 
     mtr_set(mtr, normal_len, normal_wid, val);
  
-    int res = mtr_get(mtr, normal_len, out_of_range_wid, &val);
+    int res = mtr_get(mtr, normal_len, normal_wid, &val);
     res = res == val ? res : UNHAPPY_END;
     int exp_res = HAPPY_END;
  
@@ -128,7 +128,7 @@ void pos_get_test()
 
 void neg_add_test()
 {
-    STEST();
+    STEST;
 
     int len1 = 5;
     int wid1 = 5;
@@ -151,7 +151,7 @@ void neg_add_test()
 
 void pos_add_test()
 {
-    STEST();
+    STEST;
 
     int len1 = 5;
     int wid1 = 5;
@@ -189,7 +189,7 @@ void pos_add_test()
 
 void neg_mult_test()
 {
-    STEST();
+    STEST;
 
     int len1 = 3;
     int wid1 = 5;
@@ -212,7 +212,7 @@ void neg_mult_test()
 
 void pos_mult_test()
 {
-    STEST();
+    STEST;
 
     int len1 = 5;
     int wid1 = 5;

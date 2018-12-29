@@ -25,7 +25,7 @@ struct list_node
 #define NO          0  
 
 
-mtr_t *create(int len, int wid)
+mtr_t *mtr_create(int len, int wid)
 {
     mtr_t *result = malloc(sizeof(mtr_t));
     if (!result)
