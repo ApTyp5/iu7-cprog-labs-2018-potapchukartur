@@ -1,10 +1,24 @@
-image: testing
+#image: testing
 test:
   tags:
     - testing-docker
   script:
     - testing
+  except:
+    - RK_32
+    - rk_32
   artifacts:
     paths: [report.txt.enc]
     when: always
 
+rk3:
+  image: gcc
+  stage: build
+  only: 
+    - RK_32
+    - rk_32
+  script: 
+    - cd `ls -dtr RK_32* | head -1` || cd `ls -dtr rk_32* | head -1`
+    - pwd
+    - make build || make
+    - make run
