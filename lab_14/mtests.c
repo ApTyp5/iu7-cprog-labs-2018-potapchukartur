@@ -114,11 +114,12 @@ void pos_get_test()
     int normal_len = 4;
     int normal_wid = 3;
     mtr_el val = 10;
+    mtr_el exp_val = val;
 
     mtr_set(mtr, normal_len, normal_wid, val);
  
     int res = mtr_get(mtr, normal_len, normal_wid, &val);
-    res = res == val ? res : UNHAPPY_END;
+    res = exp_val == val ? res : UNHAPPY_END;
     int exp_res = HAPPY_END;
  
     PVERD(%d, res, exp_res);
@@ -203,7 +204,7 @@ void neg_mult_test()
 
 
     int res = mtr_mult(mtr1, mtr2, &mtr3);
-    int exp_res = BAD_ADD_SIZE;
+    int exp_res = BAD_MUL_SIZE;
 
     PVERD(%d, res, exp_res);
 }

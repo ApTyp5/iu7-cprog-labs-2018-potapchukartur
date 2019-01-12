@@ -48,12 +48,20 @@ mtr_t *mtr_create(int len, int wid)
 
 int mtr_set(mtr_t *mtr, int raw, int col, mtr_el val)
 {
-    if (! ((0 <= raw && raw < mtr->len) ||
+    if (! ((0 <= raw && raw < mtr->len) &&
            (0 <= col && col < mtr->wid)) )
         return OUT_OF_RANGE;
 
     if (!val)
         return HAPPY_END;
+
+    if (MTR(mtr)[raw] == NULL)
+    {
+        MTR(mtr)[raw] = malloc(sizeof(list_node));
+        if (! MTR(mtr)[raw])
+            return ALLOCATION_E;
+        MTR(mtr)[raw]->col = col;
+    }
 
     if (MTR(mtr)[raw]->col == col)
     {
