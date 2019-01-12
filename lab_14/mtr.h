@@ -37,8 +37,6 @@ mtr_t *mtr_create(int len, int wid);
  * -2, если была попытка выйти за границы матрицы
  * -1, если произошла ошибка выделения памяти
  *
- * \warning при неинициализированной матрице 
- * результат не определён
  */
 int mtr_set(mtr_t *mtr, int raw, int col, mtr_el val);
 
@@ -57,8 +55,6 @@ int mtr_set(mtr_t *mtr, int raw, int col, mtr_el val);
  * \return 0, если извлечение прошло успешено,
  * -2, если была попытка выйти за границы матрицы
  *
- * \warning при неинициализированной матрице 
- * результат не определён
  */
 int mtr_get(mtr_t *mtr, int raw, int col, mtr_el *cont);
 

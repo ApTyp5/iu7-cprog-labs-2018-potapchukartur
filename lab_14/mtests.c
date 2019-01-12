@@ -177,7 +177,7 @@ void pos_add_test()
 
     mtr_set(mtr1, raw1, col1, val1);
     mtr_set(mtr2, raw2, col2, val2);
-    mtr_set(mtr3, raw3, col3, val3);
+    mtr_set(mtr2, raw3, col3, val3);
 
     int res = mtr_add(mtr1, mtr2, &mtr3);
     int exp_res = BAD_ADD_SIZE;
@@ -202,7 +202,7 @@ void neg_mult_test()
     mtr_t *mtr3 = NULL;
 
 
-    int res = mtr_add(mtr1, mtr2, &mtr3);
+    int res = mtr_mult(mtr1, mtr2, &mtr3);
     int exp_res = BAD_ADD_SIZE;
 
     PVERD(%d, res, exp_res);
@@ -238,10 +238,10 @@ void pos_mult_test()
 
     mtr_set(mtr1, raw1, col1, val1);
     mtr_set(mtr2, raw2, col2, val2);
-    mtr_set(mtr3, raw3, col3, val3);
+    mtr_set(mtr2, raw3, col3, val3);
 
-    int res = mtr_add(mtr1, mtr2, &mtr3);
-    int exp_res = BAD_ADD_SIZE;
+    int res = mtr_mult(mtr1, mtr2, &mtr3);
+    int exp_res = BAD_MUL_SIZE;
 
     PVERD(%d, res, exp_res);
 }
